@@ -38,55 +38,63 @@ export interface Road {
 export interface Residential {
   types: GeoDataType.RESIDENTIAL;
   boundaryPoints: Coordinate[];
+  centralPoint: Coordinate;
   metadata: Metadata;
 }
 
 export interface Hospital {
   types: GeoDataType.HOSPITAL;
   boundaryPoints: Coordinate[];
+  centralPoint: Coordinate;
   metadata: Metadata;
 }
 
 export interface Agricultural {
   types: GeoDataType.AGRICULTURAL;
   boundaryPoints: Coordinate[];
+  centralPoint: Coordinate;
   metadata: Metadata;
 }
 
 export interface WaterBody {
   types: GeoDataType.WATER_BODY;
   boundaryPoints: Coordinate[];
+  centralPoint: Coordinate;
   metadata: Metadata;
 }
 
 export interface Commercial {
   types: GeoDataType.COMMERCIAL;
   boundaryPoints: Coordinate[];
+  centralPoint: Coordinate;
   metadata: Metadata;
 }
 
 export interface Industrial {
   types: GeoDataType.INDUSTRIAL;
   boundaryPoints: Coordinate[];
+  centralPoint: Coordinate;
   metadata: Metadata;
 }
 
 export interface School {
   types: GeoDataType.SCHOOL;
   boundaryPoints: Coordinate[];
-
+  centralPoint: Coordinate;
   metadata: Metadata;
 }
 
 export interface Health {
   types: GeoDataType.HEALTH;
   boundaryPoints: Coordinate[];
+  centralPoint: Coordinate;
   metadata: Metadata;
 }
 
 export interface SewageTreatment {
   types: GeoDataType.SEWAGE_TREATMENT;
   boundaryPoints: Coordinate[];
+  centralPoint: Coordinate;
   metadata: Metadata;
 }
 
