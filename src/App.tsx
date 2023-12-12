@@ -1,6 +1,6 @@
 import { memo } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { Grid, Center, GizmoHelper, GizmoViewport, AccumulativeShadows, RandomizedLight, OrbitControls, Environment, useGLTF } from '@react-three/drei'
+import { Grid, Center, GizmoHelper, GizmoViewport, AccumulativeShadows, RandomizedLight, OrbitControls, Environment } from '@react-three/drei'
 import { useControls } from 'leva'
 
 export default function App() {
