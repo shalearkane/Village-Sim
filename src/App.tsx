@@ -1,6 +1,6 @@
 import { memo } from 'react'
-import { Canvas } from '@react-three/fiber'
-import { Grid, Center, GizmoHelper, GizmoViewport, AccumulativeShadows, RandomizedLight, OrbitControls, Environment } from '@react-three/drei'
+import { Canvas, events } from '@react-three/fiber'
+import { Grid, Center, GizmoHelper, GizmoViewport, AccumulativeShadows, RandomizedLight, OrbitControls, Environment, PresentationControls, PivotControls } from '@react-three/drei'
 import { useControls } from 'leva'
 
 export default function App() {
@@ -18,7 +18,7 @@ export default function App() {
     infiniteGrid: true
   })
   return (
-    <Canvas shadows style={{height:"100vh", width: "100vw"}}>
+    <Canvas shadows style={{ height: "100vh", width: "100vw" }}>
       <group position={[0, -0.5, 0]}>
         <Center top position={[-2, 0, 2]}>
           <mesh castShadow>
@@ -27,10 +27,12 @@ export default function App() {
           </mesh>
         </Center>
         <Center top position={[2.5, 0, 1]}>
-          <mesh castShadow rotation={[0, Math.PI / 4, 0]}>
-            <boxGeometry args={[0.7, 0.7, 0.7]} />
-            <meshStandardMaterial color="#9d4b4b" />
-          </mesh>
+          <PivotControls visible={false}>
+            <mesh castShadow rotation={[0, Math.PI / 4, 0]}>
+              <boxGeometry args={[0.7, 0.7, 0.7]} />
+              <meshStandardMaterial color="#9d4b4b" />
+            </mesh>
+          </PivotControls>
         </Center>
         <Shadows />
         <Grid position={[0, -0.01, 0]} args={gridSize} {...gridConfig} />
