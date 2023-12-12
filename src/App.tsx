@@ -18,7 +18,7 @@ export default function App() {
     infiniteGrid: true
   })
   return (
-    <Canvas shadows>
+    <Canvas shadows style={{height:"100vh", width: "100vw"}}>
       <group position={[0, -0.5, 0]}>
         <Center top position={[-2, 0, 2]}>
           <mesh castShadow>
