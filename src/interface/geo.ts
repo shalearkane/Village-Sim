@@ -37,13 +37,13 @@ export interface Road {
 
 export interface Residential {
   types: GeoDataType.RESIDENTIAL;
-  centerPoint: Coordinate;
+  boundaryPoints: Coordinate[];
   metadata: Metadata;
 }
 
 export interface Hospital {
   types: GeoDataType.HOSPITAL;
-  centerPoint: Coordinate;
+  boundaryPoints: Coordinate[];
   metadata: Metadata;
 }
 
@@ -61,31 +61,32 @@ export interface WaterBody {
 
 export interface Commercial {
   types: GeoDataType.COMMERCIAL;
-  centerPoint: Coordinate;
+  boundaryPoints: Coordinate[];
   metadata: Metadata;
 }
 
 export interface Industrial {
   types: GeoDataType.INDUSTRIAL;
-  centerPoint: Coordinate;
+  boundaryPoints: Coordinate[];
   metadata: Metadata;
 }
 
 export interface School {
   types: GeoDataType.SCHOOL;
-  centerPoint: Coordinate;
+  boundaryPoints: Coordinate[];
+
   metadata: Metadata;
 }
 
 export interface Health {
   types: GeoDataType.HEALTH;
-  centerPoint: Coordinate;
+  boundaryPoints: Coordinate[];
   metadata: Metadata;
 }
 
 export interface SewageTreatment {
   types: GeoDataType.SEWAGE_TREATMENT;
-  centerPoint: Coordinate;
+  boundaryPoints: Coordinate[];
   metadata: Metadata;
 }
 
