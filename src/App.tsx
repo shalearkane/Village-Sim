@@ -27,8 +27,8 @@ export default function App() {
           </mesh>
         </Center>
         <Center top position={[2.5, 0, 1]}>
-          <PivotControls visible={false}>
-            <mesh castShadow rotation={[0, Math.PI / 4, 0]}>
+          <PivotControls visible={false} autoTransform={false}>
+            <mesh castShadow rotation={[0, Math.PI / 4, 0]} onClick={(event) => {console.log(event)}}>
               <boxGeometry args={[0.7, 0.7, 0.7]} />
               <meshStandardMaterial color="#9d4b4b" />
             </mesh>
