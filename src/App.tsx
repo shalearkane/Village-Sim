@@ -1,11 +1,20 @@
-import { memo } from 'react'
+import { memo, useEffect } from 'react'
 import { Canvas, events } from '@react-three/fiber'
-import { Grid, Center, GizmoHelper, GizmoViewport, AccumulativeShadows, RandomizedLight, OrbitControls, Environment, PresentationControls, PivotControls } from '@react-three/drei'
+import { Grid, Center, GizmoHelper, GizmoViewport, AccumulativeShadows, RandomizedLight, OrbitControls, Environment } from '@react-three/drei'
 import { useControls } from 'leva'
-import Renderer from './components/renderer'
+import GenerateObjects from './components/renderer'
 import { dummyData } from './dummy'
+import { GeoData } from './interface/geo'
+import React from 'react'
 
 export default function App() {
+  const [geoData, setGeoData] = React.useState<GeoData>(dummyData)
+  const [objects, setObjects] = React.useState<any>(null);
+
+  useEffect(() => {
+    setObjects(GenerateObjects(geoData))
+  }, [geoData])
+
   const { gridSize, ...gridConfig } = useControls({
     gridSize: [10.5, 10.5],
     cellSize: { value: 0.6, min: 0, max: 10, step: 0.1 },
@@ -19,26 +28,12 @@ export default function App() {
     followCamera: false,
     infiniteGrid: true
   })
-  const renderedElements = Renderer(dummyData);
+
   return (
     <Canvas shadows style={{ height: "100vh", width: "100vw" }}>
       <group position={[0, -0.5, 0]}>
-        {/* <Center top position={[-2, 0, 2]}>
-          <mesh castShadow>
-            <sphereGeometry args={[0.5, 64, 64]} />
-            <meshStandardMaterial color="#9d4b4b" />
-          </mesh>
-        </Center>
-        <Center top position={[2.5, 0, 1]}>
-          <PivotControls visible={false} autoTransform={false}>
-            <mesh castShadow rotation={[0, Math.PI / 4, 0]} onClick={(event) => {console.log(event)}}>
-              <boxGeometry args={[0.7, 0.7, 0.7]} />
-              <meshStandardMaterial color="#9d4b4b" />
-            </mesh>
-          </PivotControls>
-        </Center> */}
         {
-          renderedElements
+          objects
         }
         <Shadows />
         <Grid position={[0, -0.01, 0]} args={gridSize} {...gridConfig} />
