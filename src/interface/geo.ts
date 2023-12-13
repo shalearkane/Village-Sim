@@ -27,12 +27,14 @@ export interface Metadata {
 }
 
 export interface Road {
+  id: string;
   type: GeoDataType.ROAD;
   steps: Vector3[];
   metadata: Metadata;
 }
 
 export interface Residential {
+  id: string;
   type: GeoDataType.RESIDENTIAL;
   boundaryPoints: Vector3[];
   centralPoint: Vector3;
@@ -40,6 +42,7 @@ export interface Residential {
 }
 
 export interface Hospital {
+  id: string;
   type: GeoDataType.HOSPITAL;
   boundaryPoints: Vector3[];
   centralPoint: Vector3;
@@ -47,6 +50,7 @@ export interface Hospital {
 }
 
 export interface Agricultural {
+  id: string;
   type: GeoDataType.AGRICULTURAL;
   boundaryPoints: Vector3[];
   centralPoint: Vector3;
@@ -54,6 +58,7 @@ export interface Agricultural {
 }
 
 export interface WaterBody {
+  id: string;
   type: GeoDataType.WATER_BODY;
   boundaryPoints: Vector3[];
   centralPoint: Vector3;
@@ -61,6 +66,7 @@ export interface WaterBody {
 }
 
 export interface Commercial {
+  id: string;
   type: GeoDataType.COMMERCIAL;
   boundaryPoints: Vector3[];
   centralPoint: Vector3;
@@ -68,6 +74,7 @@ export interface Commercial {
 }
 
 export interface Industrial {
+  id: string;
   type: GeoDataType.INDUSTRIAL;
   boundaryPoints: Vector3[];
   centralPoint: Vector3;
@@ -75,6 +82,7 @@ export interface Industrial {
 }
 
 export interface School {
+  id: string;
   type: GeoDataType.SCHOOL;
   boundaryPoints: Vector3[];
   centralPoint: Vector3;
@@ -82,6 +90,7 @@ export interface School {
 }
 
 export interface Health {
+  id: string;
   type: GeoDataType.HEALTH;
   boundaryPoints: Vector3[];
   centralPoint: Vector3;
@@ -89,6 +98,7 @@ export interface Health {
 }
 
 export interface SewageTreatment {
+  id: string;
   type: GeoDataType.SEWAGE_TREATMENT;
   boundaryPoints: Vector3[];
   centralPoint: Vector3;
