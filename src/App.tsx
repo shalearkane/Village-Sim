@@ -16,6 +16,7 @@ import { dummyData } from "./dummy";
 import { GeoData, GeoDataPoint, GeoDataType } from "./interface/geo";
 import React from "react";
 import { Vector3 } from "three";
+import { generateUUID } from "three/src/math/MathUtils.js";
 
 export default function App() {
   const [geoData, setGeoData] = React.useState<GeoData>(dummyData);
@@ -26,7 +27,9 @@ export default function App() {
   }, [geoData]);
 
   const addObject = (point: Vector3) => {
+    point.y = 0
     const newPoint: GeoDataPoint = {
+      key: generateUUID(),
       type: GeoDataType.HOSPITAL,
       boundaryPoints: [new Vector3(0.5, 0.5, 0)],
       centralPoint: point,
@@ -65,7 +68,9 @@ export default function App() {
   return (
     <Canvas shadows style={{ height: "100vh", width: "100vw" }}>
       <Plane
-        args={[2, 2]}
+        position={[0, -0.55, 0]}
+        rotation={[-1.57, 0, 0]}
+        args={[100, 100]}
         onClick={(event) => {
           addObject(event.point);
         }}
