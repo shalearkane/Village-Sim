@@ -1,7 +1,10 @@
 import { memo } from 'react'
-import { Canvas, events } from '@react-three/fiber'
-import { Grid, Center, GizmoHelper, GizmoViewport, AccumulativeShadows, RandomizedLight, OrbitControls, Environment, PresentationControls, PivotControls } from '@react-three/drei'
+import { Canvas } from '@react-three/fiber'
+import { Grid, Center, GizmoHelper, GizmoViewport, AccumulativeShadows, RandomizedLight, OrbitControls, Environment, PivotControls } from '@react-three/drei'
 import { useControls } from 'leva'
+import { useLoader } from '@react-three/fiber'
+import { GLTFLoader } from 'three/examples/jsm/Addons.js'
+import { MeshBasicMaterial, TextureLoader } from 'three'
 
 export default function App() {
   const { gridSize, ...gridConfig } = useControls({
@@ -17,6 +20,34 @@ export default function App() {
     followCamera: false,
     infiniteGrid: true
   })
+
+  const modelLoader = new GLTFLoader();
+  const textureLoader = new TextureLoader();
+
+  // Load texture
+  const texture = textureLoader.load('assets/residential/low_poly_mansion/textures/Main_diffuse.png');
+  texture.flipY = false;
+
+  // Load model
+  const { scene: model } = modelLoader.load(
+    'assets/residential/low_poly_mansion/scene.gltf',
+    (gltf) => {
+      gltf.scene.traverse((o) => {
+        if (o.isMesh) {
+          
+        }
+      })
+    }
+    );
+
+  // Update model
+  model.traverse((o) => {
+      if (o.isMesh) {
+          o.material.map = texture;
+          o.material.needsUpdate = true;
+      }
+  });
+
   return (
     <Canvas shadows style={{ height: "100vh", width: "100vw" }}>
       <group position={[0, -0.5, 0]}>
@@ -33,6 +64,9 @@ export default function App() {
               <meshStandardMaterial color="#9d4b4b" />
             </mesh>
           </PivotControls>
+        </Center>
+        <Center top position={[5, 0, 1]}>
+          <primitive object={gltf.scene} />
         </Center>
         <Shadows />
         <Grid position={[0, -0.01, 0]} args={gridSize} {...gridConfig} />
