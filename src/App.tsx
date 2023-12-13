@@ -2,6 +2,8 @@ import { memo } from 'react'
 import { Canvas, events } from '@react-three/fiber'
 import { Grid, Center, GizmoHelper, GizmoViewport, AccumulativeShadows, RandomizedLight, OrbitControls, Environment, PresentationControls, PivotControls } from '@react-three/drei'
 import { useControls } from 'leva'
+import Renderer from './components/renderer'
+import { dummyData } from './dummy'
 
 export default function App() {
   const { gridSize, ...gridConfig } = useControls({
@@ -17,10 +19,11 @@ export default function App() {
     followCamera: false,
     infiniteGrid: true
   })
+  const renderedElements = Renderer(dummyData);
   return (
     <Canvas shadows style={{ height: "100vh", width: "100vw" }}>
       <group position={[0, -0.5, 0]}>
-        <Center top position={[-2, 0, 2]}>
+        {/* <Center top position={[-2, 0, 2]}>
           <mesh castShadow>
             <sphereGeometry args={[0.5, 64, 64]} />
             <meshStandardMaterial color="#9d4b4b" />
@@ -33,7 +36,10 @@ export default function App() {
               <meshStandardMaterial color="#9d4b4b" />
             </mesh>
           </PivotControls>
-        </Center>
+        </Center> */}
+        {
+          renderedElements
+        }
         <Shadows />
         <Grid position={[0, -0.01, 0]} args={gridSize} {...gridConfig} />
       </group>
