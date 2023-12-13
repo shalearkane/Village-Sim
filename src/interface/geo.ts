@@ -1,3 +1,5 @@
+import { Vector3 } from "three";
+
 export enum GeoDataType {
   "ROAD" = "ROAD",
   "RESIDENTIAL" = "RESIDENTIAL",
@@ -24,77 +26,72 @@ export interface Metadata {
   waterBodyDistance: number;
 }
 
-export interface Coordinate {
-  x: number;
-  y: number;
-}
-
 export interface Road {
   type: GeoDataType.ROAD;
-  steps: Coordinate[];
+  steps: Vector3[];
   metadata: Metadata;
 }
 
 export interface Residential {
   type: GeoDataType.RESIDENTIAL;
-  boundaryPoints: Coordinate[];
-  centralPoint: Coordinate;
+  boundaryPoints: Vector3[];
+  centralPoint: Vector3;
   metadata: Metadata;
 }
 
 export interface Hospital {
   type: GeoDataType.HOSPITAL;
-  boundaryPoints: Coordinate[];
-  centralPoint: Coordinate;
+  boundaryPoints: Vector3[];
+  centralPoint: Vector3;
   metadata: Metadata;
 }
 
 export interface Agricultural {
   type: GeoDataType.AGRICULTURAL;
-  boundaryPoints: Coordinate[];
-  centralPoint: Coordinate;
+  boundaryPoints: Vector3[];
+  centralPoint: Vector3;
   metadata: Metadata;
 }
 
 export interface WaterBody {
   type: GeoDataType.WATER_BODY;
-  boundaryPoints: Coordinate[];
-  centralPoint: Coordinate;
+  boundaryPoints: Vector3[];
+  centralPoint: Vector3;
   metadata: Metadata;
 }
 
 export interface Commercial {
   type: GeoDataType.COMMERCIAL;
-  boundaryPoints: Coordinate[];
-  centralPoint: Coordinate;
+  boundaryPoints: Vector3[];
+  centralPoint: Vector3;
   metadata: Metadata;
 }
 
 export interface Industrial {
   type: GeoDataType.INDUSTRIAL;
-  boundaryPoints: Coordinate[];
-  centralPoint: Coordinate;
+  boundaryPoints: Vector3[];
+  centralPoint: Vector3;
   metadata: Metadata;
 }
 
 export interface School {
   type: GeoDataType.SCHOOL;
-  boundaryPoints: Coordinate[];
-  centralPoint: Coordinate;
+  boundaryPoints: Vector3[];
+  centralPoint: Vector3;
   metadata: Metadata;
 }
 
 export interface Health {
   type: GeoDataType.HEALTH;
-  boundaryPoints: Coordinate[];
-  centralPoint: Coordinate;
+  boundaryPoints: Vector3[];
+  centralPoint: Vector3;
   metadata: Metadata;
 }
 
 export interface SewageTreatment {
   type: GeoDataType.SEWAGE_TREATMENT;
-  boundaryPoints: Coordinate[];
-  centralPoint: Coordinate;
+  boundaryPoints: Vector3[];
+  centralPoint: Vector3;
   metadata: Metadata;
 }
 

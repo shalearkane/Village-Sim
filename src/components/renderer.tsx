@@ -16,7 +16,7 @@ export default function GenerateObjects(GeoData: GeoData) {
         break;
       }
       case GeoDataType.RESIDENTIAL: {
-        renderedElements.push(<Center top position={[GeoDataPoint.centralPoint.x, 0, GeoDataPoint.centralPoint.y]}>
+        renderedElements.push(<Center top position={GeoDataPoint.centralPoint}>
           <mesh castShadow>
             <sphereGeometry args={[0.5, 64, 64]} />
             <meshStandardMaterial color="#9d4b4b" />
@@ -25,7 +25,7 @@ export default function GenerateObjects(GeoData: GeoData) {
         break;
       }
       case GeoDataType.HOSPITAL: {
-        renderedElements.push(<Center top position={[GeoDataPoint.centralPoint.x, 0, GeoDataPoint.centralPoint.y]}>
+        renderedElements.push(<Center top position={GeoDataPoint.centralPoint}>
           <mesh castShadow>
             <sphereGeometry args={[0.5, 64, 64]} />
             <meshStandardMaterial color="#9d4b4b" />
@@ -34,7 +34,7 @@ export default function GenerateObjects(GeoData: GeoData) {
         break;
       }
       case GeoDataType.AGRICULTURAL: {
-        renderedElements.push(<Center top position={[GeoDataPoint.centralPoint.x, 0, GeoDataPoint.centralPoint.y]}>
+        renderedElements.push(<Center top position={GeoDataPoint.centralPoint}>
           <mesh castShadow>
             <sphereGeometry args={[0.5, 64, 64]} />
             <meshStandardMaterial color="#9d4b4b" />
@@ -43,7 +43,7 @@ export default function GenerateObjects(GeoData: GeoData) {
         break;
       }
       case GeoDataType.COMMERCIAL: {
-        renderedElements.push(<Center top position={[GeoDataPoint.centralPoint.x, 0, GeoDataPoint.centralPoint.y]}>
+        renderedElements.push(<Center top position={GeoDataPoint.centralPoint}>
           <mesh castShadow>
             <sphereGeometry args={[0.5, 64, 64]} />
             <meshStandardMaterial color="#9d4b4b" />
@@ -52,7 +52,7 @@ export default function GenerateObjects(GeoData: GeoData) {
         break;
       }
       case GeoDataType.INDUSTRIAL: {
-        renderedElements.push(<Center top position={[GeoDataPoint.centralPoint.x, 0, GeoDataPoint.centralPoint.y]}>
+        renderedElements.push(<Center top position={GeoDataPoint.centralPoint}>
           <mesh castShadow>
             <sphereGeometry args={[0.5, 64, 64]} />
             <meshStandardMaterial color="#9d4b4b" />
@@ -61,7 +61,7 @@ export default function GenerateObjects(GeoData: GeoData) {
         break;
       }
       case GeoDataType.SCHOOL: {
-        renderedElements.push(<Center top position={[GeoDataPoint.centralPoint.x, 0, GeoDataPoint.centralPoint.y]}>
+        renderedElements.push(<Center top position={GeoDataPoint.centralPoint}>
           <mesh castShadow>
             <sphereGeometry args={[0.5, 64, 64]} />
             <meshStandardMaterial color="#9d4b4b" />
@@ -70,7 +70,7 @@ export default function GenerateObjects(GeoData: GeoData) {
         break;
       }
       case GeoDataType.HEALTH: {
-        renderedElements.push(<Center top position={[GeoDataPoint.centralPoint.x, 0, GeoDataPoint.centralPoint.y]}>
+        renderedElements.push(<Center top position={GeoDataPoint.centralPoint}>
           <mesh castShadow>
             <sphereGeometry args={[0.5, 64, 64]} />
             <meshStandardMaterial color="#9d4b4b" />
@@ -79,7 +79,7 @@ export default function GenerateObjects(GeoData: GeoData) {
         break;
       }
       case GeoDataType.SEWAGE_TREATMENT: {
-        renderedElements.push(<Center top position={[GeoDataPoint.centralPoint.x, 0, GeoDataPoint.centralPoint.y]}>
+        renderedElements.push(<Center top position={GeoDataPoint.centralPoint}>
           <mesh castShadow>
             <sphereGeometry args={[0.5, 64, 64]} />
             <meshStandardMaterial color="#9d4b4b" />
@@ -88,7 +88,7 @@ export default function GenerateObjects(GeoData: GeoData) {
         break;
       }
       case GeoDataType.WATER_BODY: {
-        renderedElements.push(<Center top position={[GeoDataPoint.centralPoint.x, 0, GeoDataPoint.centralPoint.y]}>
+        renderedElements.push(<Center top position={GeoDataPoint.centralPoint}>
           <mesh castShadow>
             <sphereGeometry args={[0.5, 64, 64]} />
             <meshStandardMaterial color="#9d4b4b" />

@@ -1,11 +1,12 @@
 import { memo, useEffect } from 'react'
 import { Canvas, events } from '@react-three/fiber'
-import { Grid, Center, GizmoHelper, GizmoViewport, AccumulativeShadows, RandomizedLight, OrbitControls, Environment } from '@react-three/drei'
+import { Grid, Center, GizmoHelper, GizmoViewport, AccumulativeShadows, RandomizedLight, OrbitControls, Environment, Plane } from '@react-three/drei'
 import { useControls } from 'leva'
 import GenerateObjects from './components/renderer'
 import { dummyData } from './dummy'
-import { GeoData } from './interface/geo'
+import { GeoData, GeoDataPoint, GeoDataType } from './interface/geo'
 import React from 'react'
+import { Vector3 } from 'three'
 
 export default function App() {
   const [geoData, setGeoData] = React.useState<GeoData>(dummyData)
@@ -14,6 +15,29 @@ export default function App() {
   useEffect(() => {
     setObjects(GenerateObjects(geoData))
   }, [geoData])
+
+  const addObject = (point: Vector3) => {
+    const newPoint: GeoDataPoint = {
+      type: GeoDataType.HOSPITAL,
+      boundaryPoints: [new Vector3(0.5, 0.5, 0)],
+      centralPoint: point,
+      metadata: {
+        roadDistance: 0,
+        residentialDistance: 0,
+        hospitalDistance: 0,
+        agriculturalDistance: 0,
+        commercialDistance: 0,
+        industrialDistance: 0,
+        schoolDistance: 0,
+        healthDistance: 0,
+        sewageTreatmentDistance: 0,
+        waterBodyDistance: 0,
+      }
+    }
+
+    let data = geoData.concat(newPoint)
+    setGeoData(data)
+  }
 
   const { gridSize, ...gridConfig } = useControls({
     gridSize: [10.5, 10.5],
@@ -31,6 +55,7 @@ export default function App() {
 
   return (
     <Canvas shadows style={{ height: "100vh", width: "100vw" }}>
+      <Plane args={[2, 2]} onClick={(event) => { addObject(event.point) }} />
       <group position={[0, -0.5, 0]}>
         {
           objects

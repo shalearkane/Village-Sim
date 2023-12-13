@@ -1,16 +1,11 @@
+import { Vector3 } from "three";
 import { GeoData, GeoDataType } from "./interface/geo";
 
 export let dummyData: GeoData = [
     {
         type: GeoDataType.RESIDENTIAL,
-        boundaryPoints: [{
-            x: 0.5,
-            y: 0.5,
-        }],
-        centralPoint: {
-            x: 0.5,
-            y: 0.5,
-        },
+        boundaryPoints: [new Vector3(0, 0, 0)],
+        centralPoint: new Vector3(0, 0, 0),
         metadata: {
             roadDistance: 0,
             residentialDistance: 0,
@@ -26,14 +21,8 @@ export let dummyData: GeoData = [
     },
     {
         type: GeoDataType.RESIDENTIAL,
-        boundaryPoints: [{
-            x: 1,
-            y: 1,
-        }],
-        centralPoint: {
-            x: 1,
-            y: 1,
-        },
+        boundaryPoints: [new Vector3(1, 1, 0)],
+        centralPoint: new Vector3(1, 1, 0),
         metadata: {
             roadDistance: 0,
             residentialDistance: 0,
@@ -49,14 +38,8 @@ export let dummyData: GeoData = [
     },
     {
         type: GeoDataType.RESIDENTIAL,
-        boundaryPoints: [{
-            x: 2,
-            y: 2,
-        }],
-        centralPoint: {
-            x: 2,
-            y: 2,
-        },
+        boundaryPoints: [new Vector3(2, 2, 0)],
+        centralPoint: new Vector3(2, 2, 0),
         metadata: {
             roadDistance: 0,
             residentialDistance: 0,
