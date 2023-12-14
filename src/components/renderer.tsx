@@ -1,10 +1,11 @@
 import { GeoData, GeoDataPoint, GeoDataType } from "../interface/geo";
-import { Grid, Center } from '@react-three/drei'
+import { Grid, Center } from "@react-three/drei";
 
-export default function GenerateObjects(GeoData: GeoData) {
+export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
   console.log(GeoData);
-  var renderedElements: any = [];
-  GeoData.forEach((GeoDataPoint: GeoDataPoint) => {
+  // var renderedElements: any = [];
+  // GeoData.forEach((GeoDataPoint: GeoDataPoint) => {});
+  return GeoData.map((GeoDataPoint: GeoDataPoint, geoDataIndex: number) => {
     switch (GeoDataPoint.type) {
       case GeoDataType.ROAD: {
         // renderedElements.push(<Center top position={[, 0, 2]}>
@@ -16,87 +17,134 @@ export default function GenerateObjects(GeoData: GeoData) {
         break;
       }
       case GeoDataType.RESIDENTIAL: {
-        renderedElements.push(<Center top position={GeoDataPoint.centralPoint}>
-          <mesh castShadow>
-            <sphereGeometry args={[0.5, 64, 64]} />
-            <meshStandardMaterial color="#9d4b4b" />
-          </mesh>
-        </Center>)
-        break;
+        return (
+          <Center
+            onClick={() => {
+              console.log(GeoDataPoint.key);
+            }}
+            key={`GeoDataIndex_${geoDataIndex}`}
+            top
+            position={GeoDataPoint.centralPoint}
+          >
+            <mesh castShadow>
+              <sphereGeometry args={[0.5, 64, 64]} />
+              <meshStandardMaterial color="#9d4b4b" />
+            </mesh>
+          </Center>
+        );
       }
       case GeoDataType.HOSPITAL: {
-        renderedElements.push(<Center top position={GeoDataPoint.centralPoint}>
-          <mesh castShadow>
-            <sphereGeometry args={[0.5, 64, 64]} />
-            <meshStandardMaterial color="#9d4b4b" />
-          </mesh>
-        </Center>)
-        break;
+        return (
+          <Center
+            key={`GeoDataIndex_${geoDataIndex}`}
+            top
+            position={GeoDataPoint.centralPoint}
+          >
+            <mesh castShadow>
+              <sphereGeometry args={[0.5, 64, 64]} />
+              <meshStandardMaterial color="#9d4b4b" />
+            </mesh>
+          </Center>
+        );
       }
       case GeoDataType.AGRICULTURAL: {
-        renderedElements.push(<Center top position={GeoDataPoint.centralPoint}>
-          <mesh castShadow>
-            <sphereGeometry args={[0.5, 64, 64]} />
-            <meshStandardMaterial color="#9d4b4b" />
-          </mesh>
-        </Center>)
-        break;
+        return (
+          <Center
+            key={`GeoDataIndex_${geoDataIndex}`}
+            top
+            position={GeoDataPoint.centralPoint}
+          >
+            <mesh castShadow>
+              <sphereGeometry args={[0.5, 64, 64]} />
+              <meshStandardMaterial color="#9d4b4b" />
+            </mesh>
+          </Center>
+        );
       }
       case GeoDataType.COMMERCIAL: {
-        renderedElements.push(<Center top position={GeoDataPoint.centralPoint}>
-          <mesh castShadow>
-            <sphereGeometry args={[0.5, 64, 64]} />
-            <meshStandardMaterial color="#9d4b4b" />
-          </mesh>
-        </Center>)
-        break;
+        return (
+          <Center
+            key={`GeoDataIndex_${geoDataIndex}`}
+            top
+            position={GeoDataPoint.centralPoint}
+          >
+            <mesh castShadow>
+              <sphereGeometry args={[0.5, 64, 64]} />
+              <meshStandardMaterial color="#9d4b4b" />
+            </mesh>
+          </Center>
+        );
       }
       case GeoDataType.INDUSTRIAL: {
-        renderedElements.push(<Center top position={GeoDataPoint.centralPoint}>
-          <mesh castShadow>
-            <sphereGeometry args={[0.5, 64, 64]} />
-            <meshStandardMaterial color="#9d4b4b" />
-          </mesh>
-        </Center>)
-        break;
+        return (
+          <Center
+            key={`GeoDataIndex_${geoDataIndex}`}
+            top
+            position={GeoDataPoint.centralPoint}
+          >
+            <mesh castShadow>
+              <sphereGeometry args={[0.5, 64, 64]} />
+              <meshStandardMaterial color="#9d4b4b" />
+            </mesh>
+          </Center>
+        );
       }
       case GeoDataType.SCHOOL: {
-        renderedElements.push(<Center top position={GeoDataPoint.centralPoint}>
-          <mesh castShadow>
-            <sphereGeometry args={[0.5, 64, 64]} />
-            <meshStandardMaterial color="#9d4b4b" />
-          </mesh>
-        </Center>)
-        break;
+        return (
+          <Center
+            key={`GeoDataIndex_${geoDataIndex}`}
+            top
+            position={GeoDataPoint.centralPoint}
+          >
+            <mesh castShadow>
+              <sphereGeometry args={[0.5, 64, 64]} />
+              <meshStandardMaterial color="#9d4b4b" />
+            </mesh>
+          </Center>
+        );
       }
       case GeoDataType.HEALTH: {
-        renderedElements.push(<Center top position={GeoDataPoint.centralPoint}>
-          <mesh castShadow>
-            <sphereGeometry args={[0.5, 64, 64]} />
-            <meshStandardMaterial color="#9d4b4b" />
-          </mesh>
-        </Center>)
-        break;
+        return (
+          <Center
+            key={`GeoDataIndex_${geoDataIndex}`}
+            top
+            position={GeoDataPoint.centralPoint}
+          >
+            <mesh castShadow>
+              <sphereGeometry args={[0.5, 64, 64]} />
+              <meshStandardMaterial color="#9d4b4b" />
+            </mesh>
+          </Center>
+        );
       }
       case GeoDataType.SEWAGE_TREATMENT: {
-        renderedElements.push(<Center top position={GeoDataPoint.centralPoint}>
-          <mesh castShadow>
-            <sphereGeometry args={[0.5, 64, 64]} />
-            <meshStandardMaterial color="#9d4b4b" />
-          </mesh>
-        </Center>)
-        break;
+        return (
+          <Center
+            key={`GeoDataIndex_${geoDataIndex}`}
+            top
+            position={GeoDataPoint.centralPoint}
+          >
+            <mesh castShadow>
+              <sphereGeometry args={[0.5, 64, 64]} />
+              <meshStandardMaterial color="#9d4b4b" />
+            </mesh>
+          </Center>
+        );
       }
       case GeoDataType.WATER_BODY: {
-        renderedElements.push(<Center top position={GeoDataPoint.centralPoint}>
-          <mesh castShadow>
-            <sphereGeometry args={[0.5, 64, 64]} />
-            <meshStandardMaterial color="#9d4b4b" />
-          </mesh>
-        </Center>)
-        break;
+        return (
+          <Center
+            key={`GeoDataIndex_${geoDataIndex}`}
+            top
+            position={GeoDataPoint.centralPoint}
+          >
+            <mesh castShadow>
+              <sphereGeometry args={[0.5, 64, 64]} />
+              <meshStandardMaterial color="#9d4b4b" />
+            </mesh>
+          </Center>
+        );
       }
     }
-  })
-  return renderedElements;
+  });
 }

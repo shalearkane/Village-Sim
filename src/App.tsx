@@ -14,7 +14,7 @@ import { useControls } from "leva";
 import GenerateObjects from "./components/renderer";
 import { dummyData } from "./dummy";
 import { GeoData, GeoDataPoint, GeoDataType } from "./interface/geo";
-import React from "react";
+import { useState } from "react";
 import { Vector3 } from "three";
 import { generateUUID } from "three/src/math/MathUtils.js";
 import { GLTFLoader } from "three-stdlib";
@@ -24,16 +24,23 @@ function Model({ url } : { url:string}) {
   return (<primitive object={gltf.scene}/>)
 }
 
-export default function App() {
-  const [geoData, setGeoData] = React.useState<GeoData>(dummyData);
-  const [objects, setObjects] = React.useState<any>(null);
+import { Toolbar as ToolbarInterface } from "./interface/toolbar";
+import Toolbar from "./components/toolbar";
 
-  useEffect(() => {
-    setObjects(GenerateObjects(geoData));
-  }, [geoData]);
+import { createContext } from "react";
+
+export const ToolbarContext = createContext<ToolbarInterface>(
+  ToolbarInterface.CURSOR
+);
+
+export default function App() {
+  const [geoData, setGeoData] = useState<GeoData>(dummyData);
+  const [selectedTool, setSelectedTool] = useState<ToolbarInterface>(
+    ToolbarInterface.CURSOR
+  );
 
   const addObject = (point: Vector3) => {
-    point.y = 0
+    point.y = 0;
     const newPoint: GeoDataPoint = {
       key: generateUUID(),
       type: GeoDataType.HOSPITAL,
@@ -71,30 +78,38 @@ export default function App() {
     infiniteGrid: true,
   });
 
+  console.log(selectedTool);
+
   return (
-    <Canvas shadows style={{ height: "100vh", width: "100vw" }}>
-      <Plane
-        position={[0, -0.55, 0]}
-        rotation={[-1.57, 0, 0]}
-        args={[100, 100]}
-        onClick={(event) => {
-          addObject(event.point);
-        }}
-      />
-      <group position={[0, -0.5, 0]}>
-        {objects}
-        <Shadows />
-        <Grid position={[0, -0.01, 0]} args={gridSize} {...gridConfig} />
-      </group>
-      <OrbitControls makeDefault />
-      <Environment files="assets/potsdamer_platz_1k.hdr" />
-      <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
-        <GizmoViewport
-          axisColors={["#9d4b4b", "#2f7f4f", "#3b5b9d"]}
-          labelColor="white"
-        />
-      </GizmoHelper>
-    </Canvas>
+    // @ts-ignore
+    <ToolbarContext.Provider value={{ selectedTool, setSelectedTool }}>
+      <div className="relative">
+        <Toolbar />
+        <Canvas shadows style={{ height: "100vh", width: "100vw" }}>
+          <Plane
+            position={[0, -0.55, 0]}
+            rotation={[-1.57, 0, 0]}
+            args={[100, 100]}
+            onDoubleClick={(event) => {
+              addObject(event.point);
+            }}
+          />
+          <group position={[0, -0.5, 0]}>
+            <GenerateObjects GeoData={geoData} />
+            <Shadows />
+            <Grid position={[0, -0.01, 0]} args={gridSize} {...gridConfig} />
+          </group>
+          <OrbitControls makeDefault />
+          <Environment files="assets/potsdamer_platz_1k.hdr" />
+          <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
+            <GizmoViewport
+              axisColors={["#9d4b4b", "#2f7f4f", "#3b5b9d"]}
+              labelColor="white"
+            />
+          </GizmoHelper>
+        </Canvas>
+      </div>
+    </ToolbarContext.Provider>
   );
 }
 
