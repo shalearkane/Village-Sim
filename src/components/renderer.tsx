@@ -10,13 +10,13 @@ import {
   GeoDataType,
   RoadTerrain,
 } from "../interface/geo";
-import { Center } from "@react-three/drei";
+import { CatmullRomLine, Center } from "@react-three/drei";
 import { Toolbar } from "../interface/toolbar";
 import { useContext, useEffect, useMemo, useState } from "react";
-import { useLoader } from "@react-three/fiber";
+import { Vector3, useLoader } from "@react-three/fiber";
 import { GLTFLoader, LineGeometry } from "three/examples/jsm/Addons.js";
 import {
-  getRoadTerrainFromGeoData,
+  getRoadCoordinates,
   getTerrainCoordinateArray,
 } from "../utils/terrain";
 import * as THREE from "three";
@@ -95,42 +95,24 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
     checkAcceptedArea();
   }, [mouseControl]);
 
-  return visibleGeoData.map((GeoDataPoint: GeoDataPoint) => {
+  return geoStore.data.map((GeoDataPoint: GeoDataPoint) => {
     switch (GeoDataPoint.type) {
       case GeoDataType.ROAD: {
-        const roadSteps = getRoadTerrainFromGeoData(GeoDataPoint.steps, 4);
-        return (
-          <>
-            {roadSteps.map((step: RoadTerrain, stepIndex: number) => {
-              return (
-                <mesh
-                  key={`RoadStep_${stepIndex}_${GeoDataPoint.key}`}
-                  position={[
-                    step.centralCoordinate.x,
-                    step.centralCoordinate.y,
-                    step.centralCoordinate.z,
-                  ]}
-                  rotation={step.rotation}
-                >
-                  <planeGeometry args={[step.distance, 2]} />
-                  <meshStandardMaterial
-                    // transparent
-                    // opacity={0.5}
-                    color={"grey"}
-                  />
-                </mesh>
-              );
-            })}
-            ;
-          </>
+        const roadCoordinates: Vector3[][] = getRoadCoordinates(
+          GeoDataPoint.steps,
+          2
         );
-        // renderedElements.push(<Center top position={[, 0, 2]}>
-        //     <mesh castShadow>
-        //       <sphereGeometry args={[0.5, 64, 64]} />
-        //       <meshStandardMaterial color="#9d4b4b" />
-        //     </mesh>
-        //   </Center>)
-        // break;
+        roadCoordinates.map((point: Array<Vector3>) => {
+          return (
+            <CatmullRomLine
+              // @ts-ignore
+              points={point}
+              lineWidth={3}
+              color={"grey"}
+            />
+          );
+        });
+        break;
       }
       case GeoDataType.RESIDENTIAL: {
         return (
