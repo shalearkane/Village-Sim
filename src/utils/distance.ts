@@ -1,3 +1,5 @@
+import { Vector3 } from "three";
+
 export function getDistance(
   grid: Array<Array<number>>,
   target: number
@@ -51,3 +53,9 @@ export function getDistance(
 
   return distances;
 }
+
+export const getAbsoluteDistance = (a: Vector3, b: Vector3): number => {
+  return Math.sqrt(
+    Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2) + Math.pow(a.z - b.z, 2)
+  );
+};

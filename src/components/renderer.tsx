@@ -67,7 +67,6 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
               <sphereGeometry args={[0.5, 64, 64]} />
               <meshStandardMaterial color="#9d4b4b" />
             </mesh> */}
-
             <Model url={"assets/residential/Houses.glb"} />
             {/* <Shadows /> */}
           </Center>

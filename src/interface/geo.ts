@@ -1,4 +1,4 @@
-import { Vector3 } from "three";
+import { Euler, Vector3 } from "three";
 
 export enum GeoDataType {
   "ROAD" = "ROAD",
@@ -127,4 +127,12 @@ export interface TerrainMap {
 export interface GeoStore {
   terrainMap: TerrainMap;
   data: GeoData;
+}
+
+export interface RoadTerrain {
+  distance: number;
+  startCoordinate: Vector3;
+  endCoordinate: Vector3;
+  width: number;
+  rotation: Euler;
 }

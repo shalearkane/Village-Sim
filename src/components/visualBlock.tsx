@@ -23,7 +23,6 @@ function VisualBlock() {
       selectedTool == Toolbar.HOSPITAL ||
       selectedTool == Toolbar.RESIDENTIAL
     ) {
-      console.log(mouseControl);
       setSafe(checkSafe(geoStore.terrainMap, mouseControl, selectedTool));
     }
   }, [mouseControl]);
