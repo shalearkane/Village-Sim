@@ -97097,6 +97097,15 @@ const residentialData = [
   }
 ];
 
+const modifiedResidentialData = residentialData.map(item => ({
+  ...item,
+  key: item.key.toString(),
+  centralPoint: new Vector3(
+    item.centralPoint.x - 8646500,
+    item.centralPoint.y - 3317200,
+    item.centralPoint.z
+  ),
+}));
 
 export let dummyData: GeoData = [
   {
@@ -97293,4 +97302,5 @@ export let dummyData: GeoData = [
       waterBodyDistance: 0,
     },
   },
+  ...modifiedResidentialData
 ];
