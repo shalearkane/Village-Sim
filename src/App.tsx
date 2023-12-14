@@ -1,5 +1,5 @@
 import { memo, useEffect } from "react";
-import { Canvas, ThreeEvent } from "@react-three/fiber";
+import { Canvas, ThreeEvent, useLoader, useThree } from "@react-three/fiber";
 import {
   Grid,
   GizmoHelper,
@@ -25,7 +25,42 @@ import Toolbar from "./components/toolbar";
 import { createContext } from "react";
 import { MouseControl } from "./interface/mouse";
 import VisualBlock from "./components/visualBlock";
+import { TextureLoader } from 'three'
 import { getTerrainMap } from "./utils/terrain";
+
+
+function Earth() {
+  const { gl } = useThree()
+  const texture = useLoader(
+    TextureLoader,
+    'assets/aerial_rocks_04_diff_4k.jpg'
+  )
+  const displacementMap = useLoader(
+    TextureLoader,
+    'assets/aerial_rocks_04_rough_4k.png'
+  )
+
+  const material = useControls({
+    wireframe: false,
+    displacementScale: { value: 0.5, min: 0, max: 1.0, step: 0.01 }
+  })
+
+  useEffect(() => {
+    texture.anisotropy = gl.capabilities.getMaxAnisotropy()
+  }, [texture, gl])
+
+  return (
+    <mesh receiveShadow={true} position={[0,0,0]} rotation={[-1.57, 0, 0]}>
+      <planeGeometry args={[50, 50, 100, 100]} />
+      <meshStandardMaterial
+        wireframe={material.wireframe}
+        map={texture}
+        displacementMap={displacementMap}
+        displacementScale={0.1}
+      />
+    </mesh>
+  )
+}
 
 export const ToolbarContext = createContext<ToolbarInterface>(
   ToolbarInterface.CURSOR
@@ -144,9 +179,7 @@ export default function App() {
                   labelColor="white"
                 />
               </GizmoHelper>
-              <mesh position={[0, -2, 0]} scale={30}>
-                <Model url="assets/Terrain/ground.glb"></Model>
-              </mesh>
+              <Earth/>
             </Canvas>
           </div>
         </MouseControlContext.Provider>
