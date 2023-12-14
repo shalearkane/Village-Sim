@@ -24,11 +24,7 @@ function ToolbarComponent() {
           setSelectedTool(Toolbar.CURSOR);
         }}
       >
-        <IconHandMove
-          onClick={() => {
-            console.log("eggereivf8yi");
-          }}
-        />
+        <IconHandMove />
       </div>
       <div
         className={`${
@@ -39,26 +35,18 @@ function ToolbarComponent() {
           setSelectedTool(Toolbar.DELETE);
         }}
       >
-        <IconTrash
-          onClick={() => {
-            console.log("eggereivf8yi");
-          }}
-        />
+        <IconTrash />
       </div>
       <div
         className={`${
-          selectedTool == Toolbar.BUILDING &&
+          selectedTool == Toolbar.RESIDENTIAL &&
           "border-solid border-2 border-sky-500"
         } cursor-pointer m-2 p-2 rounded-lg`}
         onClick={() => {
-          setSelectedTool(Toolbar.BUILDING);
+          setSelectedTool(Toolbar.RESIDENTIAL);
         }}
       >
-        <IconBuilding
-          onClick={() => {
-            console.log("eggereivf8yi");
-          }}
-        />
+        <IconBuilding />
       </div>
       <div
         className={`${
@@ -69,11 +57,7 @@ function ToolbarComponent() {
           setSelectedTool(Toolbar.HOSPITAL);
         }}
       >
-        <IconHospital
-          onClick={() => {
-            console.log("eggereivf8yi");
-          }}
-        />
+        <IconHospital />
       </div>
       <div
         className={`${
@@ -84,11 +68,7 @@ function ToolbarComponent() {
           setSelectedTool(Toolbar.SCHOOL);
         }}
       >
-        <IconSchool
-          onClick={() => {
-            console.log("eggereivf8yi");
-          }}
-        />
+        <IconSchool />
       </div>
     </div>
   );

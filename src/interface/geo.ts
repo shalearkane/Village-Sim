@@ -118,3 +118,13 @@ export type GeoDataPoint =
   | WaterBody;
 
 export type GeoData = GeoDataPoint[];
+
+// Gives me the key of the block in a coordinate x,y
+export interface TerrainMap {
+  [key: string]: string[];
+}
+
+export interface GeoStore {
+  terrainMap: TerrainMap;
+  data: GeoData;
+}

@@ -1,11 +1,36 @@
+import { GeoStoreContext, Shadows, ToolbarContext } from "../App";
 import { GeoData, GeoDataPoint, GeoDataType } from "../interface/geo";
-import { Grid, Center } from "@react-three/drei";
+import { Center } from "@react-three/drei";
+import { Toolbar } from "../interface/toolbar";
+import { useContext } from "react";
 
 export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
-  console.log(GeoData);
-  // var renderedElements: any = [];
-  // GeoData.forEach((GeoDataPoint: GeoDataPoint) => {});
-  return GeoData.map((GeoDataPoint: GeoDataPoint, geoDataIndex: number) => {
+  // @ts-ignore
+  const { selectedTool, setSelectedTool } = useContext(ToolbarContext);
+  // @ts-ignore
+  const { geoStore, setGeoStore } = useContext(GeoStoreContext);
+
+  const deleteBlock = (key: string) => {
+    const newGeoData: GeoData = [];
+    console.log(key);
+    geoStore.data.forEach((point: GeoDataPoint) => {
+      if (point.key != key) {
+        newGeoData.push(point);
+      }
+    });
+
+    setGeoStore({ ...geoStore, data: newGeoData });
+  };
+
+  const handleClick = (key: string) => {
+    switch (selectedTool) {
+      case Toolbar.DELETE: {
+        deleteBlock(key);
+      }
+    }
+  };
+
+  return GeoData.map((GeoDataPoint: GeoDataPoint) => {
     switch (GeoDataPoint.type) {
       case GeoDataType.ROAD: {
         // renderedElements.push(<Center top position={[, 0, 2]}>
@@ -19,10 +44,15 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
       case GeoDataType.RESIDENTIAL: {
         return (
           <Center
-            onClick={() => {
-              console.log(GeoDataPoint.key);
+            castShadow={true}
+            onClick={(event) => {
+              event.stopPropagation();
+              handleClick(GeoDataPoint.key);
             }}
-            key={`GeoDataIndex_${geoDataIndex}`}
+            onDoubleClick={(event) => {
+              event.stopPropagation();
+            }}
+            key={GeoDataPoint.key}
             top
             position={GeoDataPoint.centralPoint}
           >
@@ -36,7 +66,10 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
       case GeoDataType.HOSPITAL: {
         return (
           <Center
-            key={`GeoDataIndex_${geoDataIndex}`}
+            onClick={() => {
+              handleClick(GeoDataPoint.key);
+            }}
+            key={GeoDataPoint.key}
             top
             position={GeoDataPoint.centralPoint}
           >
@@ -50,7 +83,10 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
       case GeoDataType.AGRICULTURAL: {
         return (
           <Center
-            key={`GeoDataIndex_${geoDataIndex}`}
+            onClick={() => {
+              handleClick(GeoDataPoint.key);
+            }}
+            key={GeoDataPoint.key}
             top
             position={GeoDataPoint.centralPoint}
           >
@@ -64,7 +100,10 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
       case GeoDataType.COMMERCIAL: {
         return (
           <Center
-            key={`GeoDataIndex_${geoDataIndex}`}
+            onClick={() => {
+              handleClick(GeoDataPoint.key);
+            }}
+            key={GeoDataPoint.key}
             top
             position={GeoDataPoint.centralPoint}
           >
@@ -78,7 +117,10 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
       case GeoDataType.INDUSTRIAL: {
         return (
           <Center
-            key={`GeoDataIndex_${geoDataIndex}`}
+            onClick={() => {
+              handleClick(GeoDataPoint.key);
+            }}
+            key={GeoDataPoint.key}
             top
             position={GeoDataPoint.centralPoint}
           >
@@ -92,7 +134,10 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
       case GeoDataType.SCHOOL: {
         return (
           <Center
-            key={`GeoDataIndex_${geoDataIndex}`}
+            onClick={() => {
+              handleClick(GeoDataPoint.key);
+            }}
+            key={GeoDataPoint.key}
             top
             position={GeoDataPoint.centralPoint}
           >
@@ -106,7 +151,10 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
       case GeoDataType.HEALTH: {
         return (
           <Center
-            key={`GeoDataIndex_${geoDataIndex}`}
+            onClick={() => {
+              handleClick(GeoDataPoint.key);
+            }}
+            key={GeoDataPoint.key}
             top
             position={GeoDataPoint.centralPoint}
           >
@@ -120,7 +168,10 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
       case GeoDataType.SEWAGE_TREATMENT: {
         return (
           <Center
-            key={`GeoDataIndex_${geoDataIndex}`}
+            onClick={() => {
+              handleClick(GeoDataPoint.key);
+            }}
+            key={GeoDataPoint.key}
             top
             position={GeoDataPoint.centralPoint}
           >
@@ -134,7 +185,10 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
       case GeoDataType.WATER_BODY: {
         return (
           <Center
-            key={`GeoDataIndex_${geoDataIndex}`}
+            onClick={() => {
+              handleClick(GeoDataPoint.key);
+            }}
+            key={GeoDataPoint.key}
             top
             position={GeoDataPoint.centralPoint}
           >

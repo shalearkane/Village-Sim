@@ -1,5 +1,5 @@
 import { memo, useEffect } from "react";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, ThreeEvent } from "@react-three/fiber";
 import {
   Grid,
   GizmoHelper,
@@ -9,54 +9,52 @@ import {
   OrbitControls,
   Environment,
   Plane,
+  PerformanceMonitor,
+  Sky,
+  Stars,
 } from "@react-three/drei";
 import { useControls } from "leva";
 import GenerateObjects from "./components/renderer";
 import { dummyData } from "./dummy";
-import { GeoData, GeoDataPoint, GeoDataType } from "./interface/geo";
+import { GeoStore } from "./interface/geo";
 import { useState } from "react";
-import { Vector3 } from "three";
-import { generateUUID } from "three/src/math/MathUtils.js";
 
 import { Toolbar as ToolbarInterface } from "./interface/toolbar";
 import Toolbar from "./components/toolbar";
 
 import { createContext } from "react";
+import { MouseControl } from "./interface/mouse";
+import VisualBlock from "./components/visualBlock";
+import { getTerrainMap } from "./utils/terrain";
 
 export const ToolbarContext = createContext<ToolbarInterface>(
   ToolbarInterface.CURSOR
 );
+export const MouseControlContext = createContext<MouseControl>({
+  x: 0,
+  y: 0,
+  z: 0,
+});
+export const GeoStoreContext = createContext<GeoStore>({
+  data: dummyData,
+  terrainMap: {},
+});
 
 export default function App() {
-  const [geoData, setGeoData] = useState<GeoData>(dummyData);
+  const [geoStore, setGeoStore] = useState<GeoStore>({
+    data: dummyData,
+    terrainMap: getTerrainMap(dummyData),
+  });
   const [selectedTool, setSelectedTool] = useState<ToolbarInterface>(
     ToolbarInterface.CURSOR
   );
-
-  const addObject = (point: Vector3) => {
-    point.y = 0;
-    const newPoint: GeoDataPoint = {
-      key: generateUUID(),
-      type: GeoDataType.HOSPITAL,
-      boundaryPoints: [new Vector3(0.5, 0.5, 0)],
-      centralPoint: point,
-      metadata: {
-        roadDistance: 0,
-        residentialDistance: 0,
-        hospitalDistance: 0,
-        agriculturalDistance: 0,
-        commercialDistance: 0,
-        industrialDistance: 0,
-        schoolDistance: 0,
-        healthDistance: 0,
-        sewageTreatmentDistance: 0,
-        waterBodyDistance: 0,
-      },
-    };
-
-    let data = geoData.concat(newPoint);
-    setGeoData(data);
-  };
+  const [mouseControl, setMouseControl] = useState<MouseControl>({
+    x: 0,
+    y: 0,
+    z: 0,
+  });
+  const [dpr, setDpr] = useState(1.5);
+  const [lightMode, setLightMode] = useState<boolean>(true);
 
   const { gridSize, ...gridConfig } = useControls({
     gridSize: [10.5, 10.5],
@@ -72,42 +70,89 @@ export default function App() {
     infiniteGrid: true,
   });
 
-  console.log(selectedTool);
-
   return (
     // @ts-ignore
     <ToolbarContext.Provider value={{ selectedTool, setSelectedTool }}>
-      <div className="relative">
-        <Toolbar />
-        <Canvas shadows style={{ height: "100vh", width: "100vw" }}>
-          <Plane
-            position={[0, -0.55, 0]}
-            rotation={[-1.57, 0, 0]}
-            args={[100, 100]}
-            onDoubleClick={(event) => {
-              addObject(event.point);
-            }}
-          />
-          <group position={[0, -0.5, 0]}>
-            <GenerateObjects GeoData={geoData} />
-            <Shadows />
-            <Grid position={[0, -0.01, 0]} args={gridSize} {...gridConfig} />
-          </group>
-          <OrbitControls makeDefault />
-          <Environment files="assets/potsdamer_platz_1k.hdr" />
-          <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
-            <GizmoViewport
-              axisColors={["#9d4b4b", "#2f7f4f", "#3b5b9d"]}
-              labelColor="white"
-            />
-          </GizmoHelper>
-        </Canvas>
-      </div>
+      {/* @ts-ignore */}
+      <GeoStoreContext.Provider value={{ geoStore, setGeoStore }}>
+        {/* @ts-ignore */}
+        <MouseControlContext.Provider value={{ mouseControl, setMouseControl }}>
+          <div className="relative">
+            <Toolbar />
+            <Canvas
+              dpr={dpr}
+              shadows
+              style={{ height: "100vh", width: "100vw" }}
+            >
+              {lightMode ? (
+                <Sky sunPosition={[100, 20, 100]} />
+              ) : (
+                <Stars
+                  radius={100}
+                  depth={50}
+                  count={5000}
+                  factor={4}
+                  saturation={0}
+                  fade
+                  speed={1}
+                />
+              )}
+
+              <ambientLight intensity={0.3} />
+              <pointLight
+                castShadow
+                intensity={0.8}
+                position={[100, 100, 100]}
+              />
+              <ambientLight />
+              <pointLight position={[10, 10, 10]} />
+              <PerformanceMonitor
+                onIncline={() => setDpr(2)}
+                onDecline={() => setDpr(1)}
+              />
+              <Plane
+                onClick={(e) => {
+                  console.log(e);
+                }}
+                onPointerMove={(event: ThreeEvent<PointerEvent>) => {
+                  setMouseControl({
+                    ...mouseControl,
+                    x: event.point.x,
+                    y: event.point.y,
+                    z: event.point.z,
+                  });
+                }}
+                position={[0, -0.55, 0]}
+                rotation={[-1.57, 0, 0]}
+                args={[100, 100]}
+              />
+              <VisualBlock />
+              <group position={[0, -0.5, 0]}>
+                <GenerateObjects GeoData={geoStore.data} />
+                {/* <Shadows /> */}
+                <Grid
+                  position={[0, -0.01, 0]}
+                  args={gridSize}
+                  {...gridConfig}
+                />
+              </group>
+              <OrbitControls makeDefault />
+              <Environment files="assets/potsdamer_platz_1k.hdr" />
+              <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
+                <GizmoViewport
+                  axisColors={["#9d4b4b", "#2f7f4f", "#3b5b9d"]}
+                  labelColor="white"
+                />
+              </GizmoHelper>
+            </Canvas>
+          </div>
+        </MouseControlContext.Provider>
+      </GeoStoreContext.Provider>
     </ToolbarContext.Provider>
   );
 }
 
-const Shadows = memo(() => (
+export const Shadows = memo(({ position }: { position: number[] }) => (
   <AccumulativeShadows
     temporal
     frames={100}
@@ -116,6 +161,10 @@ const Shadows = memo(() => (
     alphaTest={0.9}
     scale={20}
   >
-    <RandomizedLight amount={8} radius={4} position={[5, 5, -10]} />
+    <RandomizedLight
+      amount={8}
+      radius={1}
+      position={[position[0], position[1], position[2]]}
+    />
   </AccumulativeShadows>
 ));
