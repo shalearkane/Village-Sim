@@ -11,6 +11,9 @@ export enum GeoDataType {
   "HEALTH" = "HEALTH",
   "SEWAGE_TREATMENT" = "SEWAGE_TREATMENT",
   "WATER_BODY" = "WATER_BODY",
+
+  // Just for internal use
+  "TERRAIN_VIEWPOINT" = "TERRAIN_VIEWPOINT",
 }
 
 export interface Metadata {
@@ -133,6 +136,7 @@ export interface RoadTerrain {
   distance: number;
   startCoordinate: Vector3;
   endCoordinate: Vector3;
+  centralCoordinate: Vector3;
   width: number;
   rotation: Euler;
 }

@@ -25,42 +25,8 @@ import Toolbar from "./components/toolbar";
 import { createContext } from "react";
 import { MouseControl } from "./interface/mouse";
 import VisualBlock from "./components/visualBlock";
-import { TextureLoader } from 'three'
 import { getTerrainMap } from "./utils/terrain";
-
-
-function Earth() {
-  const { gl } = useThree()
-  const texture = useLoader(
-    TextureLoader,
-    'assets/aerial_rocks_04_diff_4k.jpg'
-  )
-  const displacementMap = useLoader(
-    TextureLoader,
-    'assets/aerial_rocks_04_rough_4k.png'
-  )
-
-  const material = useControls({
-    wireframe: false,
-    displacementScale: { value: 0.5, min: 0, max: 1.0, step: 0.01 }
-  })
-
-  useEffect(() => {
-    texture.anisotropy = gl.capabilities.getMaxAnisotropy()
-  }, [texture, gl])
-
-  return (
-    <mesh receiveShadow={true} position={[0,0,0]} rotation={[-1.57, 0, 0]}>
-      <planeGeometry args={[50, 50, 100, 100]} />
-      <meshStandardMaterial
-        wireframe={material.wireframe}
-        map={texture}
-        displacementMap={displacementMap}
-        displacementScale={0.1}
-      />
-    </mesh>
-  )
-}
+import Earth from "./components/earth";
 
 export const ToolbarContext = createContext<ToolbarInterface>(
   ToolbarInterface.CURSOR
@@ -88,7 +54,6 @@ export default function App() {
     y: 0,
     z: 0,
   });
-  const [dpr, setDpr] = useState(1.5);
   const [lightMode, setLightMode] = useState<boolean>(true);
 
   const { gridSize, ...gridConfig } = useControls({
@@ -114,11 +79,7 @@ export default function App() {
         <MouseControlContext.Provider value={{ mouseControl, setMouseControl }}>
           <div className="relative">
             <Toolbar />
-            <Canvas
-              dpr={dpr}
-              shadows
-              style={{ height: "100vh", width: "100vw" }}
-            >
+            <Canvas shadows style={{ height: "100vh", width: "100vw" }}>
               {lightMode ? (
                 <Sky sunPosition={[100, 20, 100]} />
               ) : (
@@ -141,14 +102,10 @@ export default function App() {
               />
               <ambientLight />
               <pointLight position={[10, 10, 10]} />
-              <PerformanceMonitor
-                onIncline={() => setDpr(2)}
-                onDecline={() => setDpr(1)}
-              />
-              <Plane
-                onClick={(e) => {
-                  console.log(e);
-                }}
+              {/* <mesh position={[0, -0.55, 0]} scale={30}>
+                <Model url="assets/Terrain/ground.glb"></Model>
+              </mesh> */}
+              {/* <Plane
                 onPointerMove={(event: ThreeEvent<PointerEvent>) => {
                   setMouseControl({
                     ...mouseControl,
@@ -160,7 +117,7 @@ export default function App() {
                 position={[0, -0.55, 0]}
                 rotation={[-1.57, 0, 0]}
                 args={[100, 100]}
-              />
+              /> */}
               <VisualBlock />
               <group position={[0, -0.5, 0]}>
                 <GenerateObjects GeoData={geoStore.data} />
@@ -179,7 +136,7 @@ export default function App() {
                   labelColor="white"
                 />
               </GizmoHelper>
-              <Earth/>
+              <Earth />
             </Canvas>
           </div>
         </MouseControlContext.Provider>

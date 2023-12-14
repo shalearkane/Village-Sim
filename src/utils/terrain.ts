@@ -1,4 +1,4 @@
-import { Euler, Vector3 } from "three";
+import { Euler, Line, Vector2, Vector3 } from "three";
 import { BLOCK_TERRAIN_RAIUS } from "../constants/block";
 import {
   GeoData,
@@ -87,12 +87,28 @@ export function getRoadTerrainFromGeoData(
 ): RoadTerrain[] {
   const roadTerrainArray: RoadTerrain[] = [];
   for (let i = 0; i < steps.length - 1; i++) {
+    const v1 = new Vector3(steps[i].x, steps[i].y, steps[i].z);
+    const v2 = new Vector3(steps[i + 1].x, steps[i + 1].y, steps[i + 1].z);
+    const angleX = new Vector3(1, 0, 0);
+    const angleY = new Vector3(0, 1, 0);
+    const angleZ = new Vector3(0, 0, 1);
+    const xy1 = new Vector2(steps[i].x, steps[i].y);
+    const xy2 = new Vector2(steps[i + 1].x, steps[i + 1].y);
+    xy1.add(xy2);
+    console.log(xy1.angle());
+
+    console.log(angleZ.angleTo(v1.add(v2)));
     roadTerrainArray.push({
       distance: getAbsoluteDistance(steps[i], steps[i + 1]),
       startCoordinate: steps[i],
       endCoordinate: steps[i + 1],
       width: width,
-      rotation: new Euler(-1.57, 0, 0),
+      rotation: new Euler(-1.57, 0, xy1.angle()),
+      centralCoordinate: new Vector3(
+        (steps[i].x + steps[i + 1].x) / 2,
+        (steps[i].y + steps[i + 1].y) / 2,
+        (steps[i].z + steps[i + 1].z) / 2
+      ),
     });
   }
 

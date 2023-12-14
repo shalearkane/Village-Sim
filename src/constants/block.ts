@@ -18,6 +18,7 @@ export const BLOCK_TERRAIN_RAIUS = {
   [GeoDataType.AGRICULTURAL]: 10,
   [GeoDataType.ROAD]: 1,
   [GeoDataType.WATER_BODY]: 5,
+  [GeoDataType.TERRAIN_VIEWPOINT]: 30,
 };
 
 export const BLOCK_THRESHOLD = {

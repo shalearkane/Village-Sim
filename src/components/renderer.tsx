@@ -1,10 +1,25 @@
-import { GeoStoreContext, Shadows, ToolbarContext } from "../App";
-import { GeoData, GeoDataPoint, GeoDataType } from "../interface/geo";
+import {
+  GeoStoreContext,
+  MouseControlContext,
+  Shadows,
+  ToolbarContext,
+} from "../App";
+import {
+  GeoData,
+  GeoDataPoint,
+  GeoDataType,
+  RoadTerrain,
+} from "../interface/geo";
 import { Center } from "@react-three/drei";
 import { Toolbar } from "../interface/toolbar";
-import { useContext } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useLoader } from "@react-three/fiber";
-import { GLTFLoader } from "three/examples/jsm/Addons.js";
+import { GLTFLoader, LineGeometry } from "three/examples/jsm/Addons.js";
+import {
+  getRoadTerrainFromGeoData,
+  getTerrainCoordinateArray,
+} from "../utils/terrain";
+import * as THREE from "three";
 
 export function Model({ url }: { url: string }) {
   const gltf = useLoader(GLTFLoader, url);
@@ -16,10 +31,13 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
   const { selectedTool, setSelectedTool } = useContext(ToolbarContext);
   // @ts-ignore
   const { geoStore, setGeoStore } = useContext(GeoStoreContext);
+  // @ts-ignore
+  const { mouseControl } = useContext(MouseControlContext);
+
+  const [visibleGeoData, setVisibleGeoData] = useState<GeoData>([]);
 
   const deleteBlock = (key: string) => {
     const newGeoData: GeoData = [];
-    console.log(key);
     geoStore.data.forEach((point: GeoDataPoint) => {
       if (point.key != key) {
         newGeoData.push(point);
@@ -37,16 +55,72 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
     }
   };
 
-  return GeoData.map((GeoDataPoint: GeoDataPoint) => {
+  const checkAcceptedArea = () => {
+    const coordinateArray = getTerrainCoordinateArray(
+      mouseControl.x,
+      mouseControl.y,
+      GeoDataType.TERRAIN_VIEWPOINT
+    );
+    let terrainMap: { [key: string]: boolean } = {};
+    coordinateArray.forEach((point: string) => {
+      terrainMap[point] = true;
+    });
+    const visibleGeoData: GeoData = [];
+
+    geoStore.data.forEach((point: GeoDataPoint) => {
+      if (point.type !== GeoDataType.ROAD) {
+        const coordinate = `${Math.floor(point.centralPoint.x)},${Math.floor(
+          point.centralPoint.y
+        )}`;
+        if (terrainMap[coordinate] && terrainMap[coordinate]) {
+          visibleGeoData.push(point);
+        }
+      }
+    });
+
+    setVisibleGeoData(visibleGeoData);
+  };
+
+  useEffect(() => {
+    checkAcceptedArea();
+  }, [mouseControl]);
+
+  return visibleGeoData.map((GeoDataPoint: GeoDataPoint) => {
     switch (GeoDataPoint.type) {
       case GeoDataType.ROAD: {
+        const roadSteps = getRoadTerrainFromGeoData(GeoDataPoint.steps, 4);
+        return (
+          <>
+            {roadSteps.map((step: RoadTerrain, stepIndex: number) => {
+              return (
+                <mesh
+                  key={`RoadStep_${stepIndex}_${GeoDataPoint.key}`}
+                  position={[
+                    step.centralCoordinate.x,
+                    step.centralCoordinate.y,
+                    step.centralCoordinate.z,
+                  ]}
+                  rotation={step.rotation}
+                >
+                  <planeGeometry args={[step.distance, 2]} />
+                  <meshStandardMaterial
+                    // transparent
+                    // opacity={0.5}
+                    color={"grey"}
+                  />
+                </mesh>
+              );
+            })}
+            ;
+          </>
+        );
         // renderedElements.push(<Center top position={[, 0, 2]}>
         //     <mesh castShadow>
         //       <sphereGeometry args={[0.5, 64, 64]} />
         //       <meshStandardMaterial color="#9d4b4b" />
         //     </mesh>
         //   </Center>)
-        break;
+        // break;
       }
       case GeoDataType.RESIDENTIAL: {
         return (
