@@ -14,7 +14,7 @@ import {
   Stars,
 } from "@react-three/drei";
 import { useControls } from "leva";
-import GenerateObjects from "./components/renderer";
+import GenerateObjects, { Model } from "./components/renderer";
 import { dummyData } from "./dummy";
 import { GeoStore } from "./interface/geo";
 import { useState } from "react";
@@ -144,6 +144,9 @@ export default function App() {
                   labelColor="white"
                 />
               </GizmoHelper>
+              <mesh position={[0, -2, 0]} scale={30}>
+                <Model url="assets/Terrain/ground.glb"></Model>
+              </mesh>
             </Canvas>
           </div>
         </MouseControlContext.Provider>

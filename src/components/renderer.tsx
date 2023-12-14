@@ -6,7 +6,7 @@ import { useContext } from "react";
 import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 
-function Model({ url }: { url: string }) {
+export function Model({ url }: { url: string }) {
   const gltf = useLoader(GLTFLoader, url);
   return <primitive object={gltf.scene.clone(true)} />;
 }
