@@ -102,7 +102,7 @@ export default function App() {
     fadeDistance: { value: 25, min: 0, max: 100, step: 1 },
     fadeStrength: { value: 1, min: 0, max: 1, step: 0.1 },
     followCamera: false,
-    infiniteGrid: true,
+    infiniteGrid: false,
   });
 
   return (
