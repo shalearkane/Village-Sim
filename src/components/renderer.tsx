@@ -3,6 +3,13 @@ import { GeoData, GeoDataPoint, GeoDataType } from "../interface/geo";
 import { Center } from "@react-three/drei";
 import { Toolbar } from "../interface/toolbar";
 import { useContext } from "react";
+import { useLoader } from "@react-three/fiber";
+import { GLTFLoader } from "three/examples/jsm/Addons.js";
+
+function Model({ url }: { url: string }) {
+  const gltf = useLoader(GLTFLoader, url);
+  return <primitive object={gltf.scene} />;
+}
 
 export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
   // @ts-ignore
@@ -60,6 +67,9 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
               <sphereGeometry args={[0.5, 64, 64]} />
               <meshStandardMaterial color="#9d4b4b" />
             </mesh>
+
+            {/* <Model url={"assets/residential/Houses.glb"} /> */}
+            {/* <Shadows /> */}
           </Center>
         );
       }
