@@ -8,7 +8,7 @@ import { GLTFLoader } from "three/examples/jsm/Addons.js";
 
 function Model({ url }: { url: string }) {
   const gltf = useLoader(GLTFLoader, url);
-  return <primitive object={gltf.scene} />;
+  return <primitive object={gltf.scene.clone(true)} />;
 }
 
 export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
@@ -63,12 +63,12 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
             top
             position={GeoDataPoint.centralPoint}
           >
-            <mesh castShadow>
+            {/* <mesh castShadow>
               <sphereGeometry args={[0.5, 64, 64]} />
               <meshStandardMaterial color="#9d4b4b" />
-            </mesh>
+            </mesh> */}
 
-            {/* <Model url={"assets/residential/Houses.glb"} /> */}
+            <Model url={"assets/residential/Houses.glb"} />
             {/* <Shadows /> */}
           </Center>
         );
