@@ -7,18 +7,18 @@ export const BLOCK = {
   SCHOOL: 3,
 };
 
-export const BLOCK_TERRAIN_RAIUS = {
-  [GeoDataType.HOSPITAL]: 10,
-  [GeoDataType.SCHOOL]: 5,
-  [GeoDataType.RESIDENTIAL]: 2,
-  [GeoDataType.COMMERCIAL]: 2,
-  [GeoDataType.INDUSTRIAL]: 5,
-  [GeoDataType.HEALTH]: 2,
-  [GeoDataType.SEWAGE_TREATMENT]: 5,
-  [GeoDataType.AGRICULTURAL]: 10,
-  [GeoDataType.ROAD]: 1,
-  [GeoDataType.WATER_BODY]: 5,
-  [GeoDataType.TERRAIN_VIEWPOINT]: 30,
+export const BLOCK_TERRAIN_RADIUS = {
+  [GeoDataType.HOSPITAL]: 2,
+  [GeoDataType.SCHOOL]: 1,
+  [GeoDataType.RESIDENTIAL]: 0.5,
+  [GeoDataType.COMMERCIAL]: 0.5,
+  [GeoDataType.INDUSTRIAL]: 2,
+  [GeoDataType.HEALTH]: 0.5,
+  [GeoDataType.SEWAGE_TREATMENT]: 3,
+  [GeoDataType.AGRICULTURAL]: 5,
+  [GeoDataType.ROAD]: 0.1,
+  [GeoDataType.WATER_BODY]: 1,
+  [GeoDataType.TERRAIN_VIEWPOINT]: 5,
 };
 
 export const BLOCK_THRESHOLD = {

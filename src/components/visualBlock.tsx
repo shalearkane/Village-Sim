@@ -31,7 +31,7 @@ function VisualBlock() {
     point.y = 0;
     const newPoint: GeoDataPoint = {
       key: generateUUID(),
-      type: GeoDataType.HOSPITAL,
+      type: selectedTool,
       boundaryPoints: [new THREE.Vector3(0.5, 0.5, 0)],
       centralPoint: point,
       metadata: {
@@ -48,8 +48,10 @@ function VisualBlock() {
       },
     };
 
-    let data = geoStore.data.concat(newPoint);
-    setGeoStore({ ...geoStore, data, terrainMap: getTerrainMap(data) });
+    let data = [...geoStore.data, newPoint];
+    const terrainMap = getTerrainMap(data);
+    console.log(newPoint, terrainMap);
+    setGeoStore({ ...geoStore, data, terrainMap });
   };
 
   return (

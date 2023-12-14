@@ -1,5 +1,5 @@
 import { Euler, Line, Vector2, Vector3 } from "three";
-import { BLOCK_TERRAIN_RAIUS } from "../constants/block";
+import { BLOCK_TERRAIN_RADIUS } from "../constants/block";
 import {
   GeoData,
   GeoDataType,
@@ -15,14 +15,15 @@ export function getTerrainCoordinateArray(
   type: GeoDataType
 ): string[] {
   const coordinates: string[] = [];
+  if (!BLOCK_TERRAIN_RADIUS[type]) console.log(type);
   for (
-    let i = Math.floor(x - BLOCK_TERRAIN_RAIUS[type]);
-    i <= Math.ceil(x + BLOCK_TERRAIN_RAIUS[type]);
+    let i = Math.floor(x - BLOCK_TERRAIN_RADIUS[type]);
+    i <= Math.ceil(x + BLOCK_TERRAIN_RADIUS[type]);
     i++
   ) {
     for (
-      let j = Math.floor(y - BLOCK_TERRAIN_RAIUS[type]);
-      j <= Math.ceil(y + BLOCK_TERRAIN_RAIUS[type]);
+      let j = Math.floor(y - BLOCK_TERRAIN_RADIUS[type]);
+      j <= Math.ceil(y + BLOCK_TERRAIN_RADIUS[type]);
       j++
     ) {
       coordinates.push(`${i},${j}`);
@@ -42,9 +43,11 @@ export function getTerrainMap(geoData: GeoData): TerrainMap {
       }
 
       default: {
+        const x = geoDataPoint.centralPoint.x;
+        const y = geoDataPoint.centralPoint.y;
         const coordiantesArray = getTerrainCoordinateArray(
-          geoDataPoint.centralPoint.x,
-          geoDataPoint.centralPoint.y,
+          x,
+          y,
           geoDataPoint.type
         );
 

@@ -21,9 +21,19 @@ import {
 } from "../utils/terrain";
 import * as THREE from "three";
 
-export function Model({ url }: { url: string }) {
+export function Model({ url, scale }: { url: string; scale?: THREE.Vector3 }) {
   const gltf = useLoader(GLTFLoader, url);
-  return <primitive object={gltf.scene.clone(true)} />;
+  const scaleX = scale ? scale.x : 1;
+  const scaleY = scale ? scale.y : 1;
+  const scaleZ = scale ? scale.z : 1;
+
+  const clonedScene = gltf.scene.clone(true);
+  clonedScene.scale.set(
+    scaleX * gltf.scene.scale.x,
+    scaleY * gltf.scene.scale.y,
+    scaleZ * gltf.scene.scale.z
+  );
+  return <primitive object={clonedScene} />;
 }
 
 export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
@@ -156,10 +166,14 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
             top
             position={GeoDataPoint.centralPoint}
           >
-            <mesh castShadow>
+            {/* <mesh castShadow>
               <sphereGeometry args={[0.5, 64, 64]} />
               <meshStandardMaterial color="#9d4b4b" />
-            </mesh>
+            </mesh> */}
+            <Model
+              scale={new THREE.Vector3(0.5, 0.5, 0.5)}
+              url={"assets/hospital_health/1.glb"}
+            />
           </Center>
         );
       }
