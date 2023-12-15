@@ -115,28 +115,43 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
         break;
       }
       case GeoDataType.RESIDENTIAL: {
-        return (
-          <Center
-            castShadow={true}
-            onClick={(event) => {
-              event.stopPropagation();
-              handleClick(GeoDataPoint.key);
-            }}
-            onDoubleClick={(event) => {
-              event.stopPropagation();
-            }}
-            key={GeoDataPoint.key}
-            top
-            position={GeoDataPoint.centralPoint}
-          >
-            {/* <mesh castShadow>
-              <sphereGeometry args={[0.5, 64, 64]} />
-              <meshStandardMaterial color="#9d4b4b" />
-            </mesh> */}
-            <Model url={"assets/residential/Houses.glb"} />
-            {/* <Shadows /> */}
-          </Center>
-        );
+        if (GeoDataPoint.floors == 1) {
+          return (
+            <Center
+              castShadow={true}
+              onClick={(event) => {
+                event.stopPropagation();
+                handleClick(GeoDataPoint.key);
+              }}
+              onDoubleClick={(event) => {
+                event.stopPropagation();
+              }}
+              key={GeoDataPoint.key}
+              top
+              position={GeoDataPoint.centralPoint}
+            >
+              <Model url={"assets/residential/Storage House.glb"} />
+            </Center>
+          );
+        } else if (GeoDataPoint.floors == 2) {
+          return (
+            <Center
+              castShadow={true}
+              onClick={(event) => {
+                event.stopPropagation();
+                handleClick(GeoDataPoint.key);
+              }}
+              onDoubleClick={(event) => {
+                event.stopPropagation();
+              }}
+              key={GeoDataPoint.key}
+              top
+              position={GeoDataPoint.centralPoint}
+            >
+              <Model url={"assets/residential/Houses.glb"} />
+            </Center>
+          );
+        }
       }
       case GeoDataType.HOSPITAL: {
         return (
