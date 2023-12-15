@@ -44,7 +44,7 @@ export function getTerrainMap(geoData: GeoData): TerrainMap {
 
       default: {
         const x = geoDataPoint.centralPoint.x;
-        const y = geoDataPoint.centralPoint.y;
+        const y = geoDataPoint.centralPoint.z;
         const coordiantesArray = getTerrainCoordinateArray(
           x,
           y,

@@ -95,7 +95,7 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
     checkAcceptedArea();
   }, [mouseControl]);
 
-  return geoStore.data.map((GeoDataPoint: GeoDataPoint) => {
+  return visibleGeoData.map((GeoDataPoint: GeoDataPoint) => {
     switch (GeoDataPoint.type) {
       case GeoDataType.ROAD: {
         const roadCoordinates: Vector3[][] = getRoadCoordinates(
