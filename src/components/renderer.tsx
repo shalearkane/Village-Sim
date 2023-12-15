@@ -1,7 +1,6 @@
 import {
   GeoStoreContext,
   MouseControlContext,
-  Shadows,
   ToolbarContext,
 } from "../App";
 import {

@@ -102505,6 +102505,28 @@ const modifiedResidentialData = residentialData.map(item => ({
 export let dummyData: GeoData = [
   {
     key: generateUUID(),
+    type: GeoDataType.WATER_BODY,
+    boundaryPoints: [new Vector3(2, 0, 2),
+    new Vector3(2, 0, 4),
+    new Vector3(4, 0, 6),
+    new Vector3(2, 0, 6)
+    ],
+    centralPoint: new Vector3(2, 0, 2),
+    metadata: {
+      roadDistance: 0,
+      residentialDistance: 0,
+      hospitalDistance: 0,
+      agriculturalDistance: 0,
+      commercialDistance: 0,
+      industrialDistance: 0,
+      schoolDistance: 0,
+      healthDistance: 0,
+      sewageTreatmentDistance: 0,
+      waterBodyDistance: 0,
+    },
+  },
+  {
+    key: generateUUID(),
     type: GeoDataType.RESIDENTIAL,
     floors: 2,
     boundaryPoints: [new Vector3(0, 0, 0)],

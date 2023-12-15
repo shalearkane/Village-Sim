@@ -26,7 +26,6 @@ export default function Earth() {
 
   return (
     <mesh
-      receiveShadow={true}
       position={[0, -0.55, 0]}
       rotation={[-1.57, 0, 0]}
       onPointerMove={(event: ThreeEvent<PointerEvent>) => {

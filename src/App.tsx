@@ -79,7 +79,7 @@ export default function App() {
           <InfoModal />
           <div className="relative">
             <Toolbar />
-            <Canvas shadows style={{ height: "100vh", width: "100vw" }}>
+            <Canvas style={{ height: "100vh", width: "100vw" }}>
               {lightMode ? (
                 <Sky sunPosition={[100, 20, 100]} />
               ) : (
@@ -120,7 +120,6 @@ export default function App() {
               <VisualBlock />
               <group position={[0, -0.5, 0]}>
                 <GenerateObjects GeoData={geoStore.data} />
-                {/* <Shadows /> */}
                 <Grid
                   position={[0, -0.01, 0]}
                   args={gridSize}
@@ -143,20 +142,3 @@ export default function App() {
     </ToolbarContext.Provider>
   );
 }
-
-export const Shadows = memo(({ position }: { position: number[] }) => (
-  <AccumulativeShadows
-    temporal
-    frames={100}
-    color="#9d4b4b"
-    colorBlend={0.5}
-    alphaTest={0.9}
-    scale={20}
-  >
-    <RandomizedLight
-      amount={8}
-      radius={1}
-      position={[position[0], position[1], position[2]]}
-    />
-  </AccumulativeShadows>
-));
