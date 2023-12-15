@@ -141,3 +141,10 @@ export interface RoadTerrain {
   width: number;
   rotation: Euler;
 }
+
+export interface Boundaries {
+  minX: number;
+  minY: number;
+  maxX: number;
+  maxY: number;
+}

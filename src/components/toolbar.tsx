@@ -17,12 +17,12 @@ function ToolbarComponent() {
 
   return (
     <div>
-      <div className="absolute opacity-70 z-10 top-[10px] left-[20px] bg-black rounded-lg p-3">
+      <div className="absolute opacity-70 z-10 top-[10px] left-[10px] bg-black rounded-lg p-3">
         <p>
           Mouse: ({mouseControl.x}, {mouseControl.y})
         </p>
       </div>
-      <div className="absolute opacity-70 z-10 top-[100px] left-[20px] bg-black rounded-lg">
+      <div className="absolute opacity-70 z-10 top-[100px] left-[10px] bg-black rounded-lg">
         <div
           className={`${
             selectedTool == Toolbar.CURSOR &&

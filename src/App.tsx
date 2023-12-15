@@ -7,6 +7,11 @@ import {
   Environment,
   Sky,
   Stars,
+  MapControls,
+  PointerLockControls,
+  FirstPersonControls,
+  CameraControls,
+  FaceControls,
 } from "@react-three/drei";
 import { useControls } from "leva";
 import GenerateObjects from "./components/renderer";
@@ -23,6 +28,7 @@ import VisualBlock from "./components/visualBlock";
 import { getTerrainMap } from "./utils/terrain";
 import Earth from "./components/earth";
 import InfoModal from "./components/modal";
+import Minimap from "./components/minimap";
 
 export const ToolbarContext = createContext<ToolbarInterface>(
   ToolbarInterface.CURSOR
@@ -76,6 +82,7 @@ export default function App() {
           <InfoModal />
           <div className="relative">
             <Toolbar />
+            <Minimap />
             <Canvas style={{ height: "100vh", width: "100vw" }}>
               {lightMode ? (
                 <Sky sunPosition={[100, 20, 100]} />
