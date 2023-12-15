@@ -1,6 +1,6 @@
 import { ThreeEvent, useLoader, useThree } from "@react-three/fiber";
 import { useContext, useEffect } from "react";
-import { TextureLoader } from "three";
+import * as THREE from "three";
 import { MouseControlContext } from "../App";
 
 export default function Earth() {
@@ -8,12 +8,21 @@ export default function Earth() {
   const { mouseControl, setMouseControl } = useContext(MouseControlContext);
   const { gl } = useThree();
   const texture = useLoader(
-    TextureLoader,
+    THREE.TextureLoader,
     "assets/aerial_rocks_04_diff_4k.jpg"
   );
-  const displacementMap = useLoader(
-    TextureLoader,
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(4, 4);
+
+  const roughnessMap = useLoader(
+    THREE.TextureLoader,
     "assets/aerial_rocks_04_rough_4k.png"
+  );
+
+  const displacementMap = useLoader(
+    THREE.TextureLoader,
+    "assets/aerial_rocks_04_nor_4k.png"
   );
 
   useEffect(() => {
@@ -37,8 +46,10 @@ export default function Earth() {
       <planeGeometry args={[50, 50, 100, 100]} />
       <meshStandardMaterial
         map={texture}
+        roughnessMap={roughnessMap}
         displacementMap={displacementMap}
-        displacementScale={0.05}
+        roughness={10}
+        displacementScale={0.2}
       />
     </mesh>
   );
