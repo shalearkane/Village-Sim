@@ -281,11 +281,20 @@ export default function GenerateObjects() {
         );
       }
       case GeoDataType.WATER_BODY: {
-        console.log("water body");
         const shape = new THREE.Shape();
         GeoDataPoint.boundaryPoints.forEach((coordinate: THREE.Vector3) => {
           shape.lineTo(coordinate.x, coordinate.z);
         });
+        const geometry = new THREE.ShapeGeometry(shape);
+        setUV(geometry);
+
+        const texture = useLoader(
+          THREE.TextureLoader,
+          "src/assets/water/Vol_36_5_Base_Color.png"
+        );
+
+        GeoDataPoint.centralPoint.y = 0.05
+
         return (
           <Center
             onClick={() => {
@@ -296,13 +305,31 @@ export default function GenerateObjects() {
             position={GeoDataPoint.centralPoint}
             rotation={new THREE.Euler(-1.57, 0, 0)}
           >
-            <mesh>
-              <shapeGeometry args={[shape]} />
-              <meshBasicMaterial color="blue" />
+            <mesh geometry={geometry} >
+              <meshStandardMaterial
+                map={texture}
+              />
             </mesh>
           </Center>
         );
       }
     }
   });
+}
+
+function setUV(geometry: THREE.ShapeGeometry) {
+  // @ts-ignore
+  const pos: THREE.BufferAttribute = geometry.attributes.position;
+  const b3 = new THREE.Box3().setFromBufferAttribute(pos);
+  const size = new THREE.Vector3();
+  b3.getSize(size);
+  const uv = [];
+  const v3 = new THREE.Vector3();
+  for (let i = 0; i < pos.count; i++) {
+    v3.fromBufferAttribute(pos, i);
+    v3.sub(b3.min).divide(size);
+    uv.push(v3.x, v3.y);
+  }
+  geometry.setAttribute("uv", new THREE.Float32BufferAttribute(uv, 2));
+
 }
