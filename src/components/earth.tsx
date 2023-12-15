@@ -8,7 +8,7 @@ export default function Earth() {
   const { mouseControl, setMouseControl } = useContext(MouseControlContext);
   const texture = useLoader(
     THREE.TextureLoader,
-    "assets/aerial_rocks_04_diff_4k.jpg"
+    "../assets/aerial_rocks_04_diff_4k.jpg"
   );
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
@@ -16,12 +16,12 @@ export default function Earth() {
 
   const roughnessMap = useLoader(
     THREE.TextureLoader,
-    "assets/aerial_rocks_04_rough_4k.png"
+    "../assets/aerial_rocks_04_rough_4k.png"
   );
 
   const displacementMap = useLoader(
     THREE.TextureLoader,
-    "assets/aerial_rocks_04_nor_4k.png"
+    "../assets/aerial_rocks_04_nor_4k.png"
   );
 
   return (

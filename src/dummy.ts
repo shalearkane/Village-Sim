@@ -102721,5 +102721,7 @@ export let dummyData: GeoData = [
       waterBodyDistance: 0,
     },
   },
+
+  // @ts-ignore
   ...modifiedResidentialData
 ];

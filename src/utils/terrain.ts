@@ -1,13 +1,7 @@
-import { Euler, Line, Vector2, Vector3 } from "three";
+import { Vector3 } from "three";
 import { BLOCK_TERRAIN_RADIUS } from "../constants/block";
-import {
-  GeoData,
-  GeoDataType,
-  RoadTerrain,
-  TerrainMap,
-} from "../interface/geo";
+import { GeoData, GeoDataType, TerrainMap } from "../interface/geo";
 import { MouseControl } from "../interface/mouse";
-import { getAbsoluteDistance } from "./distance";
 
 export function getTerrainCoordinateArray(
   x: number,

@@ -1,11 +1,8 @@
-import { memo } from "react";
 import { Canvas } from "@react-three/fiber";
 import {
   Grid,
   GizmoHelper,
   GizmoViewport,
-  AccumulativeShadows,
-  RandomizedLight,
   OrbitControls,
   Environment,
   Sky,
@@ -53,7 +50,7 @@ export default function App() {
     y: 0,
     z: 0,
   });
-  const [lightMode, setLightMode] = useState<boolean>(true);
+  const [lightMode] = useState<boolean>(true);
 
   const { gridSize, ...gridConfig } = useControls({
     gridSize: [10.5, 10.5],
@@ -95,10 +92,7 @@ export default function App() {
               )}
 
               <ambientLight intensity={0.3} />
-              <pointLight
-                intensity={0.8}
-                position={[100, 100, 100]}
-              />
+              <pointLight intensity={0.8} position={[100, 100, 100]} />
               <ambientLight />
               <pointLight position={[10, 10, 10]} />
               {/* <mesh position={[0, -0.55, 0]} scale={30}>
@@ -119,7 +113,7 @@ export default function App() {
               /> */}
               <VisualBlock />
               <group position={[0, -0.5, 0]}>
-                <GenerateObjects GeoData={geoStore.data} />
+                <GenerateObjects />
                 <Grid
                   position={[0, -0.01, 0]}
                   args={gridSize}

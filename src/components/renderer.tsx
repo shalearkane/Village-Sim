@@ -1,26 +1,20 @@
-import {
-  GeoStoreContext,
-  MouseControlContext,
-  ToolbarContext,
-} from "../App";
-import {
-  GeoData,
-  GeoDataPoint,
-  GeoDataType,
-  RoadTerrain,
-} from "../interface/geo";
+import { GeoStoreContext, MouseControlContext, ToolbarContext } from "../App";
+import { GeoData, GeoDataPoint, GeoDataType } from "../interface/geo";
 import { CatmullRomLine, Center } from "@react-three/drei";
 import { Toolbar } from "../interface/toolbar";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Vector3, useLoader } from "@react-three/fiber";
-import { GLTFLoader, LineGeometry } from "three/examples/jsm/Addons.js";
+import { GLTFLoader } from "three/examples/jsm/Addons.js";
 import {
   getRoadCoordinates,
   getTerrainCoordinateArray,
 } from "../utils/terrain";
-import { House1Model } from "./models/house1"
-import { House2Model } from "./models/house2" 
-import { Hospital1Model } from "./models/hospital1.jsx"
+// @ts-ignore
+import { House1Model } from "./models/house1";
+// @ts-ignore
+import { House2Model } from "./models/house2";
+// @ts-ignore
+import { Hospital1Model } from "./models/hospital1.jsx";
 import * as THREE from "three";
 import { MouseControl } from "../interface/mouse";
 
@@ -39,7 +33,7 @@ export function Model({ url, scale }: { url: string; scale?: THREE.Vector3 }) {
   return <primitive object={clonedScene} />;
 }
 
-export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
+export default function GenerateObjects() {
   // @ts-ignore
   const { selectedTool, setSelectedTool } = useContext(ToolbarContext);
   // @ts-ignore

@@ -1,5 +1,3 @@
-import { GeoDataType } from "./geo";
-
 export enum Toolbar {
   DELETE = "DELETE",
   RESIDENTIAL = "RESIDENTIAL",
