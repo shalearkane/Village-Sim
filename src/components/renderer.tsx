@@ -178,6 +178,16 @@ export default function GenerateObjects() {
         GeoDataPoint.boundaryPoints.forEach((coordinate: THREE.Vector3) => {
           shape.lineTo(coordinate.x, coordinate.z);
         });
+        const geometry = new THREE.ShapeGeometry(shape);
+        setUV(geometry);
+
+        const texture = useLoader(
+          THREE.TextureLoader,
+          "src/assets/agriculture/pexels-pok-rie-4861069.jpg"
+        );
+
+        GeoDataPoint.centralPoint.y = 0.05
+
         return (
           <Center
             onClick={() => {
@@ -188,9 +198,10 @@ export default function GenerateObjects() {
             position={GeoDataPoint.centralPoint}
             rotation={new THREE.Euler(-1.57, 0, 0)}
           >
-            <mesh>
-              <shapeGeometry args={[shape]} />
-              <meshBasicMaterial color="yellow" />
+            <mesh geometry={geometry} >
+              <meshStandardMaterial
+                map={texture}
+              />
             </mesh>
           </Center>
         );
