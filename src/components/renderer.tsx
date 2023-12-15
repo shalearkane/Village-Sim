@@ -80,7 +80,7 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
     geoStore.data.forEach((point: GeoDataPoint) => {
       if (point.type !== GeoDataType.ROAD) {
         const coordinate = `${Math.floor(point.centralPoint.x)},${Math.floor(
-          point.centralPoint.y
+          point.centralPoint.z
         )}`;
         if (terrainMap[coordinate] && terrainMap[coordinate]) {
           visibleGeoData.push(point);
@@ -303,5 +303,6 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
           </Center>
         );
       }
-  });
+    }
+  })
 }
