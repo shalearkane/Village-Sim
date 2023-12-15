@@ -102496,9 +102496,9 @@ const modifiedResidentialData = residentialData.map(item => ({
   ...item,
   key: item.key.toString(),
   centralPoint: new Vector3(
-    item.centralPoint.x - 8646500,
+    (item.centralPoint.x - 8646500) / 4,
     item.centralPoint.y,
-    item.centralPoint.z - 3317200
+    (item.centralPoint.z - 3317200) / 4
   ),
 }));
 
