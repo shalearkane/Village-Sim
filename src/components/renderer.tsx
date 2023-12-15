@@ -21,6 +21,7 @@ import {
 } from "../utils/terrain";
 import { House1Model } from "./models/house1"
 import { House2Model } from "./models/house2" 
+import { Hospital1Model } from "./models/hospital1.jsx"
 import * as THREE from "three";
 
 export function Model({ url, scale }: { url: string; scale?: THREE.Vector3 }) {
@@ -163,10 +164,7 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
             top
             position={GeoDataPoint.centralPoint}
           >
-            <Model
-              scale={new THREE.Vector3(0.5, 0.5, 0.5)}
-              url={"assets/hospital_health/1.glb"}
-            />
+            <Hospital1Model scale={new THREE.Vector3(0.5, 0.5, 0.5)} />
           </Center>
         );
       }
