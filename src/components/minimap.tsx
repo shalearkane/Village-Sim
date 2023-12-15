@@ -65,7 +65,7 @@ function Minimap() {
 
   console.log(bounds.maxY - bounds.minY + padding);
   return (
-    <div className="absolute opacity-80 z-20 bottom-[10px] left-[10px] bg-black rounded-lg p-3 cursor-pointer">
+    <div className="absolute opacity-80 z-20 top-[10px] right-[10px] bg-black rounded-lg cursor-pointer">
       {showMap ? (
         <div>
           <div
@@ -74,19 +74,21 @@ function Minimap() {
               setShowMap(false);
             }}
           >
-            <IconX />
+            <IconX className="m-3" />
           </div>
-          <canvas
-            //@ts-ignore
-            onClick={handleClick}
-            height={bounds.maxY - bounds.minY + padding}
-            //@ts-ignore
-            ref={canvasRef}
-          ></canvas>
+          <div className="max-h-[300px] overflow-scroll">
+            <canvas
+              //@ts-ignore
+              onClick={handleClick}
+              height={bounds.maxY - bounds.minY + padding}
+              //@ts-ignore
+              ref={canvasRef}
+            ></canvas>
+          </div>
         </div>
       ) : (
         <IconMap
-          className="cursor-pointer"
+          className="cursor-pointer m-3"
           onClick={() => {
             setShowMap(true);
           }}

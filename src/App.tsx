@@ -12,10 +12,14 @@ import { useControls } from "leva";
 import GenerateObjects from "./components/renderer";
 import { dummyData } from "./dummy";
 import { GeoStore } from "./interface/geo";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+
+// @ts-ignore
+import DeviceOrientation, { Orientation } from "react-screen-orientation";
 
 import { Toolbar as ToolbarInterface } from "./interface/toolbar";
 import Toolbar from "./components/toolbar";
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
 
 import { createContext } from "react";
 import { MouseControl } from "./interface/mouse";
@@ -52,20 +56,37 @@ export default function App() {
     z: 0,
   });
   const [lightMode] = useState<boolean>(true);
+  const fullScreenHanler = useFullScreenHandle();
+  const [fullScreen, setFullScreen] = useState<boolean>(false);
 
-  const { gridSize, ...gridConfig } = useControls({
-    gridSize: [10.5, 10.5],
-    cellSize: { value: 0.6, min: 0, max: 10, step: 0.1 },
-    cellThickness: { value: 1, min: 0, max: 5, step: 0.1 },
-    cellColor: "#6f6f6f",
-    sectionSize: { value: 3.3, min: 0, max: 10, step: 0.1 },
-    sectionThickness: { value: 1.5, min: 0, max: 5, step: 0.1 },
-    sectionColor: "#9d4b4b",
-    fadeDistance: { value: 25, min: 0, max: 100, step: 1 },
-    fadeStrength: { value: 1, min: 0, max: 1, step: 0.1 },
-    followCamera: false,
-    infiniteGrid: false,
-  });
+  // if (fullScreen) {
+  //   const { gridSize, ...gridConfig } = useControls({
+  //     gridSize: [10.5, 10.5],
+  //     cellSize: { value: 0.6, min: 0, max: 10, step: 0.1 },
+  //     cellThickness: { value: 1, min: 0, max: 5, step: 0.1 },
+  //     cellColor: "#6f6f6f",
+  //     sectionSize: { value: 3.3, min: 0, max: 10, step: 0.1 },
+  //     sectionThickness: { value: 1.5, min: 0, max: 5, step: 0.1 },
+  //     sectionColor: "#9d4b4b",
+  //     fadeDistance: { value: 25, min: 0, max: 100, step: 1 },
+  //     fadeStrength: { value: 1, min: 0, max: 1, step: 0.1 },
+  //     followCamera: false,
+  //     infiniteGrid: false,
+  //   });
+  // }
+
+  const toggleFullScreen = () => {
+    if (fullScreen) fullScreenHanler.exit();
+    else fullScreenHanler.enter();
+    setFullScreen(!fullScreen);
+  };
+
+  const reportChange = useCallback(
+    (state: boolean) => {
+      setFullScreen(state);
+    },
+    [fullScreenHanler]
+  );
 
   return (
     // @ts-ignore
@@ -74,33 +95,46 @@ export default function App() {
       <GeoStoreContext.Provider value={{ geoStore, setGeoStore }}>
         {/* @ts-ignore */}
         <MouseControlContext.Provider value={{ mouseControl, setMouseControl }}>
-          <InfoModal />
-          <div className="relative">
-            <Toolbar />
-            <Minimap />
-            <Canvas style={{ height: "100vh", width: "100vw" }}>
-              {lightMode ? (
-                <Sky sunPosition={[100, 20, 100]} />
-              ) : (
-                <Stars
-                  radius={100}
-                  depth={50}
-                  count={5000}
-                  factor={4}
-                  saturation={0}
-                  fade
-                  speed={1}
-                />
-              )}
+          <FullScreen handle={fullScreenHanler} onChange={reportChange}>
+            {!fullScreen ? (
+              <div className="flex justify-center items-center flex-col w-[100vw]">
+                <h1>Panchayat Sim</h1>
+                <p>A simulator to visualize the possibilities of growth</p>
+                <button className="mt-5" onClick={toggleFullScreen}>
+                  START GAME !
+                </button>
+              </div>
+            ) : (
+              <DeviceOrientation lockOrientation={"landscape"}>
+                <Orientation orientation="landscape" alwaysRender={false}>
+                  <div className={`relative rotate-90 md:rotate-0 w-[100vw]`}>
+                    <InfoModal />
+                    <Toolbar />
+                    <Minimap />
 
-              <ambientLight intensity={0.3} />
-              <pointLight intensity={0.8} position={[100, 100, 100]} />
-              <ambientLight />
-              <pointLight position={[10, 10, 10]} />
-              {/* <mesh position={[0, -0.55, 0]} scale={30}>
+                    <Canvas style={{ width: "100vw", height: "100vh" }}>
+                      {lightMode ? (
+                        <Sky sunPosition={[100, 20, 100]} />
+                      ) : (
+                        <Stars
+                          radius={100}
+                          depth={50}
+                          count={5000}
+                          factor={4}
+                          saturation={0}
+                          fade
+                          speed={1}
+                        />
+                      )}
+
+                      <ambientLight intensity={0.3} />
+                      <pointLight intensity={0.8} position={[100, 100, 100]} />
+                      <ambientLight />
+                      <pointLight position={[10, 10, 10]} />
+                      {/* <mesh position={[0, -0.55, 0]} scale={30}>
                 <Model url="assets/Terrain/ground.glb"></Model>
               </mesh> */}
-              {/* <Plane
+                      {/* <Plane
                 onPointerMove={(event: ThreeEvent<PointerEvent>) => {
                   setMouseControl({
                     ...mouseControl,
@@ -113,26 +147,35 @@ export default function App() {
                 rotation={[-1.57, 0, 0]}
                 args={[100, 100]}
               /> */}
-              <VisualBlock />
-              <group position={[0, -0.5, 0]}>
-                <GenerateObjects />
-                <Grid
-                  position={[0, -0.01, 0]}
-                  args={gridSize}
-                  {...gridConfig}
-                />
-              </group>
-              <OrbitControls makeDefault maxPolarAngle={Math.PI / 2} />
-              <Environment files="assets/potsdamer_platz_1k.hdr" />
-              <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
-                <GizmoViewport
-                  axisColors={["#9d4b4b", "#2f7f4f", "#3b5b9d"]}
-                  labelColor="white"
-                />
-              </GizmoHelper>
-              <Earth />
-            </Canvas>
-          </div>
+                      <VisualBlock />
+                      <group position={[0, -0.5, 0]}>
+                        <GenerateObjects />
+                        {/* <Grid
+                          position={[0, -0.01, 0]}
+                          args={gridSize}
+                          {...gridConfig}
+                        /> */}
+                      </group>
+                      <OrbitControls makeDefault maxPolarAngle={Math.PI / 2} />
+                      <Environment files="assets/potsdamer_platz_1k.hdr" />
+                      <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
+                        <GizmoViewport
+                          axisColors={["#9d4b4b", "#2f7f4f", "#3b5b9d"]}
+                          labelColor="white"
+                        />
+                      </GizmoHelper>
+                      <Earth />
+                    </Canvas>
+                  </div>
+                  <Orientation orientation="portrait">
+                    <div>
+                      <p>Please rotate your device</p>
+                    </div>
+                  </Orientation>
+                </Orientation>
+              </DeviceOrientation>
+            )}
+          </FullScreen>
         </MouseControlContext.Provider>
       </GeoStoreContext.Provider>
     </ToolbarContext.Provider>

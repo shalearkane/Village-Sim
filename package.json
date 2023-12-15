@@ -23,6 +23,8 @@
     "queue-typescript": "^1.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-full-screen": "^1.1.1",
+    "react-screen-orientation": "^0.0.4",
     "tailwindcss": "^3.3.6",
     "three": "^0.159.0"
   },
