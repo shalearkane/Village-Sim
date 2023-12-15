@@ -28,6 +28,7 @@ import { getTerrainMap } from "./utils/terrain";
 import Earth from "./components/earth";
 import InfoModal from "./components/modal";
 import Minimap from "./components/minimap";
+import { IconRotate } from "@tabler/icons-react";
 
 export const ToolbarContext = createContext<ToolbarInterface>(
   ToolbarInterface.CURSOR
@@ -57,7 +58,8 @@ export default function App() {
   });
   const [lightMode] = useState<boolean>(true);
   const fullScreenHanler = useFullScreenHandle();
-  const [fullScreen, setFullScreen] = useState<boolean>(false);
+  const [beginGame, setBeginGame] = useState<boolean>(false);
+  const [fullScreenError, setFullScreenError] = useState<boolean>(false);
 
   // if (fullScreen) {
   //   const { gridSize, ...gridConfig } = useControls({
@@ -76,14 +78,24 @@ export default function App() {
   // }
 
   const toggleFullScreen = () => {
-    if (fullScreen) fullScreenHanler.exit();
-    else fullScreenHanler.enter();
-    setFullScreen(!fullScreen);
+    if (beginGame) {
+      if (!fullScreenError) {
+        fullScreenHanler.exit();
+        setBeginGame(!beginGame);
+      }
+    } else {
+      try {
+        fullScreenHanler.enter();
+      } catch (error: any) {
+        setFullScreenError(true);
+      }
+      setBeginGame(true);
+    }
   };
 
   const reportChange = useCallback(
     (state: boolean) => {
-      setFullScreen(state);
+      if (!fullScreenError) setBeginGame(state);
     },
     [fullScreenHanler]
   );
@@ -96,7 +108,7 @@ export default function App() {
         {/* @ts-ignore */}
         <MouseControlContext.Provider value={{ mouseControl, setMouseControl }}>
           <FullScreen handle={fullScreenHanler} onChange={reportChange}>
-            {!fullScreen ? (
+            {!beginGame ? (
               <div className="flex justify-center items-center flex-col w-[100vw]">
                 <h1>Panchayat Sim</h1>
                 <p>A simulator to visualize the possibilities of growth</p>
@@ -106,8 +118,14 @@ export default function App() {
               </div>
             ) : (
               <DeviceOrientation lockOrientation={"landscape"}>
+                <Orientation orientation="portrait" alwaysRender={false}>
+                  <div className="flex flex-col justify-center items-center w-[100vw]">
+                    <IconRotate />
+                    <p>Please rotate your device</p>
+                  </div>
+                </Orientation>
                 <Orientation orientation="landscape" alwaysRender={false}>
-                  <div className={`relative rotate-90 md:rotate-0 w-[100vw]`}>
+                  <div className={`relative w-[100vw]`}>
                     <InfoModal />
                     <Toolbar />
                     <Minimap />
@@ -167,11 +185,6 @@ export default function App() {
                       <Earth />
                     </Canvas>
                   </div>
-                  <Orientation orientation="portrait">
-                    <div>
-                      <p>Please rotate your device</p>
-                    </div>
-                  </Orientation>
                 </Orientation>
               </DeviceOrientation>
             )}
