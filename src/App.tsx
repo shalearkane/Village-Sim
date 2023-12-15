@@ -7,11 +7,6 @@ import {
   Environment,
   Sky,
   Stars,
-  MapControls,
-  PointerLockControls,
-  FirstPersonControls,
-  CameraControls,
-  FaceControls,
 } from "@react-three/drei";
 import { useControls } from "leva";
 import GenerateObjects from "./components/renderer";
@@ -127,7 +122,7 @@ export default function App() {
                   {...gridConfig}
                 />
               </group>
-              <OrbitControls makeDefault />
+              <OrbitControls makeDefault maxPolarAngle={Math.PI / 2} />
               <Environment files="assets/potsdamer_platz_1k.hdr" />
               <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
                 <GizmoViewport
