@@ -25,6 +25,7 @@ import { MouseControl } from "./interface/mouse";
 import VisualBlock from "./components/visualBlock";
 import { getTerrainMap } from "./utils/terrain";
 import Earth from "./components/earth";
+import InfoModal from "./components/modal";
 
 export const ToolbarContext = createContext<ToolbarInterface>(
   ToolbarInterface.CURSOR
@@ -75,6 +76,7 @@ export default function App() {
       <GeoStoreContext.Provider value={{ geoStore, setGeoStore }}>
         {/* @ts-ignore */}
         <MouseControlContext.Provider value={{ mouseControl, setMouseControl }}>
+          <InfoModal />
           <div className="relative">
             <Toolbar />
             <Canvas shadows style={{ height: "100vh", width: "100vw" }}>

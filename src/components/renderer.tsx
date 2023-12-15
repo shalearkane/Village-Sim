@@ -20,6 +20,7 @@ import {
   getTerrainCoordinateArray,
 } from "../utils/terrain";
 import * as THREE from "three";
+import { MouseControl } from "../interface/mouse";
 
 export function Model({ url, scale }: { url: string; scale?: THREE.Vector3 }) {
   const gltf = useLoader(GLTFLoader, url);
@@ -42,7 +43,8 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
   // @ts-ignore
   const { geoStore, setGeoStore } = useContext(GeoStoreContext);
   // @ts-ignore
-  const { mouseControl } = useContext(MouseControlContext);
+  const { mouseControl, setMouseControl } =
+    useContext<MouseControl>(MouseControlContext);
 
   const [visibleGeoData, setVisibleGeoData] = useState<GeoData>([]);
 
@@ -57,10 +59,23 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
     setGeoStore({ ...geoStore, data: newGeoData });
   };
 
-  const handleClick = (key: string) => {
+  const handleClick = (geoDataPoint: GeoDataPoint) => {
+    setMouseControl({
+      ...mouseControl,
+      clickInfo: {
+        ...mouseControl.clickInfo,
+        geoDataPoint,
+      },
+    });
     switch (selectedTool) {
       case Toolbar.DELETE: {
-        deleteBlock(key);
+        deleteBlock(geoDataPoint.key);
+        break;
+      }
+      case Toolbar.CURSOR: {
+        const modal = document?.getElementById("info_modal");
+        modal?.click();
+        break;
       }
     }
   };
@@ -120,10 +135,7 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
             <Center
               onClick={(event) => {
                 event.stopPropagation();
-                handleClick(GeoDataPoint.key);
-              }}
-              onDoubleClick={(event) => {
-                event.stopPropagation();
+                handleClick(GeoDataPoint);
               }}
               key={GeoDataPoint.key}
               top
@@ -132,12 +144,12 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
               <Model url={"assets/residential/house-1.glb"} />
             </Center>
           );
-        } else if (GeoDataPoint.floors == 2) {
+        } else {
           return (
             <Center
               onClick={(event) => {
                 event.stopPropagation();
-                handleClick(GeoDataPoint.key);
+                handleClick(GeoDataPoint);
               }}
               onDoubleClick={(event) => {
                 event.stopPropagation();
@@ -155,7 +167,7 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
         return (
           <Center
             onClick={() => {
-              handleClick(GeoDataPoint.key);
+              handleClick(GeoDataPoint);
             }}
             key={GeoDataPoint.key}
             top
@@ -172,20 +184,20 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
         const shape = new THREE.Shape();
         GeoDataPoint.boundaryPoints.forEach((coordinate: THREE.Vector3) => {
           shape.lineTo(coordinate.x, coordinate.z);
-        })
+        });
         return (
           <Center
             onClick={() => {
-              handleClick(GeoDataPoint.key);
+              handleClick(GeoDataPoint);
             }}
             key={GeoDataPoint.key}
             top
             position={GeoDataPoint.centralPoint}
             rotation={new THREE.Euler(-1.57, 0, 0)}
           >
-            <mesh >
-              <shapeGeometry args={[shape]}/>
-              <meshBasicMaterial color="yellow"/>
+            <mesh>
+              <shapeGeometry args={[shape]} />
+              <meshBasicMaterial color="yellow" />
             </mesh>
           </Center>
         );
@@ -194,7 +206,7 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
         return (
           <Center
             onClick={() => {
-              handleClick(GeoDataPoint.key);
+              handleClick(GeoDataPoint);
             }}
             key={GeoDataPoint.key}
             top
@@ -211,13 +223,13 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
         return (
           <Center
             onClick={() => {
-              handleClick(GeoDataPoint.key);
+              handleClick(GeoDataPoint);
             }}
             key={GeoDataPoint.key}
             top
             position={GeoDataPoint.centralPoint}
           >
-            <mesh >
+            <mesh>
               <sphereGeometry args={[0.5, 64, 64]} />
               <meshStandardMaterial color="#9d4b4b" />
             </mesh>
@@ -228,13 +240,13 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
         return (
           <Center
             onClick={() => {
-              handleClick(GeoDataPoint.key);
+              handleClick(GeoDataPoint);
             }}
             key={GeoDataPoint.key}
             top
             position={GeoDataPoint.centralPoint}
           >
-            <mesh >
+            <mesh>
               <sphereGeometry args={[0.5, 64, 64]} />
               <meshStandardMaterial color="#9d4b4b" />
             </mesh>
@@ -245,13 +257,13 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
         return (
           <Center
             onClick={() => {
-              handleClick(GeoDataPoint.key);
+              handleClick(GeoDataPoint);
             }}
             key={GeoDataPoint.key}
             top
             position={GeoDataPoint.centralPoint}
           >
-            <mesh >
+            <mesh>
               <sphereGeometry args={[0.5, 64, 64]} />
               <meshStandardMaterial color="#9d4b4b" />
             </mesh>
@@ -262,13 +274,13 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
         return (
           <Center
             onClick={() => {
-              handleClick(GeoDataPoint.key);
+              handleClick(GeoDataPoint);
             }}
             key={GeoDataPoint.key}
             top
             position={GeoDataPoint.centralPoint}
           >
-            <mesh >
+            <mesh>
               <sphereGeometry args={[0.5, 64, 64]} />
               <meshStandardMaterial color="#9d4b4b" />
             </mesh>
@@ -276,15 +288,15 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
         );
       }
       case GeoDataType.WATER_BODY: {
-        console.log("water body")
+        console.log("water body");
         const shape = new THREE.Shape();
         GeoDataPoint.boundaryPoints.forEach((coordinate: THREE.Vector3) => {
           shape.lineTo(coordinate.x, coordinate.z);
-        })
+        });
         return (
           <Center
             onClick={() => {
-              handleClick(GeoDataPoint.key);
+              handleClick(GeoDataPoint);
             }}
             key={GeoDataPoint.key}
             top
@@ -292,12 +304,12 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
             rotation={new THREE.Euler(-1.57, 0, 0)}
           >
             <mesh>
-              <shapeGeometry args={[shape]}/>
-              <meshBasicMaterial color="blue"/>
+              <shapeGeometry args={[shape]} />
+              <meshBasicMaterial color="blue" />
             </mesh>
           </Center>
         );
       }
     }
-  })
+  });
 }

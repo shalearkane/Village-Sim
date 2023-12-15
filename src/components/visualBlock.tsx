@@ -4,7 +4,7 @@ import * as THREE from "three";
 import { checkSafe, getTerrainMap } from "../utils/terrain";
 import { Toolbar } from "../interface/toolbar";
 import { generateUUID } from "three/src/math/MathUtils.js";
-import { GeoDataPoint, GeoDataType } from "../interface/geo";
+import { GeoDataPoint } from "../interface/geo";
 
 function VisualBlock() {
   // @ts-ignore
@@ -50,7 +50,6 @@ function VisualBlock() {
 
     let data = [...geoStore.data, newPoint];
     const terrainMap = getTerrainMap(data);
-    console.log(newPoint, terrainMap);
     setGeoStore({ ...geoStore, data, terrainMap });
   };
 

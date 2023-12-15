@@ -12,7 +12,7 @@ export default function Earth() {
   );
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
-  texture.repeat.set(4, 4);
+  texture.repeat.set(20, 20);
 
   const roughnessMap = useLoader(
     THREE.TextureLoader,
