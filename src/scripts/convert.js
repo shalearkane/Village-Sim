@@ -23,6 +23,7 @@ function extractFeatureData(geojsonData) {
         const featureDict = {
             key: properties.OBJECTID,
             type: "GeoDataType.RESIDENTIAL",
+            floors: properties.No_Floors,
             boundaryPoints: "[new Vector3(0, 0, 0)]",
             centralPoint: "new Vector3(" + centerCoordinate[0] + ", 0, " + centerCoordinate[1] + ")",
             metadata: {
@@ -45,7 +46,7 @@ function extractFeatureData(geojsonData) {
     return featuresList;
 }
 
-const geojsonData = JSON.parse(fs.readFileSync('../geojson/Builtup_Kalonda.geojson', 'utf8'));
+const geojsonData = JSON.parse(fs.readFileSync('src/geojson/Builtup_Kalonda.geojson', 'utf8'));
 console.log(geojsonData.features[0])
 
 const featuresList = extractFeatureData(geojsonData);

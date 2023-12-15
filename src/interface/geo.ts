@@ -39,6 +39,7 @@ export interface Road {
 export interface Residential {
   key: string;
   type: GeoDataType.RESIDENTIAL;
+  floors: number;
   boundaryPoints: Vector3[];
   centralPoint: Vector3;
   metadata: Metadata;
