@@ -1,5 +1,5 @@
-import { memo, useEffect } from "react";
-import { Canvas, ThreeEvent, useLoader, useThree } from "@react-three/fiber";
+import { memo } from "react";
+import { Canvas } from "@react-three/fiber";
 import {
   Grid,
   GizmoHelper,
@@ -8,13 +8,11 @@ import {
   RandomizedLight,
   OrbitControls,
   Environment,
-  Plane,
-  PerformanceMonitor,
   Sky,
   Stars,
 } from "@react-three/drei";
 import { useControls } from "leva";
-import GenerateObjects, { Model } from "./components/renderer";
+import GenerateObjects from "./components/renderer";
 import { dummyData } from "./dummy";
 import { GeoStore } from "./interface/geo";
 import { useState } from "react";
@@ -96,7 +94,6 @@ export default function App() {
 
               <ambientLight intensity={0.3} />
               <pointLight
-                castShadow
                 intensity={0.8}
                 position={[100, 100, 100]}
               />

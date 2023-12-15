@@ -118,7 +118,6 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
         if (GeoDataPoint.floors == 1) {
           return (
             <Center
-              castShadow={true}
               onClick={(event) => {
                 event.stopPropagation();
                 handleClick(GeoDataPoint.key);
@@ -136,7 +135,6 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
         } else if (GeoDataPoint.floors == 2) {
           return (
             <Center
-              castShadow={true}
               onClick={(event) => {
                 event.stopPropagation();
                 handleClick(GeoDataPoint.key);
@@ -163,10 +161,6 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
             top
             position={GeoDataPoint.centralPoint}
           >
-            {/* <mesh castShadow>
-              <sphereGeometry args={[0.5, 64, 64]} />
-              <meshStandardMaterial color="#9d4b4b" />
-            </mesh> */}
             <Model
               scale={new THREE.Vector3(0.5, 0.5, 0.5)}
               url={"assets/hospital_health/1.glb"}
@@ -189,9 +183,9 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
             position={GeoDataPoint.centralPoint}
             rotation={new THREE.Euler(-1.57, 0, 0)}
           >
-            <mesh castShadow>
+            <mesh >
               <shapeGeometry args={[shape]}/>
-              <meshBasicMaterial color="yellow"/> 
+              <meshBasicMaterial color="yellow"/>
             </mesh>
           </Center>
         );
@@ -206,7 +200,7 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
             top
             position={GeoDataPoint.centralPoint}
           >
-            <mesh castShadow>
+            <mesh>
               <sphereGeometry args={[0.5, 64, 64]} />
               <meshStandardMaterial color="#9d4b4b" />
             </mesh>
@@ -223,7 +217,7 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
             top
             position={GeoDataPoint.centralPoint}
           >
-            <mesh castShadow>
+            <mesh >
               <sphereGeometry args={[0.5, 64, 64]} />
               <meshStandardMaterial color="#9d4b4b" />
             </mesh>
@@ -240,7 +234,7 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
             top
             position={GeoDataPoint.centralPoint}
           >
-            <mesh castShadow>
+            <mesh >
               <sphereGeometry args={[0.5, 64, 64]} />
               <meshStandardMaterial color="#9d4b4b" />
             </mesh>
@@ -257,7 +251,7 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
             top
             position={GeoDataPoint.centralPoint}
           >
-            <mesh castShadow>
+            <mesh >
               <sphereGeometry args={[0.5, 64, 64]} />
               <meshStandardMaterial color="#9d4b4b" />
             </mesh>
@@ -274,7 +268,7 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
             top
             position={GeoDataPoint.centralPoint}
           >
-            <mesh castShadow>
+            <mesh >
               <sphereGeometry args={[0.5, 64, 64]} />
               <meshStandardMaterial color="#9d4b4b" />
             </mesh>
@@ -282,6 +276,7 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
         );
       }
       case GeoDataType.WATER_BODY: {
+        console.log("water body")
         const shape = new THREE.Shape();
         GeoDataPoint.boundaryPoints.forEach((coordinate: THREE.Vector3) => {
           shape.lineTo(coordinate.x, coordinate.z);
@@ -296,9 +291,9 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
             position={GeoDataPoint.centralPoint}
             rotation={new THREE.Euler(-1.57, 0, 0)}
           >
-            <mesh castShadow>
+            <mesh>
               <shapeGeometry args={[shape]}/>
-              <meshBasicMaterial color="blue"/> 
+              <meshBasicMaterial color="blue"/>
             </mesh>
           </Center>
         );
