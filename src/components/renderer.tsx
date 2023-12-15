@@ -130,7 +130,7 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
               top
               position={GeoDataPoint.centralPoint}
             >
-              <Model url={"assets/residential/Storage House.glb"} />
+              <Model url={"assets/residential/house-1.glb"} />
             </Center>
           );
         } else if (GeoDataPoint.floors == 2) {
@@ -148,7 +148,7 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
               top
               position={GeoDataPoint.centralPoint}
             >
-              <Model url={"assets/residential/Houses.glb"} />
+              <Model url={"assets/residential/house-2.glb"} />
             </Center>
           );
         }
