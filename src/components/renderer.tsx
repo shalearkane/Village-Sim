@@ -175,6 +175,10 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
         );
       }
       case GeoDataType.AGRICULTURAL: {
+        const shape = new THREE.Shape();
+        GeoDataPoint.boundaryPoints.forEach((coordinate: THREE.Vector3) => {
+          shape.lineTo(coordinate.x, coordinate.z);
+        })
         return (
           <Center
             onClick={() => {
@@ -183,10 +187,11 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
             key={GeoDataPoint.key}
             top
             position={GeoDataPoint.centralPoint}
+            rotation={new THREE.Euler(-1.57, 0, 0)}
           >
             <mesh castShadow>
-              <sphereGeometry args={[0.5, 64, 64]} />
-              <meshStandardMaterial color="#9d4b4b" />
+              <shapeGeometry args={[shape]}/>
+              <meshBasicMaterial color="yellow"/> 
             </mesh>
           </Center>
         );
@@ -277,6 +282,10 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
         );
       }
       case GeoDataType.WATER_BODY: {
+        const shape = new THREE.Shape();
+        GeoDataPoint.boundaryPoints.forEach((coordinate: THREE.Vector3) => {
+          shape.lineTo(coordinate.x, coordinate.z);
+        })
         return (
           <Center
             onClick={() => {
@@ -285,14 +294,14 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
             key={GeoDataPoint.key}
             top
             position={GeoDataPoint.centralPoint}
+            rotation={new THREE.Euler(-1.57, 0, 0)}
           >
             <mesh castShadow>
-              <sphereGeometry args={[0.5, 64, 64]} />
-              <meshStandardMaterial color="#9d4b4b" />
+              <shapeGeometry args={[shape]}/>
+              <meshBasicMaterial color="blue"/> 
             </mesh>
           </Center>
         );
       }
-    }
   });
 }
