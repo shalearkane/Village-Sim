@@ -1,12 +1,11 @@
-import { ThreeEvent, useLoader, useThree } from "@react-three/fiber";
-import { useContext, useEffect } from "react";
+import { ThreeEvent, useLoader } from "@react-three/fiber";
+import { useContext } from "react";
 import * as THREE from "three";
 import { MouseControlContext } from "../App";
 
 export default function Earth() {
   // @ts-ignore
   const { mouseControl, setMouseControl } = useContext(MouseControlContext);
-  const { gl } = useThree();
   const texture = useLoader(
     THREE.TextureLoader,
     "assets/aerial_rocks_04_diff_4k.jpg"
@@ -24,10 +23,6 @@ export default function Earth() {
     THREE.TextureLoader,
     "assets/aerial_rocks_04_nor_4k.png"
   );
-
-  useEffect(() => {
-    texture.anisotropy = gl.capabilities.getMaxAnisotropy();
-  }, [texture, gl]);
 
   return (
     <mesh
