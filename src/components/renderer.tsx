@@ -19,6 +19,8 @@ import {
   getRoadCoordinates,
   getTerrainCoordinateArray,
 } from "../utils/terrain";
+import { House1Model } from "./models/house1"
+import { House2Model } from "./models/house2" 
 import * as THREE from "three";
 
 export function Model({ url, scale }: { url: string; scale?: THREE.Vector3 }) {
@@ -129,7 +131,7 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
               top
               position={GeoDataPoint.centralPoint}
             >
-              <Model url={"assets/residential/house-1.glb"} />
+              <House1Model />
             </Center>
           );
         } else if (GeoDataPoint.floors == 2) {
@@ -146,7 +148,7 @@ export default function GenerateObjects({ GeoData }: { GeoData: GeoData }) {
               top
               position={GeoDataPoint.centralPoint}
             >
-              <Model url={"assets/residential/house-2.glb"} />
+              <House2Model />
             </Center>
           );
         }
