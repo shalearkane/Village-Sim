@@ -13,12 +13,12 @@ conversion = {
 }
 
 facilities = {
-    "administrative": [],
-    "water_facility": [],
-    "electric_facility": [],
-    "healthcare": [],
-    "sanitation": [],
-    "school": [],
+    "administrative": {},
+    "water_facility": {},
+    "electric_facility": {},
+    "healthcare": {},
+    "sanitation": {},
+    "school": {},
 }
 
 with open("landmark.json", "r") as f:
@@ -26,15 +26,13 @@ with open("landmark.json", "r") as f:
     for d in data:
         key = conversion[d["ast_cat_name"]]
         if key in facilities.keys():
-            facilities[key].append(
-                {
-                    "key": str(uuid.uuid4()),
-                    "central_point": {
-                        "lat": float(d["latitude"]),
-                        "long": float(d["longitude"]),
-                    },
-                }
-            )
+            facilities[key][str(uuid.uuid4())] = {
+                "central_point": {
+                    "lat": float(d["latitude"]),
+                    "long": float(d["longitude"]),
+                },
+            }
+
 
 with open("facilities.json", "w") as f:
     json.dump(fp=f, obj=facilities)

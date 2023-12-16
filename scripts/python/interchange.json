@@ -1,7 +1,7 @@
 {
     "old": {
-        "houses": [
-            {
+        "houses": {
+            "key:uuid": {
                 "floors": 1,
                 "central_point": {
                     "lat": 77.6,
@@ -15,29 +15,28 @@
                     }
                 ]
             }
-        ],
+        },
         "facilities": {
-            "water_facility": [
-                {
-                    "key": "uuid",
+            "water_facility": {
+                "key:uuid": {
                     "central_point": {
                         "lat": 77.6,
                         "long": 28.5
                     }
                 }
-            ],
-            "health": [
-                {
-                    "key": "uuid",
+            },
+            "health": {
+                "key:uuid": {
                     "central_point": {
                         "lat": 77.6,
                         "long": 28.5
                     }
                 }
-            ]
+            }
         }
     },
     "new": {
+        "key": "uuid",
         "facility_type": "water_facility",
         "central_point": {
             "lat": 77.6,

@@ -1,196 +1,170 @@
 {
-    "administrative": [
-        {
-            "key": "7f1f350c-57ad-42f0-b771-94e2cc207447",
+    "administrative": {
+        "075308d9-8954-4f60-b9d2-733d50378443": {
             "central_point": {
                 "lat": 28.548368,
                 "long": 77.6724036
             }
         }
-    ],
-    "water_facility": [
-        {
-            "key": "bdd7ee96-8988-4771-93d7-b66d6aa91afc",
+    },
+    "water_facility": {
+        "876af144-4888-429b-9521-603b3852d1cc": {
             "central_point": {
                 "lat": 28.5448228,
                 "long": 77.674531
             }
         },
-        {
-            "key": "0a8c917f-bf4a-41f8-9742-012aad665528",
+        "3ad22ea5-9c50-4dc9-9e9d-0d4301b9bbf7": {
             "central_point": {
                 "lat": 28.5417525,
                 "long": 77.6805215
             }
         },
-        {
-            "key": "0cc7e474-0038-4741-bbbe-c388379b5928",
+        "25c9229d-d4b7-411a-b683-37d4f6ef0d24": {
             "central_point": {
                 "lat": 28.5427747,
                 "long": 77.6699548
             }
         },
-        {
-            "key": "2d47d1bf-a629-49e5-88d7-85f6db2d0b52",
+        "b7782b91-1833-4f7b-bfc8-615837b39d51": {
             "central_point": {
                 "lat": 28.5479099,
                 "long": 77.674605
             }
         },
-        {
-            "key": "d6eb33cc-fcd9-429f-86ba-9afa342280dc",
+        "00f8dedc-961c-48ef-ab81-f80d25411324": {
             "central_point": {
                 "lat": 28.5489288,
                 "long": 77.672869
             }
         },
-        {
-            "key": "72d8f96f-76bc-4575-bec8-21388a6280fc",
+        "5b30560c-51fc-4e27-bb3a-0a72db14cfac": {
             "central_point": {
                 "lat": 28.5453873,
                 "long": 77.6733622
             }
         }
-    ],
-    "electric_facility": [
-        {
-            "key": "d37494eb-f5f9-4c92-a0a1-23fafc318b8e",
+    },
+    "electric_facility": {
+        "841ac646-020d-436c-9ae3-adbaafff8e82": {
             "central_point": {
                 "lat": 28.5435395,
                 "long": 77.6783366
             }
         },
-        {
-            "key": "ecbd20dc-4d84-4374-80b3-0c46340efb01",
+        "bcf3c05c-691e-4c57-b8f0-0cff3b4ec21e": {
             "central_point": {
                 "lat": 28.5452652,
                 "long": 77.6711621
             }
         },
-        {
-            "key": "ca38155f-4861-4096-b40c-227ebfa45481",
+        "02aefa5f-7b51-4ff5-a769-1e3babad6409": {
             "central_point": {
                 "lat": 28.5452652,
                 "long": 77.6711621
             }
         },
-        {
-            "key": "d85895f0-156b-4b9f-8dbe-5a191fb5d242",
+        "b2c20038-4700-4099-9826-dc95961dc612": {
             "central_point": {
                 "lat": 28.5474949,
                 "long": 77.6723559
             }
         },
-        {
-            "key": "0770a0a7-2d28-480e-a73e-cff50337dd27",
+        "3a9027fd-9609-4564-80c3-73c3e92b3b99": {
             "central_point": {
                 "lat": 28.5425995,
                 "long": 77.6702948
             }
         },
-        {
-            "key": "be57a62b-bfc9-488d-8356-83328d4dacf5",
+        "a0e1b763-8a58-43cc-80b1-31651f0fe385": {
             "central_point": {
                 "lat": 28.5486013,
                 "long": 77.6734939
             }
         },
-        {
-            "key": "f908f274-f030-419d-b991-f45ba861e387",
+        "3861c5a7-5005-4ac5-99f5-4ba00a439197": {
             "central_point": {
                 "lat": 28.5504183,
                 "long": 77.6705771
             }
         },
-        {
-            "key": "98667395-983e-4e6e-bbf6-2367c338ad84",
+        "87d44d5d-7998-45d5-9b5b-13a7cc6ac449": {
             "central_point": {
                 "lat": 28.5489627,
                 "long": 77.6725036
             }
         },
-        {
-            "key": "527f6ce6-140a-4f20-be4d-da076757e60d",
+        "72781d26-c68f-408e-918c-ed5021aa026a": {
             "central_point": {
                 "lat": 28.5474914,
                 "long": 77.672353
             }
         },
-        {
-            "key": "f7232790-7beb-4d35-b5ac-a9532a2997f9",
+        "5b04e3d2-99ac-4ce2-ad69-481322ce930b": {
             "central_point": {
                 "lat": 28.5444442,
                 "long": 77.6717684
             }
         }
-    ],
-    "healthcare": [
-        {
-            "key": "e7c8ef77-59bc-4da8-adf0-1851f5d2165d",
+    },
+    "healthcare": {
+        "9d2bcec4-dcec-42bd-afbd-9ee16a487a88": {
             "central_point": {
                 "lat": 28.5427577,
                 "long": 77.6698793
             }
         },
-        {
-            "key": "e5728122-b6d6-4e60-b0b0-ad318daddd29",
+        "f902bd8a-d8e8-4964-8fb6-dc4f6db7c04a": {
             "central_point": {
                 "lat": 28.548461,
                 "long": 77.6727187
             }
         }
-    ],
-    "sanitation": [
-        {
-            "key": "3c245223-2d37-4924-8550-106b1a4e9f7f",
+    },
+    "sanitation": {
+        "a3c9520b-fb78-45d5-b071-401894a8c658": {
             "central_point": {
                 "lat": 28.547907,
                 "long": 77.6746008
             }
         },
-        {
-            "key": "61edacf3-bf92-45dc-93ce-a2a4a8cb7415",
+        "49b3cde1-7e6a-4450-82b9-5f6f35ee75ae": {
             "central_point": {
                 "lat": 28.5427606,
                 "long": 77.6699153
             }
         },
-        {
-            "key": "a9967d51-1f31-41bf-bbba-4a335a026d19",
+        "b6c9b725-2ff3-4a92-9be8-e30f5a3efa71": {
             "central_point": {
                 "lat": 28.5469775,
                 "long": 77.6721484
             }
         },
-        {
-            "key": "683314c7-5c16-42f5-a73c-f07e49829fd4",
+        "22b3612c-71ce-42cc-8d73-2d13ae0bca9d": {
             "central_point": {
                 "lat": 28.5486461,
                 "long": 77.6728819
             }
         }
-    ],
-    "school": [
-        {
-            "key": "e77c94d4-4b67-404a-ab6b-83155c767b3d",
+    },
+    "school": {
+        "b95cc900-98b6-4e11-afb4-ae2048d98aa3": {
             "central_point": {
                 "lat": 28.542736,
                 "long": 77.6699484
             }
         },
-        {
-            "key": "fd424d52-1d0c-454a-a585-b573c6be2a3c",
+        "e4ce5294-a354-4d5c-8503-17e5ccd32aa3": {
             "central_point": {
                 "lat": 28.5483776,
                 "long": 77.6726374
             }
         },
-        {
-            "key": "d75ae365-1bb2-4447-b8fe-0005c2ab98f5",
+        "1998ce70-d1ec-4e3e-9244-fb830de28d27": {
             "central_point": {
                 "lat": 28.5478431,
                 "long": 77.6746721
             }
         }
-    ]
+    }
 }
