@@ -7,19 +7,25 @@ Source: https://sketchfab.com/3d-models/low-poly-school-building-c78ace4136f341e
 Title: Low Poly  School Building
 */
 
-import React, { useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
+import React, { useRef } from "react";
+import { useGLTF } from "@react-three/drei";
 
-export function Model(props) {
-  const { nodes, materials } = useGLTF('/school/scene.glb')
+export function SchoolModel(props) {
+  const { nodes, materials } = useGLTF("/school/scene.glb");
   return (
     <group {...props} dispose={null}>
       <group rotation={[-Math.PI / 2, 0, 0]}>
-        <mesh geometry={nodes.Object_2.geometry} material={materials.phong1SG} />
-        <mesh geometry={nodes.Object_3.geometry} material={materials.phong1SG} />
+        <mesh
+          geometry={nodes.Object_2.geometry}
+          material={materials.phong1SG}
+        />
+        <mesh
+          geometry={nodes.Object_3.geometry}
+          material={materials.phong1SG}
+        />
       </group>
     </group>
-  )
+  );
 }
 
-useGLTF.preload('/school/scene.glb')
+useGLTF.preload("/school/scene.glb");
