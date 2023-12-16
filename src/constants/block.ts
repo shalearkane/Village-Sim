@@ -19,6 +19,9 @@ export const BLOCK_TERRAIN_RADIUS = {
   [GeoDataType.ROAD]: 0.1,
   [GeoDataType.WATER_BODY]: 1,
   [GeoDataType.TERRAIN_VIEWPOINT]: 40,
+  [GeoDataType.ADMINISTRATION]: 1,
+  [GeoDataType.ELECTRICITY]: 1,
+  [GeoDataType.WATER_SUPPLY]: 1,
 };
 
 export const BLOCK_THRESHOLD = {

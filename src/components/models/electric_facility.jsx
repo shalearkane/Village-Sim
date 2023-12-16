@@ -7,16 +7,20 @@ Source: https://sketchfab.com/3d-models/low-poly-factory-a5e53371d0804162bd45cf0
 Title: Low Poly Factory
 */
 
-import React, { useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
+import React, { useRef } from "react";
+import { useGLTF } from "@react-three/drei";
 
-export function Model(props) {
-  const { nodes, materials } = useGLTF('/electric_facility/scene.glb')
+export function ElectricityModel(props) {
+  const { nodes, materials } = useGLTF("/electric_facility/scene.glb");
   return (
     <group {...props} dispose={null}>
-      <mesh geometry={nodes.Object_4.geometry} material={materials.Factory} position={[3.51, 1, 0]} />
+      <mesh
+        geometry={nodes.Object_4.geometry}
+        material={materials.Factory}
+        position={[3.51, 1, 0]}
+      />
     </group>
-  )
+  );
 }
 
-useGLTF.preload('/electric_facility/scene.glb')
+useGLTF.preload("/electric_facility/scene.glb");

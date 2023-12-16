@@ -23,7 +23,9 @@ function VisualBlock() {
       selectedTool == Toolbar.HOSPITAL ||
       selectedTool == Toolbar.RESIDENTIAL ||
       selectedTool == Toolbar.SCHOOL ||
-      selectedTool == Toolbar.SEWAGE_TREATMENT
+      selectedTool == Toolbar.SEWAGE_TREATMENT ||
+      selectedTool == Toolbar.ELECTRICITY ||
+      selectedTool == Toolbar.ADMINISTRATION
     ) {
       setSafe(checkSafe(geoStore.terrainMap, mouseControl, selectedTool));
     }
@@ -60,7 +62,9 @@ function VisualBlock() {
       {(selectedTool == Toolbar.HOSPITAL ||
         selectedTool == Toolbar.RESIDENTIAL ||
         selectedTool == Toolbar.SCHOOL ||
-        selectedTool == Toolbar.SEWAGE_TREATMENT) && (
+        selectedTool == Toolbar.SEWAGE_TREATMENT ||
+        selectedTool == Toolbar.ELECTRICITY ||
+        selectedTool == Toolbar.ADMINISTRATION) && (
         <mesh
           position={[mouseControl.x, -0.5, mouseControl.z]}
           rotation={[-1.57, 0, 0]}

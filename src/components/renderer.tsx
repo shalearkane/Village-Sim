@@ -19,6 +19,10 @@ import { Hospital1Model } from "./models/hospital1.jsx";
 import { SchoolModel } from "./models/school.jsx";
 // @ts-ignore
 import { SewageModel } from "./models/sewage.jsx";
+// @ts-ignore
+import { ElectricityModel } from "./models/electric_facility.jsx";
+// @ts-ignore
+import { AdministrativeModel } from "./models/administrative.jsx";
 import * as THREE from "three";
 import { MouseControl } from "../interface/mouse";
 
@@ -290,6 +294,38 @@ export default function GenerateObjects() {
               >
                 <mesh>
                   <SewageModel scale={new THREE.Vector3(1, 1, 1)} />
+                </mesh>
+              </Center>
+            );
+          }
+          case GeoDataType.ELECTRICITY: {
+            return (
+              <Center
+                onClick={() => {
+                  handleClick(GeoDataPoint);
+                }}
+                key={GeoDataPoint.key}
+                top
+                position={GeoDataPoint.centralPoint}
+              >
+                <mesh>
+                  <ElectricityModel scale={new THREE.Vector3(0.2, 0.2, 0.2)} />
+                </mesh>
+              </Center>
+            );
+          }
+          case GeoDataType.ADMINISTRATION: {
+            return (
+              <Center
+                onClick={() => {
+                  handleClick(GeoDataPoint);
+                }}
+                key={GeoDataPoint.key}
+                top
+                position={GeoDataPoint.centralPoint}
+              >
+                <mesh>
+                  <AdministrativeModel scale={new THREE.Vector3(5, 5, 5)} />
                 </mesh>
               </Center>
             );
