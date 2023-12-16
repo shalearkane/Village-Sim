@@ -1,18 +1,16 @@
 import { Canvas } from "@react-three/fiber";
 import {
-  Grid,
+  Environment,
   GizmoHelper,
   GizmoViewport,
   OrbitControls,
-  Environment,
   Sky,
   Stars,
 } from "@react-three/drei";
-import { useControls } from "leva";
 import GenerateObjects from "./components/renderer";
 import { dummyData } from "./dummy";
 import { GeoStore } from "./interface/geo";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 // @ts-ignore
 import DeviceOrientation, { Orientation } from "react-screen-orientation";
@@ -29,6 +27,7 @@ import Earth from "./components/earth";
 import InfoModal from "./components/modal";
 import Minimap from "./components/minimap";
 import { IconRotate } from "@tabler/icons-react";
+import Roads from "./components/road";
 
 export const ToolbarContext = createContext<ToolbarInterface>(
   ToolbarInterface.CURSOR
@@ -168,6 +167,8 @@ export default function App() {
                       <VisualBlock />
                       <group position={[0, -0.5, 0]}>
                         <GenerateObjects />
+                        <Roads />
+
                         {/* <Grid
                           position={[0, -0.01, 0]}
                           args={gridSize}
@@ -175,7 +176,7 @@ export default function App() {
                         /> */}
                       </group>
                       <OrbitControls makeDefault maxPolarAngle={Math.PI / 2} />
-                      <Environment files="assets/potsdamer_platz_1k.hdr" />
+                      <Environment files="/potsdamer_platz_1k.hdr" />
                       <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
                         <GizmoViewport
                           axisColors={["#9d4b4b", "#2f7f4f", "#3b5b9d"]}

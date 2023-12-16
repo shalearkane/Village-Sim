@@ -7,16 +7,20 @@ Source: https://sketchfab.com/3d-models/hospital-72e26a3f5a5548e09485496af1e3f9a
 Title: hospital
 */
 
-import React, { useRef } from 'react'
-import { useGLTF } from '@react-three/drei'
+import React, { useRef } from "react";
+import { useGLTF } from "@react-three/drei";
 
 export function Hospital1Model(props) {
-  const { nodes, materials } = useGLTF('/assets/hospital_health/1.glb')
+  const { nodes, materials } = useGLTF("/hospital_health/1.glb");
   return (
     <group {...props} dispose={null}>
-      <mesh geometry={nodes.Object_4.geometry} material={materials.Material} rotation={[0, -Math.PI / 2, 0]} />
+      <mesh
+        geometry={nodes.Object_4.geometry}
+        material={materials.Material}
+        rotation={[0, -Math.PI / 2, 0]}
+      />
     </group>
-  )
+  );
 }
 
-useGLTF.preload('/assets/hospital_health/1.glb')
+useGLTF.preload("/hospital_health/1.glb");

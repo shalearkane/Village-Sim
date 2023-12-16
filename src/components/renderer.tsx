@@ -183,10 +183,10 @@ export default function GenerateObjects() {
 
         const texture = useLoader(
           THREE.TextureLoader,
-          "src/assets/agriculture/pexels-pok-rie-4861069.jpg"
+          "/agriculture/pexels-pok-rie-4861069.jpg"
         );
 
-        GeoDataPoint.centralPoint.y = 0.05
+        GeoDataPoint.centralPoint.y = 0.05;
 
         return (
           <Center
@@ -198,10 +198,8 @@ export default function GenerateObjects() {
             position={GeoDataPoint.centralPoint}
             rotation={new THREE.Euler(-1.57, 0, 0)}
           >
-            <mesh geometry={geometry} >
-              <meshStandardMaterial
-                map={texture}
-              />
+            <mesh geometry={geometry}>
+              <meshStandardMaterial map={texture} />
             </mesh>
           </Center>
         );
@@ -301,10 +299,10 @@ export default function GenerateObjects() {
 
         const texture = useLoader(
           THREE.TextureLoader,
-          "src/assets/water/Vol_36_5_Base_Color.png"
+          "/water/Vol_36_5_Base_Color.png"
         );
 
-        GeoDataPoint.centralPoint.y = 0.05
+        GeoDataPoint.centralPoint.y = 0.05;
 
         return (
           <Center
@@ -316,10 +314,8 @@ export default function GenerateObjects() {
             position={GeoDataPoint.centralPoint}
             rotation={new THREE.Euler(-1.57, 0, 0)}
           >
-            <mesh geometry={geometry} >
-              <meshStandardMaterial
-                map={texture}
-              />
+            <mesh geometry={geometry}>
+              <meshStandardMaterial map={texture} />
             </mesh>
           </Center>
         );
@@ -342,5 +338,4 @@ function setUV(geometry: THREE.ShapeGeometry) {
     uv.push(v3.x, v3.y);
   }
   geometry.setAttribute("uv", new THREE.Float32BufferAttribute(uv, 2));
-
 }

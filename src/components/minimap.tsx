@@ -61,9 +61,9 @@ function Minimap() {
     const rect = canvasRef.current?.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
+    console.log({ x, y });
   };
 
-  console.log(bounds.maxY - bounds.minY + padding);
   return (
     <div className="absolute opacity-80 z-20 top-[10px] right-[10px] bg-black rounded-lg cursor-pointer">
       {showMap ? (
