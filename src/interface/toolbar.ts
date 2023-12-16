@@ -4,4 +4,5 @@ export enum Toolbar {
   HOSPITAL = "HOSPITAL",
   SCHOOL = "SCHOOL",
   CURSOR = "CURSOR",
+  SEWAGE_TREATMENT = "SEWAGE_TREATMENT",
 }

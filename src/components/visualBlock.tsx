@@ -21,7 +21,9 @@ function VisualBlock() {
   useEffect(() => {
     if (
       selectedTool == Toolbar.HOSPITAL ||
-      selectedTool == Toolbar.RESIDENTIAL
+      selectedTool == Toolbar.RESIDENTIAL ||
+      selectedTool == Toolbar.SCHOOL ||
+      selectedTool == Toolbar.SEWAGE_TREATMENT
     ) {
       setSafe(checkSafe(geoStore.terrainMap, mouseControl, selectedTool));
     }
@@ -56,7 +58,9 @@ function VisualBlock() {
   return (
     <>
       {(selectedTool == Toolbar.HOSPITAL ||
-        selectedTool == Toolbar.RESIDENTIAL) && (
+        selectedTool == Toolbar.RESIDENTIAL ||
+        selectedTool == Toolbar.SCHOOL ||
+        selectedTool == Toolbar.SEWAGE_TREATMENT) && (
         <mesh
           position={[mouseControl.x, -0.5, mouseControl.z]}
           rotation={[-1.57, 0, 0]}

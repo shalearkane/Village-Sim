@@ -15,6 +15,10 @@ import { House1Model } from "./models/house1";
 import { House2Model } from "./models/house2";
 // @ts-ignore
 import { Hospital1Model } from "./models/hospital1.jsx";
+// @ts-ignore
+import { SchoolModel } from "./models/school.jsx";
+// @ts-ignore
+import { SewageModel } from "./models/sewage.jsx";
 import * as THREE from "three";
 import { MouseControl } from "../interface/mouse";
 
@@ -251,10 +255,9 @@ export default function GenerateObjects() {
                 top
                 position={GeoDataPoint.centralPoint}
               >
-                <mesh>
-                  <sphereGeometry args={[0.5, 64, 64]} />
-                  <meshStandardMaterial color="#9d4b4b" />
-                </mesh>
+                <SchoolModel
+                  scale={new THREE.Vector3(0.0015, 0.0015, 0.0015)}
+                />
               </Center>
             );
           }
@@ -286,8 +289,7 @@ export default function GenerateObjects() {
                 position={GeoDataPoint.centralPoint}
               >
                 <mesh>
-                  <sphereGeometry args={[0.5, 64, 64]} />
-                  <meshStandardMaterial color="#9d4b4b" />
+                  <SewageModel scale={new THREE.Vector3(1, 1, 1)} />
                 </mesh>
               </Center>
             );

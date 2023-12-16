@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Toolbar } from "../interface/toolbar";
 import {
   IconBuilding,
+  IconDropletHalf2Filled,
   IconHandMove,
   IconHospital,
   IconSchool,
@@ -77,6 +78,17 @@ function ToolbarComponent() {
           }}
         >
           <IconSchool />
+        </div>
+        <div
+          className={`${
+            selectedTool == Toolbar.SEWAGE_TREATMENT &&
+            "border-solid border-2 border-sky-500"
+          } cursor-pointer m-2 p-2 rounded-lg`}
+          onClick={() => {
+            setSelectedTool(Toolbar.SEWAGE_TREATMENT);
+          }}
+        >
+          <IconDropletHalf2Filled />
         </div>
       </div>
     </div>
