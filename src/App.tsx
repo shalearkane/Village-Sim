@@ -60,7 +60,6 @@ export default function App() {
   const fullScreenHanler = useFullScreenHandle();
   const [beginGame, setBeginGame] = useState<boolean>(false);
   const [fullScreenError, setFullScreenError] = useState<boolean>(false);
-  const camera = useRef();
 
   // const Camera = new PerspectiveCamera();
 
