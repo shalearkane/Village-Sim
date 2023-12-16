@@ -43,7 +43,7 @@ export default function Earth() {
         roughnessMap={roughnessMap}
         displacementMap={displacementMap}
         roughness={10}
-        displacementScale={0.2}
+        displacementScale={0.1}
       />
     </mesh>
   );
