@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import { Vector3, useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 import {
+  getRoadBoundaries,
   getRoadCoordinates,
   getTerrainCoordinateArray,
 } from "../utils/terrain";
@@ -109,11 +110,12 @@ export default function GenerateObjects() {
   return visibleGeoData.map((GeoDataPoint: GeoDataPoint) => {
     switch (GeoDataPoint.type) {
       case GeoDataType.ROAD: {
+        console.log(getRoadBoundaries(GeoDataPoint.steps, 2));
         const roadCoordinates: Vector3[][] = getRoadCoordinates(
           GeoDataPoint.steps,
           2
         );
-        roadCoordinates.map((point: Array<Vector3>) => {
+        return roadCoordinates.map((point: Array<Vector3>) => {
           return (
             <CatmullRomLine
               // @ts-ignore
@@ -123,7 +125,6 @@ export default function GenerateObjects() {
             />
           );
         });
-        break;
       }
       case GeoDataType.RESIDENTIAL: {
         if (GeoDataPoint.floors == 1) {
@@ -324,7 +325,7 @@ export default function GenerateObjects() {
   });
 }
 
-function setUV(geometry: THREE.ShapeGeometry) {
+export function setUV(geometry: THREE.ShapeGeometry) {
   // @ts-ignore
   const pos: THREE.BufferAttribute = geometry.attributes.position;
   const b3 = new THREE.Box3().setFromBufferAttribute(pos);

@@ -95,3 +95,58 @@ export const getRoadCoordinates = (
 
   return road;
 };
+
+export function getRoadBoundaries(points: Vector3[], width: number) {
+  let result: Vector3[][] = [];
+  for (let i = 0; i < points.length - 1; i++) {
+    let m1 = (points[i + 1].z - points[i].z) / (points[i + 1].x - points[i].x);
+    let m2 = -1 / m1;
+
+    let d = width / 2;
+
+    let p1 = new Vector3(
+      points[i].x + d / Math.sqrt(1 + m2 * m2),
+      0,
+      points[i].z + (d * m2) / Math.sqrt(1 + m2 * m2)
+    );
+
+    let p2 = new Vector3(
+      points[i + 1].x + d / Math.sqrt(1 + m2 * m2),
+      0,
+      points[i + 1].z + (d * m2) / Math.sqrt(1 + m2 * m2)
+    );
+
+    let p3 = new Vector3(
+      points[i].x - d / Math.sqrt(1 + m2 * m2),
+      0,
+      points[i].z - (d * m2) / Math.sqrt(1 + m2 * m2)
+    );
+
+    let p4 = new Vector3(
+      points[i + 1].x - d / Math.sqrt(1 + m2 * m2),
+      0,
+      points[i + 1].z - (d * m2) / Math.sqrt(1 + m2 * m2)
+    );
+
+    let arr1 = [];
+    let arr2 = [];
+
+    arr1.push(new Vector3(p1.x, 0, p1.z));
+    arr2.push(new Vector3(p2.x, 0, p2.z));
+    arr1.push(new Vector3(p3.x, 0, p3.z));
+    arr2.push(new Vector3(p4.x, 0, p4.z));
+
+    result.push(arr1);
+    result.push(arr2);
+  }
+
+  result = result[0].map((_, colIndex) => result.map((row) => row[colIndex]));
+  const output: Vector3[] = [];
+  for (let j = 0; j < result[0].length; j++) {
+    output.push(result[0][j]);
+  }
+  for (let j = result[0].length - 1; j >= 0; j--) {
+    output.push(result[1][j]);
+  }
+  return output;
+}
