@@ -15,7 +15,7 @@ with open("Builtup_Kalonda.geojson", "r") as f, open("house.json", "w") as h:
         avg_lat = 0
         count = len(f["geometry"]["coordinates"][0])
         for point in f["geometry"]["coordinates"][0]:
-            lon, lat = transformer.transform(point[0], point[1])
+            lat, lon = transformer.transform(point[0], point[1])
             avg_lon += lon
             avg_lat += lat
 
@@ -24,7 +24,7 @@ with open("Builtup_Kalonda.geojson", "r") as f, open("house.json", "w") as h:
 
         houses[str(uuid.uuid4())] = {
             "floors": f["properties"]["No_Floors"],
-            "central_point": {"lat": avg_lat, "long": avg_lon},
+            "central_point": {"long": avg_lon, "lat": avg_lat},
         }
 
     json.dump(fp=h, obj=houses)

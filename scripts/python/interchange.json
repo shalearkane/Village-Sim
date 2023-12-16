@@ -4,8 +4,8 @@
             "key:uuid": {
                 "floors": 1,
                 "central_point": {
-                    "lat": 77.6,
-                    "long": 28.5
+                    "long": 77.56,
+                    "lat": 25.61
                 },
                 "nearest_dist": [
                     {
@@ -20,16 +20,16 @@
             "water_facility": {
                 "key:uuid": {
                     "central_point": {
-                        "lat": 77.6,
-                        "long": 28.5
+                        "long": 77.56,
+                        "lat": 25.61
                     }
                 }
             },
             "health": {
                 "key:uuid": {
                     "central_point": {
-                        "lat": 77.6,
-                        "long": 28.5
+                        "long": 77.56,
+                        "lat": 25.61
                     }
                 }
             }
@@ -39,8 +39,8 @@
         "key": "uuid",
         "facility_type": "water_facility",
         "central_point": {
-            "lat": 77.6,
-            "long": 28.5
+            "long": 77.56,
+            "lat": 25.61
         }
     }
 }
