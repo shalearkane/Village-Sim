@@ -1,6 +1,5 @@
 import { Canvas } from "@react-three/fiber";
 import {
-  PerspectiveCamera,
   Environment,
   GizmoHelper,
   GizmoViewport,
@@ -205,7 +204,7 @@ export default function App() {
                           speed={1}
                         />
                       )}
-                      <PerspectiveCamera
+                      {/* <PerspectiveCamera
                         // @ts-ignore
                         ref={camera}
                         position={[
@@ -217,36 +216,31 @@ export default function App() {
                             ? mouseControl.newCameraPos.z
                             : 10,
                         ]}
-                      >
-                        <ambientLight intensity={0.3} />
-                        <pointLight
-                          intensity={0.8}
-                          position={[100, 100, 100]}
-                        />
-                        <ambientLight />
-                        <pointLight position={[10, 10, 10]} />
-                        <VisualBlock />
-                        <group position={[0, -0.5, 0]}>
-                          <GenerateObjects />
-                          <Roads />
+                      > */}
+                      <ambientLight intensity={0.3} />
+                      <pointLight intensity={0.8} position={[100, 100, 100]} />
+                      <VisualBlock />
+                      <group position={[0, -0.5, 0]}>
+                        <GenerateObjects />
+                        <Roads />
 
-                          {/* <Grid
+                        {/* <Grid
                           position={[0, -0.01, 0]}
                           args={gridSize}
                           {...gridConfig}
                         /> */}
-                        </group>
-                        <OrbitControls makeDefault />
-                        <Stats />
-                        <Environment files="/potsdamer_platz_1k.hdr" />
-                        <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
-                          <GizmoViewport
-                            axisColors={["#9d4b4b", "#2f7f4f", "#3b5b9d"]}
-                            labelColor="white"
-                          />
-                        </GizmoHelper>
-                        <Earth />
-                      </PerspectiveCamera>
+                      </group>
+                      <OrbitControls makeDefault maxPolarAngle={Math.PI / 2} />
+                      <Stats />
+                      <Environment files="/potsdamer_platz_1k.hdr" />
+                      <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
+                        <GizmoViewport
+                          axisColors={["#9d4b4b", "#2f7f4f", "#3b5b9d"]}
+                          labelColor="white"
+                        />
+                      </GizmoHelper>
+                      <Earth />
+                      {/* </PerspectiveCamera> */}
                     </Canvas>
                   </div>
                 </Orientation>

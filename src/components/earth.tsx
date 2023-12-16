@@ -12,7 +12,7 @@ export default function Earth() {
   );
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
-  texture.repeat.set(20, 20);
+  texture.repeat.set(100, 100);
 
   const roughnessMap = useLoader(
     THREE.TextureLoader,
@@ -45,7 +45,7 @@ export default function Earth() {
         });
       }}
     >
-      <planeGeometry args={[2000, 2000, 100, 100]} />
+      <planeGeometry args={[200, 200, 100, 100]} />
       <meshStandardMaterial
         map={texture}
         roughnessMap={roughnessMap}
