@@ -29,15 +29,23 @@ export default function Earth() {
       position={[0, -0.55, 0]}
       rotation={[-1.57, 0, 0]}
       onPointerMove={(event: ThreeEvent<PointerEvent>) => {
+        let target = new THREE.Vector3();
+        let plane = new THREE.Plane();
+        plane.setFromCoplanarPoints(
+          new THREE.Vector3(0, -0.55, 0),
+          new THREE.Vector3(1, -0.55, 0),
+          new THREE.Vector3(0, -0.55, 1)
+        );
+        event.ray.intersectPlane(plane, target);
         setMouseControl({
           ...mouseControl,
-          x: event.point.x,
-          y: event.point.y,
-          z: event.point.z,
+          x: target.x,
+          y: target.y,
+          z: target.z,
         });
       }}
     >
-      <planeGeometry args={[50, 50, 100, 100]} />
+      <planeGeometry args={[2000, 2000, 100, 100]} />
       <meshStandardMaterial
         map={texture}
         roughnessMap={roughnessMap}
