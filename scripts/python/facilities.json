@@ -1,7 +1,7 @@
 {
     "administrative": [
         {
-            "administrative": "9229d88f-a0da-45a0-b363-b55c85f35f5e",
+            "key": "7f1f350c-57ad-42f0-b771-94e2cc207447",
             "central_point": {
                 "lat": 28.548368,
                 "long": 77.6724036
@@ -10,42 +10,42 @@
     ],
     "water_facility": [
         {
-            "water_facility": "36650ecf-3cfb-416d-8fff-7f0fc08a3d7f",
+            "key": "bdd7ee96-8988-4771-93d7-b66d6aa91afc",
             "central_point": {
                 "lat": 28.5448228,
                 "long": 77.674531
             }
         },
         {
-            "water_facility": "0bf4e754-43fd-4dac-93b5-fc9a4e82be3a",
+            "key": "0a8c917f-bf4a-41f8-9742-012aad665528",
             "central_point": {
                 "lat": 28.5417525,
                 "long": 77.6805215
             }
         },
         {
-            "water_facility": "a99c9487-e15b-4c98-9dc0-cf18ae8160e1",
+            "key": "0cc7e474-0038-4741-bbbe-c388379b5928",
             "central_point": {
                 "lat": 28.5427747,
                 "long": 77.6699548
             }
         },
         {
-            "water_facility": "4edfa625-7c3c-4075-82af-5f7d3228a3ed",
+            "key": "2d47d1bf-a629-49e5-88d7-85f6db2d0b52",
             "central_point": {
                 "lat": 28.5479099,
                 "long": 77.674605
             }
         },
         {
-            "water_facility": "4d5456d9-4d14-4abd-982f-74a53e69d279",
+            "key": "d6eb33cc-fcd9-429f-86ba-9afa342280dc",
             "central_point": {
                 "lat": 28.5489288,
                 "long": 77.672869
             }
         },
         {
-            "water_facility": "5ed3a8dc-91e6-4053-afd5-447e7ce67ba6",
+            "key": "72d8f96f-76bc-4575-bec8-21388a6280fc",
             "central_point": {
                 "lat": 28.5453873,
                 "long": 77.6733622
@@ -54,70 +54,70 @@
     ],
     "electric_facility": [
         {
-            "electric_facility": "be6469c5-c7db-4f0a-b2e6-f8a5bcbc771b",
+            "key": "d37494eb-f5f9-4c92-a0a1-23fafc318b8e",
             "central_point": {
                 "lat": 28.5435395,
                 "long": 77.6783366
             }
         },
         {
-            "electric_facility": "f201086f-05aa-465c-ac0d-b8d225d9013d",
+            "key": "ecbd20dc-4d84-4374-80b3-0c46340efb01",
             "central_point": {
                 "lat": 28.5452652,
                 "long": 77.6711621
             }
         },
         {
-            "electric_facility": "cc4cb2dd-230f-44af-b1c8-c0f655238ccc",
+            "key": "ca38155f-4861-4096-b40c-227ebfa45481",
             "central_point": {
                 "lat": 28.5452652,
                 "long": 77.6711621
             }
         },
         {
-            "electric_facility": "8dc0fc4c-fdb1-4ded-880a-6abf6d57cc0f",
+            "key": "d85895f0-156b-4b9f-8dbe-5a191fb5d242",
             "central_point": {
                 "lat": 28.5474949,
                 "long": 77.6723559
             }
         },
         {
-            "electric_facility": "32117461-3b80-4076-85d0-25949c5c48c3",
+            "key": "0770a0a7-2d28-480e-a73e-cff50337dd27",
             "central_point": {
                 "lat": 28.5425995,
                 "long": 77.6702948
             }
         },
         {
-            "electric_facility": "4bc34e4e-bb6a-4a17-a3c8-dfb630f6d092",
+            "key": "be57a62b-bfc9-488d-8356-83328d4dacf5",
             "central_point": {
                 "lat": 28.5486013,
                 "long": 77.6734939
             }
         },
         {
-            "electric_facility": "42bb02e4-13e1-4b97-b0f9-703f0649e37b",
+            "key": "f908f274-f030-419d-b991-f45ba861e387",
             "central_point": {
                 "lat": 28.5504183,
                 "long": 77.6705771
             }
         },
         {
-            "electric_facility": "dbbfce46-a2d4-49c4-ad51-ee5a86a83783",
+            "key": "98667395-983e-4e6e-bbf6-2367c338ad84",
             "central_point": {
                 "lat": 28.5489627,
                 "long": 77.6725036
             }
         },
         {
-            "electric_facility": "be60144d-92e1-47b3-a649-c7286570f6d7",
+            "key": "527f6ce6-140a-4f20-be4d-da076757e60d",
             "central_point": {
                 "lat": 28.5474914,
                 "long": 77.672353
             }
         },
         {
-            "electric_facility": "94b12794-ba04-484e-8756-4e8eb309a162",
+            "key": "f7232790-7beb-4d35-b5ac-a9532a2997f9",
             "central_point": {
                 "lat": 28.5444442,
                 "long": 77.6717684
@@ -126,14 +126,14 @@
     ],
     "healthcare": [
         {
-            "healthcare": "1f196776-f268-4738-b49a-d3701431a5c5",
+            "key": "e7c8ef77-59bc-4da8-adf0-1851f5d2165d",
             "central_point": {
                 "lat": 28.5427577,
                 "long": 77.6698793
             }
         },
         {
-            "healthcare": "2669160d-c071-47bf-9444-9b179a48529d",
+            "key": "e5728122-b6d6-4e60-b0b0-ad318daddd29",
             "central_point": {
                 "lat": 28.548461,
                 "long": 77.6727187
@@ -142,28 +142,28 @@
     ],
     "sanitation": [
         {
-            "sanitation": "5aafa40e-6d7c-426c-a006-3b026c473a5c",
+            "key": "3c245223-2d37-4924-8550-106b1a4e9f7f",
             "central_point": {
                 "lat": 28.547907,
                 "long": 77.6746008
             }
         },
         {
-            "sanitation": "6c61c343-8db1-4209-8daf-d3f1076dd99b",
+            "key": "61edacf3-bf92-45dc-93ce-a2a4a8cb7415",
             "central_point": {
                 "lat": 28.5427606,
                 "long": 77.6699153
             }
         },
         {
-            "sanitation": "80209f7c-0138-4ac0-938a-bfaaa1e07a6a",
+            "key": "a9967d51-1f31-41bf-bbba-4a335a026d19",
             "central_point": {
                 "lat": 28.5469775,
                 "long": 77.6721484
             }
         },
         {
-            "sanitation": "1f2d9e02-310b-4904-8b30-16422d11b6bd",
+            "key": "683314c7-5c16-42f5-a73c-f07e49829fd4",
             "central_point": {
                 "lat": 28.5486461,
                 "long": 77.6728819
@@ -172,21 +172,21 @@
     ],
     "school": [
         {
-            "school": "9c551819-d053-4741-bc72-278de6a45d69",
+            "key": "e77c94d4-4b67-404a-ab6b-83155c767b3d",
             "central_point": {
                 "lat": 28.542736,
                 "long": 77.6699484
             }
         },
         {
-            "school": "29699f11-7067-48eb-8805-a59155ef532a",
+            "key": "fd424d52-1d0c-454a-a585-b573c6be2a3c",
             "central_point": {
                 "lat": 28.5483776,
                 "long": 77.6726374
             }
         },
         {
-            "school": "66006a6a-2792-4243-876c-969ab0003343",
+            "key": "d75ae365-1bb2-4447-b8fe-0005c2ab98f5",
             "central_point": {
                 "lat": 28.5478431,
                 "long": 77.6746721

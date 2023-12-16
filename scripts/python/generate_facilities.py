@@ -28,7 +28,7 @@ with open("landmark.json", "r") as f:
         if key in facilities.keys():
             facilities[key].append(
                 {
-                    key: str(uuid.uuid4()),
+                    "key": str(uuid.uuid4()),
                     "central_point": {
                         "lat": float(d["latitude"]),
                         "long": float(d["longitude"]),
