@@ -148,22 +148,6 @@ export default function App() {
                       <pointLight intensity={0.8} position={[100, 100, 100]} />
                       <ambientLight />
                       <pointLight position={[10, 10, 10]} />
-                      {/* <mesh position={[0, -0.55, 0]} scale={30}>
-                <Model url="assets/Terrain/ground.glb"></Model>
-              </mesh> */}
-                      {/* <Plane
-                onPointerMove={(event: ThreeEvent<PointerEvent>) => {
-                  setMouseControl({
-                    ...mouseControl,
-                    x: event.point.x,
-                    y: event.point.y,
-                    z: event.point.z,
-                  });
-                }}
-                position={[0, -0.55, 0]}
-                rotation={[-1.57, 0, 0]}
-                args={[100, 100]}
-              /> */}
                       <VisualBlock />
                       <group position={[0, -0.5, 0]}>
                         <GenerateObjects />
