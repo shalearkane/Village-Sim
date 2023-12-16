@@ -7,4 +7,8 @@ export interface MouseControl {
   clickInfo?: {
     geoDataPoint: GeoDataPoint;
   };
+  newCameraPos?: {
+    x: number;
+    z: number;
+  };
 }

@@ -1,6 +1,7 @@
 import { Vector3 } from "three";
 import { GeoData, GeoDataType } from "./interface/geo";
 import { generateUUID } from "three/src/math/MathUtils.js";
+import {SCALE_DOWN_FACTOR} from "./constants/scale"
 
 const residentialData = [
   {
@@ -102496,9 +102497,9 @@ const modifiedResidentialData = residentialData.map(item => ({
   ...item,
   key: item.key.toString(),
   centralPoint: new Vector3(
-    (item.centralPoint.x - 8646500) / 4,
+    (item.centralPoint.x - 8646500) / SCALE_DOWN_FACTOR,
     item.centralPoint.y,
-    (item.centralPoint.z - 3317200) / 4
+    (item.centralPoint.z - 3317200) / SCALE_DOWN_FACTOR
   ),
 }));
 

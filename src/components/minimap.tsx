@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { GeoStoreContext } from "../App";
+import { GeoStoreContext, MouseControlContext } from "../App";
 import { getBounds } from "../utils/math";
 import { Boundaries, GeoDataPoint, GeoDataType } from "../interface/geo";
 import { IconMap, IconX, IconZoomIn, IconZoomOut } from "@tabler/icons-react";
@@ -9,6 +9,8 @@ import { Vector3 } from "three";
 function Minimap() {
   // @ts-ignore
   const { geoStore } = useContext(GeoStoreContext);
+  // @ts-ignore
+  const { mouseControl, setMouseControl } = useContext(MouseControlContext);
 
   const [bounds, setBounds] = useState<Boundaries>({
     minX: 0,
@@ -160,12 +162,20 @@ function Minimap() {
     resizeCanvas();
   }, [geoStore, filters]);
 
-  const handleClick = () => {
+  const handleClick = (event: MouseEvent) => {
     // @ts-ignore
     const rect = canvasRef.current?.getBoundingClientRect();
-    // const x = event.clientX - rect.left;
-    // const y = event.clientY - rect.top;
-    // console.log({ x, y });
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    setMouseControl({
+      ...mouseControl,
+      x: (bounds.maxX - x) / scale,
+      z: (bounds.minY - y) / scale,
+      newCameraPos: {
+        x: (bounds.maxX - x) / scale,
+        z: (bounds.minY - y) / scale,
+      },
+    });
   };
 
   const toggleFilter = (filter: GeoDataType) => {
