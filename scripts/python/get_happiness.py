@@ -2,6 +2,7 @@
 # happiness_factor -> Dynamic
 # Max_dis
 # Call Magic Soumik code for min_dist
+import json
 import numpy as np
 import osmnx as ox
 import networkx as nx
@@ -13,19 +14,20 @@ ox.__version__
 ox.settings.use_cache= True
 ox.settings.log_console = True
 
-G = ox.graph_from_bbox(north=28.5576, south=28.5264, east=77.7078, west=77.6472, network_type="drive")
+G = ox.graph_from_bbox(north=28.5576, south=28.5264, east=77.7078, west=77.6472, network_type="all")
 Gp = ox.project_graph(G)
 Gc = ox.consolidate_intersections(Gp, rebuild_graph=True, tolerance=20, dead_ends=False)
 
 Gc.graph["crs"]
 
 facilities = {
+    "administrative" : [10, 1],
     "road" : [10, 1],
     "school" : [15, 1],
     "healthcare" : [12, 1],
     "haat_shop_csc" : [13, 1],
     "water_facility" : [13, 1],
-    "electric_facilty" : [15, 1],
+    "electric_facility" : [15, 1],
     "solar_plant" : [13, -1],
     "biogas" : [12, -1],
     "windmill" : [13, -1],
@@ -33,14 +35,18 @@ facilities = {
 }
 
 def dist_road(point1 : Point, point2 : Point) -> float :
+  print("Point1: ", point1)
+  print("Point2: ", point2)
   lat_longs = [point1, point2]
   points = GeoSeries(lat_longs, crs="wgs84")
   points_proj = points.to_crs(epsg="32643")
   nodes = []
   for pt in points_proj:
     nodes.append(ox.nearest_nodes(Gc, pt.x, pt.y))
+  print(nodes)
   # route = ox.shortest_path(Gc, nodes[0], nodes[1], weight="length")
   route_length = nx.shortest_path_length(G=Gc, source=nodes[0], target=nodes[1], weight='length')
+  print(route_length)
   return route_length
 
 def dist_cityblock(point1, point2):
@@ -214,3 +220,21 @@ def get_updated_happiness(data, happiness):
     avg_happiness = avg_happiness / (len(happiness) * len(houses_coord))
 
     return happiness, avg_happiness, nearest_distances
+  
+with open("facilities.json", "r") as f, open("house.json", "r") as h:
+  facilities_coord = json.load(f)
+  houses_coord = json.load(h)
+
+  d = {
+    "old" : {
+      "houses" : houses_coord,
+      "facilities" : facilities_coord
+    },
+
+    "new" : {}
+  }
+
+  happiness, avg_happiness, initial_data = get_initial_happiness(d)
+  print(happiness)
+  print(avg_happiness)
+  print(initial_data)
