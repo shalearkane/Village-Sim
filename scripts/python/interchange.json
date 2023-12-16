@@ -2,9 +2,10 @@
     "old": {
         "houses": [
             {
+                "floors": 1,
                 "central_point": {
-                    "lat": "lat",
-                    "long": "long"
+                    "lat": 77.6,
+                    "long": 28.5
                 },
                 "nearest_dist": [
                     {
@@ -20,8 +21,8 @@
                 {
                     "key": "uuid",
                     "central_point": {
-                        "lat": "lat",
-                        "long": "long"
+                        "lat": 77.6,
+                        "long": 28.5
                     }
                 }
             ],
@@ -29,8 +30,8 @@
                 {
                     "key": "uuid",
                     "central_point": {
-                        "lat": "lat",
-                        "long": "long"
+                        "lat": 77.6,
+                        "long": 28.5
                     }
                 }
             ]
@@ -39,8 +40,8 @@
     "new": {
         "facility_type": "water_facility",
         "central_point": {
-            "lat": "lat",
-            "long": "long"
+            "lat": 77.6,
+            "long": 28.5
         }
     }
 }
