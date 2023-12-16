@@ -11,7 +11,7 @@ import {
 import GenerateObjects from "./components/renderer";
 import { dummyData } from "./dummy";
 import { GeoStore } from "./interface/geo";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 // @ts-ignore
 import DeviceOrientation, { Orientation } from "react-screen-orientation";
