@@ -1,17 +1,17 @@
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import {
-  PerspectiveCamera,
   Environment,
   GizmoHelper,
   GizmoViewport,
   OrbitControls,
   Sky,
   Stars,
+  Stats,
 } from "@react-three/drei";
 import GenerateObjects from "./components/renderer";
 import { dummyData } from "./dummy";
 import { GeoStore } from "./interface/geo";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 // @ts-ignore
 import DeviceOrientation, { Orientation } from "react-screen-orientation";
@@ -29,7 +29,6 @@ import InfoModal from "./components/modal";
 import Minimap from "./components/minimap";
 import { IconRotate } from "@tabler/icons-react";
 import Roads from "./components/road";
-import { Vector3 } from "three";
 
 export const ToolbarContext = createContext<ToolbarInterface>(
   ToolbarInterface.CURSOR
@@ -131,11 +130,11 @@ export default function App() {
   //   Camera.lookAt(0, 0, 0);
   // };
 
-  console.log(mouseControl);
-
   useEffect(() => {
     // setCameraPosition();
-  }, [mouseControl?.newCameraPos]);
+    // const raycaster = new Raycaster();
+    // raycaster.setFromCamera(new Vector2(mouseControl.x, mouseControl.z));
+  }, [mouseControl]);
 
   const toggleFullScreen = () => {
     if (beginGame) {
@@ -204,7 +203,9 @@ export default function App() {
                           speed={1}
                         />
                       )}
-                      <PerspectiveCamera
+                      {/* <PerspectiveCamera
+                        // @ts-ignore
+                        ref={camera}
                         position={[
                           mouseControl.newCameraPos
                             ? mouseControl.newCameraPos.x
@@ -214,39 +215,31 @@ export default function App() {
                             ? mouseControl.newCameraPos.z
                             : 10,
                         ]}
-                      >
-                        <ambientLight intensity={0.3} />
-                        <pointLight
-                          intensity={0.8}
-                          position={[100, 100, 100]}
-                        />
-                        <ambientLight />
-                        <pointLight position={[10, 10, 10]} />
-                        <VisualBlock />
-                        <group position={[0, -0.5, 0]}>
-                          <GenerateObjects />
-                          <Roads />
+                      > */}
+                      <ambientLight intensity={0.3} />
+                      <pointLight intensity={0.8} position={[100, 100, 100]} />
+                      <VisualBlock />
+                      <group position={[0, -0.5, 0]}>
+                        <GenerateObjects />
+                        <Roads />
 
-                          {/* <Grid
+                        {/* <Grid
                           position={[0, -0.01, 0]}
                           args={gridSize}
                           {...gridConfig}
                         /> */}
-                        </group>
-                        <OrbitControls
-                          makeDefault
-                          keyEvents={true}
-                          maxPolarAngle={Math.PI / 2}
+                      </group>
+                      <OrbitControls makeDefault maxPolarAngle={Math.PI / 2} />
+                      <Stats />
+                      <Environment files="/potsdamer_platz_1k.hdr" />
+                      <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
+                        <GizmoViewport
+                          axisColors={["#9d4b4b", "#2f7f4f", "#3b5b9d"]}
+                          labelColor="white"
                         />
-                        <Environment files="/potsdamer_platz_1k.hdr" />
-                        <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
-                          <GizmoViewport
-                            axisColors={["#9d4b4b", "#2f7f4f", "#3b5b9d"]}
-                            labelColor="white"
-                          />
-                        </GizmoHelper>
-                        <Earth />
-                      </PerspectiveCamera>
+                      </GizmoHelper>
+                      <Earth />
+                      {/* </PerspectiveCamera> */}
                     </Canvas>
                   </div>
                 </Orientation>

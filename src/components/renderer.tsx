@@ -55,6 +55,8 @@ export default function GenerateObjects() {
     setGeoStore({ ...geoStore, data: newGeoData });
   };
 
+  console.log(mouseControl, visibleGeoData);
+
   const handleClick = (geoDataPoint: GeoDataPoint) => {
     setMouseControl({
       ...mouseControl,
@@ -79,7 +81,7 @@ export default function GenerateObjects() {
   const checkAcceptedArea = () => {
     const coordinateArray = getTerrainCoordinateArray(
       mouseControl.x,
-      mouseControl.y,
+      mouseControl.z,
       GeoDataType.TERRAIN_VIEWPOINT
     );
     let terrainMap: { [key: string]: boolean } = {};
@@ -93,7 +95,7 @@ export default function GenerateObjects() {
         const coordinate = `${Math.floor(point.centralPoint.x)},${Math.floor(
           point.centralPoint.z
         )}`;
-        if (terrainMap[coordinate] && terrainMap[coordinate]) {
+        if (terrainMap[coordinate]) {
           visibleGeoData.push(point);
         }
       }
@@ -106,221 +108,225 @@ export default function GenerateObjects() {
     checkAcceptedArea();
   }, [mouseControl]);
 
-  return visibleGeoData.map((GeoDataPoint: GeoDataPoint) => {
-    switch (GeoDataPoint.type) {
-      case GeoDataType.ROAD: {
-        const roadCoordinates: Vector3[][] = getRoadCoordinates(
-          GeoDataPoint.steps,
-          2
-        );
-        return roadCoordinates.map((point: Array<Vector3>) => {
-          return (
-            <CatmullRomLine
-              // @ts-ignore
-              points={point}
-              lineWidth={3}
-              color={"grey"}
-            />
-          );
-        });
-      }
-      case GeoDataType.RESIDENTIAL: {
-        if (GeoDataPoint.floors == 1) {
-          return (
-            <Center
-              onClick={(event) => {
-                event.stopPropagation();
-                handleClick(GeoDataPoint);
-              }}
-              key={GeoDataPoint.key}
-              top
-              position={GeoDataPoint.centralPoint}
-            >
-              <House1Model />
-            </Center>
-          );
-        } else {
-          return (
-            <Center
-              onClick={(event) => {
-                event.stopPropagation();
-                handleClick(GeoDataPoint);
-              }}
-              onDoubleClick={(event) => {
-                event.stopPropagation();
-              }}
-              key={GeoDataPoint.key}
-              top
-              position={GeoDataPoint.centralPoint}
-            >
-              <House2Model />
-            </Center>
-          );
+  return (
+    <>
+      {visibleGeoData.map((GeoDataPoint: GeoDataPoint) => {
+        switch (GeoDataPoint.type) {
+          case GeoDataType.ROAD: {
+            const roadCoordinates: Vector3[][] = getRoadCoordinates(
+              GeoDataPoint.steps,
+              2
+            );
+            return roadCoordinates.map((point: Array<Vector3>) => {
+              return (
+                <CatmullRomLine
+                  // @ts-ignore
+                  points={point}
+                  lineWidth={3}
+                  color={"grey"}
+                />
+              );
+            });
+          }
+          case GeoDataType.RESIDENTIAL: {
+            if (GeoDataPoint.floors == 1) {
+              return (
+                <Center
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    handleClick(GeoDataPoint);
+                  }}
+                  key={GeoDataPoint.key}
+                  top
+                  position={GeoDataPoint.centralPoint}
+                >
+                  <House1Model />
+                </Center>
+              );
+            } else {
+              return (
+                <Center
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    handleClick(GeoDataPoint);
+                  }}
+                  onDoubleClick={(event) => {
+                    event.stopPropagation();
+                  }}
+                  key={GeoDataPoint.key}
+                  top
+                  position={GeoDataPoint.centralPoint}
+                >
+                  <House2Model />
+                </Center>
+              );
+            }
+          }
+          case GeoDataType.HOSPITAL: {
+            return (
+              <Center
+                onClick={() => {
+                  handleClick(GeoDataPoint);
+                }}
+                key={GeoDataPoint.key}
+                top
+                position={GeoDataPoint.centralPoint}
+              >
+                <Hospital1Model scale={new THREE.Vector3(0.5, 0.5, 0.5)} />
+              </Center>
+            );
+          }
+          case GeoDataType.AGRICULTURAL: {
+            const shape = new THREE.Shape();
+            GeoDataPoint.boundaryPoints.forEach((coordinate: THREE.Vector3) => {
+              shape.lineTo(coordinate.x, coordinate.z);
+            });
+            const geometry = new THREE.ShapeGeometry(shape);
+            setUV(geometry);
+
+            const texture = useLoader(
+              THREE.TextureLoader,
+              "/agriculture/pexels-pok-rie-4861069.jpg"
+            );
+
+            GeoDataPoint.centralPoint.y = 0.05;
+
+            return (
+              <Center
+                onClick={() => {
+                  handleClick(GeoDataPoint);
+                }}
+                key={GeoDataPoint.key}
+                top
+                position={GeoDataPoint.centralPoint}
+                rotation={new THREE.Euler(-1.57, 0, 0)}
+              >
+                <mesh geometry={geometry}>
+                  <meshStandardMaterial map={texture} />
+                </mesh>
+              </Center>
+            );
+          }
+          case GeoDataType.COMMERCIAL: {
+            return (
+              <Center
+                onClick={() => {
+                  handleClick(GeoDataPoint);
+                }}
+                key={GeoDataPoint.key}
+                top
+                position={GeoDataPoint.centralPoint}
+              >
+                <mesh>
+                  <sphereGeometry args={[0.5, 64, 64]} />
+                  <meshStandardMaterial color="#9d4b4b" />
+                </mesh>
+              </Center>
+            );
+          }
+          case GeoDataType.INDUSTRIAL: {
+            return (
+              <Center
+                onClick={() => {
+                  handleClick(GeoDataPoint);
+                }}
+                key={GeoDataPoint.key}
+                top
+                position={GeoDataPoint.centralPoint}
+              >
+                <mesh>
+                  <sphereGeometry args={[0.5, 64, 64]} />
+                  <meshStandardMaterial color="#9d4b4b" />
+                </mesh>
+              </Center>
+            );
+          }
+          case GeoDataType.SCHOOL: {
+            return (
+              <Center
+                onClick={() => {
+                  handleClick(GeoDataPoint);
+                }}
+                key={GeoDataPoint.key}
+                top
+                position={GeoDataPoint.centralPoint}
+              >
+                <mesh>
+                  <sphereGeometry args={[0.5, 64, 64]} />
+                  <meshStandardMaterial color="#9d4b4b" />
+                </mesh>
+              </Center>
+            );
+          }
+          case GeoDataType.HEALTH: {
+            return (
+              <Center
+                onClick={() => {
+                  handleClick(GeoDataPoint);
+                }}
+                key={GeoDataPoint.key}
+                top
+                position={GeoDataPoint.centralPoint}
+              >
+                <mesh>
+                  <sphereGeometry args={[0.5, 64, 64]} />
+                  <meshStandardMaterial color="#9d4b4b" />
+                </mesh>
+              </Center>
+            );
+          }
+          case GeoDataType.SEWAGE_TREATMENT: {
+            return (
+              <Center
+                onClick={() => {
+                  handleClick(GeoDataPoint);
+                }}
+                key={GeoDataPoint.key}
+                top
+                position={GeoDataPoint.centralPoint}
+              >
+                <mesh>
+                  <sphereGeometry args={[0.5, 64, 64]} />
+                  <meshStandardMaterial color="#9d4b4b" />
+                </mesh>
+              </Center>
+            );
+          }
+          case GeoDataType.WATER_BODY: {
+            const shape = new THREE.Shape();
+            GeoDataPoint.boundaryPoints.forEach((coordinate: THREE.Vector3) => {
+              shape.lineTo(coordinate.x, coordinate.z);
+            });
+            const geometry = new THREE.ShapeGeometry(shape);
+            setUV(geometry);
+
+            const texture = useLoader(
+              THREE.TextureLoader,
+              "/water/Vol_36_5_Base_Color.png"
+            );
+
+            GeoDataPoint.centralPoint.y = 0.05;
+
+            return (
+              <Center
+                onClick={() => {
+                  handleClick(GeoDataPoint);
+                }}
+                key={GeoDataPoint.key}
+                top
+                position={GeoDataPoint.centralPoint}
+                rotation={new THREE.Euler(-1.57, 0, 0)}
+              >
+                <mesh geometry={geometry}>
+                  <meshStandardMaterial map={texture} />
+                </mesh>
+              </Center>
+            );
+          }
         }
-      }
-      case GeoDataType.HOSPITAL: {
-        return (
-          <Center
-            onClick={() => {
-              handleClick(GeoDataPoint);
-            }}
-            key={GeoDataPoint.key}
-            top
-            position={GeoDataPoint.centralPoint}
-          >
-            <Hospital1Model scale={new THREE.Vector3(0.5, 0.5, 0.5)} />
-          </Center>
-        );
-      }
-      case GeoDataType.AGRICULTURAL: {
-        const shape = new THREE.Shape();
-        GeoDataPoint.boundaryPoints.forEach((coordinate: THREE.Vector3) => {
-          shape.lineTo(coordinate.x, coordinate.z);
-        });
-        const geometry = new THREE.ShapeGeometry(shape);
-        setUV(geometry);
-
-        const texture = useLoader(
-          THREE.TextureLoader,
-          "/agriculture/pexels-pok-rie-4861069.jpg"
-        );
-
-        GeoDataPoint.centralPoint.y = 0.05;
-
-        return (
-          <Center
-            onClick={() => {
-              handleClick(GeoDataPoint);
-            }}
-            key={GeoDataPoint.key}
-            top
-            position={GeoDataPoint.centralPoint}
-            rotation={new THREE.Euler(-1.57, 0, 0)}
-          >
-            <mesh geometry={geometry}>
-              <meshStandardMaterial map={texture} />
-            </mesh>
-          </Center>
-        );
-      }
-      case GeoDataType.COMMERCIAL: {
-        return (
-          <Center
-            onClick={() => {
-              handleClick(GeoDataPoint);
-            }}
-            key={GeoDataPoint.key}
-            top
-            position={GeoDataPoint.centralPoint}
-          >
-            <mesh>
-              <sphereGeometry args={[0.5, 64, 64]} />
-              <meshStandardMaterial color="#9d4b4b" />
-            </mesh>
-          </Center>
-        );
-      }
-      case GeoDataType.INDUSTRIAL: {
-        return (
-          <Center
-            onClick={() => {
-              handleClick(GeoDataPoint);
-            }}
-            key={GeoDataPoint.key}
-            top
-            position={GeoDataPoint.centralPoint}
-          >
-            <mesh>
-              <sphereGeometry args={[0.5, 64, 64]} />
-              <meshStandardMaterial color="#9d4b4b" />
-            </mesh>
-          </Center>
-        );
-      }
-      case GeoDataType.SCHOOL: {
-        return (
-          <Center
-            onClick={() => {
-              handleClick(GeoDataPoint);
-            }}
-            key={GeoDataPoint.key}
-            top
-            position={GeoDataPoint.centralPoint}
-          >
-            <mesh>
-              <sphereGeometry args={[0.5, 64, 64]} />
-              <meshStandardMaterial color="#9d4b4b" />
-            </mesh>
-          </Center>
-        );
-      }
-      case GeoDataType.HEALTH: {
-        return (
-          <Center
-            onClick={() => {
-              handleClick(GeoDataPoint);
-            }}
-            key={GeoDataPoint.key}
-            top
-            position={GeoDataPoint.centralPoint}
-          >
-            <mesh>
-              <sphereGeometry args={[0.5, 64, 64]} />
-              <meshStandardMaterial color="#9d4b4b" />
-            </mesh>
-          </Center>
-        );
-      }
-      case GeoDataType.SEWAGE_TREATMENT: {
-        return (
-          <Center
-            onClick={() => {
-              handleClick(GeoDataPoint);
-            }}
-            key={GeoDataPoint.key}
-            top
-            position={GeoDataPoint.centralPoint}
-          >
-            <mesh>
-              <sphereGeometry args={[0.5, 64, 64]} />
-              <meshStandardMaterial color="#9d4b4b" />
-            </mesh>
-          </Center>
-        );
-      }
-      case GeoDataType.WATER_BODY: {
-        const shape = new THREE.Shape();
-        GeoDataPoint.boundaryPoints.forEach((coordinate: THREE.Vector3) => {
-          shape.lineTo(coordinate.x, coordinate.z);
-        });
-        const geometry = new THREE.ShapeGeometry(shape);
-        setUV(geometry);
-
-        const texture = useLoader(
-          THREE.TextureLoader,
-          "/water/Vol_36_5_Base_Color.png"
-        );
-
-        GeoDataPoint.centralPoint.y = 0.05;
-
-        return (
-          <Center
-            onClick={() => {
-              handleClick(GeoDataPoint);
-            }}
-            key={GeoDataPoint.key}
-            top
-            position={GeoDataPoint.centralPoint}
-            rotation={new THREE.Euler(-1.57, 0, 0)}
-          >
-            <mesh geometry={geometry}>
-              <meshStandardMaterial map={texture} />
-            </mesh>
-          </Center>
-        );
-      }
-    }
-  });
+      })}
+    </>
+  );
 }
 
 export function setUV(geometry: THREE.ShapeGeometry) {

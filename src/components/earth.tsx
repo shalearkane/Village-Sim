@@ -8,11 +8,11 @@ export default function Earth() {
   const { mouseControl, setMouseControl } = useContext(MouseControlContext);
   const texture = useLoader(
     THREE.TextureLoader,
-    "/aerial_rocks_04_diff_4k.jpg"
+    "src/assets/earth/akshay-chauhan-qBUU6wsgK6A-unsplash_07.jpg"
   );
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
-  texture.repeat.set(20, 20);
+  texture.repeat.set(100, 100);
 
   const roughnessMap = useLoader(
     THREE.TextureLoader,
@@ -29,15 +29,23 @@ export default function Earth() {
       position={[0, -0.55, 0]}
       rotation={[-1.57, 0, 0]}
       onPointerMove={(event: ThreeEvent<PointerEvent>) => {
+        let target = new THREE.Vector3();
+        let plane = new THREE.Plane();
+        plane.setFromCoplanarPoints(
+          new THREE.Vector3(0, -0.55, 0),
+          new THREE.Vector3(1, -0.55, 0),
+          new THREE.Vector3(0, -0.55, 1)
+        );
+        event.ray.intersectPlane(plane, target);
         setMouseControl({
           ...mouseControl,
-          x: event.point.x,
-          y: event.point.y,
-          z: event.point.z,
+          x: target.x,
+          y: target.y,
+          z: target.z,
         });
       }}
     >
-      <planeGeometry args={[50, 50, 100, 100]} />
+      <planeGeometry args={[200, 200, 100, 100]} />
       <meshStandardMaterial
         map={texture}
         roughnessMap={roughnessMap}
