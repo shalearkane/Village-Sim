@@ -8,6 +8,7 @@ import {
   IconDropletHalf2Filled,
   IconHandMove,
   IconHospital,
+  IconRoad,
   IconSchool,
   IconTrash,
   IconWindElectricity,
@@ -24,11 +25,11 @@ function ToolbarComponent() {
     <div>
       <div className="absolute opacity-70 z-10 bottom-[10px] right-[10px] bg-black rounded-lg p-3">
         <p>
-          Mouse: ({mouseControl.x}, {mouseControl.y})
+          Mouse: ({mouseControl.x}, {mouseControl.z})
         </p>
       </div>
       <div className="absolute opacity-70 z-10 top-[10px] max-h-[95vh] overflow-scroll left-[10px] bg-black rounded-lg">
-        <div
+        <div title="Cursor"
           className={`${
             selectedTool == Toolbar.CURSOR &&
             "border-solid border-2 border-sky-500"
@@ -39,7 +40,7 @@ function ToolbarComponent() {
         >
           <IconHandMove />
         </div>
-        <div
+        <div title="Delete"
           className={`${
             selectedTool == Toolbar.DELETE &&
             "border-solid border-2 border-sky-500"
@@ -50,7 +51,7 @@ function ToolbarComponent() {
         >
           <IconTrash />
         </div>
-        <div
+        <div title="Residential"
           className={`${
             selectedTool == Toolbar.RESIDENTIAL &&
             "border-solid border-2 border-sky-500"
@@ -61,7 +62,7 @@ function ToolbarComponent() {
         >
           <IconBuilding />
         </div>
-        <div
+        <div title="Healthcare"
           className={`${
             selectedTool == Toolbar.HOSPITAL &&
             "border-solid border-2 border-sky-500"
@@ -72,7 +73,7 @@ function ToolbarComponent() {
         >
           <IconHospital />
         </div>
-        <div
+        <div title="Education"
           className={`${
             selectedTool == Toolbar.SCHOOL &&
             "border-solid border-2 border-sky-500"
@@ -83,7 +84,7 @@ function ToolbarComponent() {
         >
           <IconSchool />
         </div>
-        <div
+        <div title="Water Supply"
           className={`${
             selectedTool == Toolbar.SEWAGE_TREATMENT &&
             "border-solid border-2 border-sky-500"
@@ -94,7 +95,7 @@ function ToolbarComponent() {
         >
           <IconDropletHalf2Filled />
         </div>
-        <div
+        <div title="Power Plant"
           className={`${
             selectedTool == Toolbar.ELECTRICITY &&
             "border-solid border-2 border-sky-500"
@@ -105,7 +106,7 @@ function ToolbarComponent() {
         >
           <IconWindElectricity />
         </div>
-        <div
+        <div title="Administration"
           className={`${
             selectedTool == Toolbar.ADMINISTRATION &&
             "border-solid border-2 border-sky-500"
@@ -116,7 +117,7 @@ function ToolbarComponent() {
         >
           <IconBuildingCommunity />
         </div>
-        <div
+        <div title="Commercial"
           className={`${
             selectedTool == Toolbar.COMMERCIAL &&
             "border-solid border-2 border-sky-500"
@@ -127,7 +128,7 @@ function ToolbarComponent() {
         >
           <IconBuildingStore />
         </div>
-        <div
+        <div title="Industry"
           className={`${
             selectedTool == Toolbar.INDUSTRIAL &&
             "border-solid border-2 border-sky-500"
@@ -137,6 +138,17 @@ function ToolbarComponent() {
           }}
         >
           <IconBuildingFactory2 />
+        </div>
+        <div title="Roads"
+          className={`${
+            selectedTool == Toolbar.ROAD &&
+            "border-solid border-2 border-sky-500"
+          } cursor-pointer m-2 p-2 rounded-lg`}
+          onClick={() => {
+            setSelectedTool(Toolbar.ROAD);
+          }}
+        >
+          <IconRoad />
         </div>
       </div>
     </div>
