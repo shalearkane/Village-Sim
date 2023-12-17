@@ -263,23 +263,6 @@ export default function GenerateObjects() {
               </Center>
             );
           }
-          case GeoDataType.HEALTH: {
-            return (
-              <Center
-                onClick={() => {
-                  handleClick(GeoDataPoint);
-                }}
-                key={GeoDataPoint.key}
-                top
-                position={GeoDataPoint.centralPoint}
-              >
-                <mesh>
-                  <sphereGeometry args={[0.5, 64, 64]} />
-                  <meshStandardMaterial color="#9d4b4b" />
-                </mesh>
-              </Center>
-            );
-          }
           case GeoDataType.SEWAGE_TREATMENT: {
             return (
               <Center

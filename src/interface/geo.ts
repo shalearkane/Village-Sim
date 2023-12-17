@@ -8,7 +8,6 @@ export enum GeoDataType {
   "COMMERCIAL" = "COMMERCIAL",
   "INDUSTRIAL" = "INDUSTRIAL",
   "SCHOOL" = "SCHOOL",
-  "HEALTH" = "HEALTH",
   "SEWAGE_TREATMENT" = "SEWAGE_TREATMENT",
   "WATER_SUPPLY" = "WATER_SUPPLY",
   "ADMINISTRATION" = "ADMINISTRATION",
@@ -27,7 +26,6 @@ export interface Metadata {
   commercialDistance: number;
   industrialDistance: number;
   schoolDistance: number;
-  healthDistance: number;
   sewageTreatmentDistance: number;
   waterBodyDistance: number;
 }
@@ -96,14 +94,6 @@ export interface School {
   metadata: Metadata;
 }
 
-export interface Health {
-  key: string;
-  type: GeoDataType.HEALTH;
-  boundaryPoints: Vector3[];
-  centralPoint: Vector3;
-  metadata: Metadata;
-}
-
 export interface SewageTreatment {
   key: string;
   type: GeoDataType.SEWAGE_TREATMENT;
@@ -144,7 +134,6 @@ export type GeoDataPoint =
   | Commercial
   | Industrial
   | School
-  | Health
   | SewageTreatment
   | WaterBody
   | WaterSupply

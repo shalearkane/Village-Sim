@@ -46,7 +46,6 @@ function VisualBlock() {
         commercialDistance: 0,
         industrialDistance: 0,
         schoolDistance: 0,
-        healthDistance: 0,
         sewageTreatmentDistance: 0,
         waterBodyDistance: 0,
       },
