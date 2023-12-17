@@ -57,7 +57,7 @@ def dist_road(point1: Point, point2: Point) -> float:
     return route_length
 
 
-def dist_cityblock(point1, point2):
+def dist_euclidean(point1, point2):
     Lon1 = point1.x
     Lon2 = point2.x
     Lat1 = point1.y
@@ -120,7 +120,7 @@ def get_initial_happiness(initial_data):
                             "lat"
                         ],
                     )
-                    new_distance = dist_cityblock(point1, point2)
+                    new_distance = dist_euclidean(point1, point2)
 
                     if new_distance < distance:
                         distance = new_distance
@@ -192,7 +192,7 @@ def get_updated_happiness(data, happiness):
                             )
                         else:
                             happiness[new_building] -= MAX_HAPPINESS
-                    if new_distance > 0
+                    if new_distance > 0:
                         happiness[new_building] += (
                             facilities[new_building][0] / new_distance
                         )
@@ -200,7 +200,7 @@ def get_updated_happiness(data, happiness):
                         happiness[new_building] += MAX_HAPPINESS
 
             else:
-                new_distance = dist_cityblock(
+                new_distance = dist_euclidean(
                     new_building_coord, curr_house_coordinates
                 )
                 old_distance = 0
@@ -270,7 +270,7 @@ def get_updated_happiness(data, happiness):
                         ],
                     )
                     distance = min(
-                        dist_cityblock(new_building_coord, curr_facility_coordinates),
+                        dist_euclidean(new_building_coord, curr_facility_coordinates),
                         distance,
                     )
                 happiness[facility] += facilities[facility][0] * distance / max_dist
@@ -292,7 +292,18 @@ with open("facilities-mini.json", "r") as f, open("house-mini.json", "r") as h:
 
     d = {"old": {"houses": houses_coord, "facilities": facilities_coord}, "new": {}}
 
-    happiness, avg_happiness, initial_data = get_initial_happiness(d)
+    happiness, avg_happiness, d = get_initial_happiness(d)
     print(happiness)
     print(avg_happiness)
-    print(initial_data)
+    print(d)
+
+    d["new"] = {
+        "key": "uuid",
+        "facility_type": "water_facility",
+        "central_point": {
+            "long": 77.56,
+            "lat": 25.61
+        }
+    }
+
+    happiness, avg_happiness, d = get_updated_happiness(d, happiness)
