@@ -4,7 +4,6 @@ import {
   IconBuilding,
   IconBuildingCommunity,
   IconDropletHalf2Filled,
-  IconFountain,
   IconHandMove,
   IconHospital,
   IconSchool,
