@@ -4,7 +4,6 @@ import {
   IconBuilding,
   IconBuildingCommunity,
   IconDropletHalf2Filled,
-  IconFountain,
   IconHandMove,
   IconHospital,
   IconSchool,
@@ -114,17 +113,6 @@ function ToolbarComponent() {
           }}
         >
           <IconBuildingCommunity />
-        </div>
-        <div
-          className={`${
-            selectedTool == Toolbar.WATER_SUPPLY &&
-            "border-solid border-2 border-sky-500"
-          } cursor-pointer m-2 p-2 rounded-lg`}
-          onClick={() => {
-            setSelectedTool(Toolbar.WATER_SUPPLY);
-          }}
-        >
-          <IconFountain />
         </div>
       </div>
     </div>

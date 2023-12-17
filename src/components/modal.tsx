@@ -61,10 +61,6 @@ function InfoModal() {
             {mouseControl.clickInfo?.geoDataPoint?.metadata?.schoolDistance}
           </p>
           <p className="">
-            <b>Nearest Clinic/Dispenseries: </b>
-            {mouseControl.clickInfo?.geoDataPoint?.metadata?.healthDistance}
-          </p>
-          <p className="">
             <b>Nearest Sewage Treatment Plant: </b>
             {
               mouseControl.clickInfo?.geoDataPoint?.metadata

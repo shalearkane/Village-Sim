@@ -18,7 +18,6 @@ export function getBounds(geoData: GeoData): Boundaries {
       point.type == GeoDataType.SCHOOL ||
       point.type == GeoDataType.COMMERCIAL ||
       point.type == GeoDataType.RESIDENTIAL ||
-      point.type == GeoDataType.HEALTH ||
       point.type == GeoDataType.HOSPITAL ||
       point.type == GeoDataType.INDUSTRIAL
     ) {
@@ -43,7 +42,6 @@ export function getMinCoordinates(geoData: GeoData): { x: number; y: number } {
       point.type == GeoDataType.SCHOOL ||
       point.type == GeoDataType.COMMERCIAL ||
       point.type == GeoDataType.RESIDENTIAL ||
-      point.type == GeoDataType.HEALTH ||
       point.type == GeoDataType.HOSPITAL ||
       point.type == GeoDataType.INDUSTRIAL
     ) {
