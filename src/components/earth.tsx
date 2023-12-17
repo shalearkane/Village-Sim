@@ -8,7 +8,7 @@ export default function Earth() {
   const { mouseControl, setMouseControl } = useContext(MouseControlContext);
   const texture = useLoader(
     THREE.TextureLoader,
-    "src/assets/earth/akshay-chauhan-qBUU6wsgK6A-unsplash_07.jpg"
+    "/earth/akshay-chauhan-qBUU6wsgK6A-unsplash_07.jpg"
   );
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;

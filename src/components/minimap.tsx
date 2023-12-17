@@ -10,7 +10,7 @@ function Minimap() {
   // @ts-ignore
   const { geoStore } = useContext(GeoStoreContext);
   // @ts-ignore
-  const { setMouseControl } = useContext(MouseControlContext);
+  const { mouseControl, setMouseControl } = useContext(MouseControlContext);
 
   const [bounds, setBounds] = useState<Boundaries>({
     minX: 0,
@@ -177,7 +177,7 @@ function Minimap() {
     console.log({ x, y });
 
     setMouseControl({
-      ...MouseControlContext,
+      ...mouseControl,
       newCameraPos: {
         x,
         z: y,
@@ -259,7 +259,6 @@ function Minimap() {
                 ref={canvasRef}
               ></canvas>
             </div>
-            {/* <div className="h-10"></div> */}
           </div>
         </div>
       ) : (

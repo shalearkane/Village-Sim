@@ -6,7 +6,7 @@ import { MouseControlContext } from "../App";
 
 function Camera(props: any) {
   // @ts-ignore
-  const { mouseControl } = useContext(MouseControlContext);
+  const { mouseControl, setMouseControl } = useContext(MouseControlContext);
   const camera = useThree((state) => state.camera);
 
   const changeCameraPos = ({ x, z }: { x: number; z: number }) => {
@@ -17,15 +17,30 @@ function Camera(props: any) {
     camera.updateMatrix();
   };
 
-  useEffect(() => {}, []);
-
-  console.log(camera.position);
+  const changeCameraPosition = () => {
+    if (
+      mouseControl.camPos.x != camera.position.x ||
+      mouseControl.camPos.y != camera.position.y
+    )
+      setMouseControl({
+        ...mouseControl,
+        camPos: {
+          x: camera.position.x,
+          y: camera.position.y,
+          z: camera.position.z,
+        },
+      });
+  };
 
   useEffect(() => {
     if (mouseControl.newCameraPos) changeCameraPos(mouseControl.newCameraPos);
   }, [mouseControl.newCameraPos]);
 
-  return <PerspectiveCamera>{props.children}</PerspectiveCamera>;
+  return (
+    <PerspectiveCamera onPointerMove={changeCameraPosition}>
+      {props.children}
+    </PerspectiveCamera>
+  );
 }
 
 export default Camera;

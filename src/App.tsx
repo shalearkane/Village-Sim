@@ -11,7 +11,7 @@ import {
 import GenerateObjects from "./components/renderer";
 import { dummyData } from "./dummy";
 import { GeoStore } from "./interface/geo";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 
 // @ts-ignore
 import DeviceOrientation, { Orientation } from "react-screen-orientation";
@@ -29,7 +29,6 @@ import InfoModal from "./components/modal";
 import Minimap from "./components/minimap";
 import { IconRotate } from "@tabler/icons-react";
 import Roads from "./components/road";
-import * as THREE from "three";
 import Camera from "./components/camera";
 
 export const ToolbarContext = createContext<ToolbarInterface>(
@@ -39,6 +38,11 @@ export const MouseControlContext = createContext<MouseControl>({
   x: 0,
   y: 0,
   z: 0,
+  camPos: {
+    x: 0,
+    y: 0,
+    z: 0,
+  },
 });
 export const GeoStoreContext = createContext<GeoStore>({
   data: dummyData,
@@ -57,87 +61,16 @@ export default function App() {
     x: 0,
     y: 0,
     z: 0,
+    camPos: {
+      x: 0,
+      y: 0,
+      z: 0,
+    },
   });
   const [lightMode] = useState<boolean>(true);
   const fullScreenHanler = useFullScreenHandle();
   const [beginGame, setBeginGame] = useState<boolean>(false);
   const [fullScreenError, setFullScreenError] = useState<boolean>(false);
-  const camera = useRef<THREE.PerspectiveCamera | undefined>();
-
-  // const Camera = new PerspectiveCamera();
-
-  // const camera = useThree((state) => state.camera);
-  // const gl = useThree((state) => state.gl);
-  // const get = useThree((state) => state.get);
-  // const set = useThree((state) => state.set);
-
-  // if (fullScreen) {
-  //   const { gridSize, ...gridConfig } = useControls({
-  //     gridSize: [10.5, 10.5],
-  //     cellSize: { value: 0.6, min: 0, max: 10, step: 0.1 },
-  //     cellThickness: { value: 1, min: 0, max: 5, step: 0.1 },
-  //     cellColor: "#6f6f6f",
-  //     sectionSize: { value: 3.3, min: 0, max: 10, step: 0.1 },
-  //     sectionThickness: { value: 1.5, min: 0, max: 5, step: 0.1 },
-  //     sectionColor: "#9d4b4b",
-  //     fadeDistance: { value: 25, min: 0, max: 100, step: 1 },
-  //     fadeStrength: { value: 1, min: 0, max: 1, step: 0.1 },
-  //     followCamera: false,
-  //     infiniteGrid: false,
-  //   });
-  // }
-
-  // function Controls({
-  //   zoom,
-  //   focus,
-  //   pos = new Vector3(),
-  //   look = new Vector3(),
-  // }) {
-  //   return useFrame((state, delta) => {
-  //     zoom ? pos.set(focus.x, focus.y, focus.z + 0.2) : pos.set(0, 0, 5);
-  //     zoom ? look.set(focus.x, focus.y, focus.z - 0.2) : look.set(0, 0, 4);
-
-  //     state.camera.position.lerp(pos, 0.5);
-  //     state.camera.updateProjectionMatrix();
-
-  //     controls.setLookAt(
-  //       state.camera.position.x,
-  //       state.camera.position.y,
-  //       state.camera.position.z,
-  //       look.x,
-  //       look.y,
-  //       look.z,
-  //       true
-  //     );
-  //     return controls.update(delta);
-  //   });
-  // }
-
-  // const setCameraPosition = () => {
-  //   const newPos = mouseControl?.newCameraPos;
-  //   if (!newPos) return;
-
-  //   // const controls = useMemo(
-  //   //   // @ts-ignore
-  //   //   () => new CameraControls(camera, gl.domElement),
-  //   //   []
-  //   // );
-
-  //   // console.log(get());
-  //   // return useFrame(({ camera }) => {
-  //   //   camera.position.lerp(vec, 0.025);
-  //   //   camera.lookAt(0, 0, 0);
-  //   // });
-
-  //   Camera.position.set(newPos.x, 10, newPos.z);
-  //   Camera.lookAt(0, 0, 0);
-  // };
-
-  useEffect(() => {
-    // setCameraPosition();
-    // const raycaster = new Raycaster();
-    // raycaster.setFromCamera(new Vector2(mouseControl.x, mouseControl.z));
-  }, [mouseControl]);
 
   const toggleFullScreen = () => {
     if (beginGame) {
@@ -191,14 +124,6 @@ export default function App() {
                     <InfoModal />
                     <Toolbar />
                     <Minimap />
-                    <button
-                      onClick={() => {
-                        // @ts-ignore
-                        console.log(camera.current.getFilmHeight());
-                      }}
-                    >
-                      CHANGE
-                    </button>
                     <Canvas style={{ width: "100vw", height: "100vh" }}>
                       {lightMode ? (
                         <Sky sunPosition={[100, 20, 100]} />

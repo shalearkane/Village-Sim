@@ -86,8 +86,8 @@ export default function GenerateObjects() {
 
   const checkAcceptedArea = () => {
     const coordinateArray = getTerrainCoordinateArray(
-      mouseControl.x,
-      mouseControl.z,
+      mouseControl.camPos.x,
+      mouseControl.camPos.z,
       GeoDataType.TERRAIN_VIEWPOINT
     );
     let terrainMap: { [key: string]: boolean } = {};
