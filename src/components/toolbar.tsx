@@ -3,6 +3,8 @@ import { Toolbar } from "../interface/toolbar";
 import {
   IconBuilding,
   IconBuildingCommunity,
+  IconBuildingFactory2,
+  IconBuildingStore,
   IconDropletHalf2Filled,
   IconHandMove,
   IconHospital,
@@ -113,6 +115,28 @@ function ToolbarComponent() {
           }}
         >
           <IconBuildingCommunity />
+        </div>
+        <div
+          className={`${
+            selectedTool == Toolbar.COMMERCIAL &&
+            "border-solid border-2 border-sky-500"
+          } cursor-pointer m-2 p-2 rounded-lg`}
+          onClick={() => {
+            setSelectedTool(Toolbar.COMMERCIAL);
+          }}
+        >
+          <IconBuildingStore />
+        </div>
+        <div
+          className={`${
+            selectedTool == Toolbar.INDUSTRIAL &&
+            "border-solid border-2 border-sky-500"
+          } cursor-pointer m-2 p-2 rounded-lg`}
+          onClick={() => {
+            setSelectedTool(Toolbar.INDUSTRIAL);
+          }}
+        >
+          <IconBuildingFactory2 />
         </div>
       </div>
     </div>

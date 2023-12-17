@@ -23,6 +23,10 @@ import { SewageModel } from "./models/sewage.jsx";
 import { ElectricityModel } from "./models/electric_facility.jsx";
 // @ts-ignore
 import { AdministrativeModel } from "./models/administrative.jsx";
+// @ts-ignore
+import { IndustrialModel } from "./models/industrial.jsx";
+// @ts-ignore
+import { CommercialModel } from "./models/commercial.jsx";
 import * as THREE from "three";
 import { MouseControl } from "../interface/mouse";
 
@@ -223,10 +227,7 @@ export default function GenerateObjects() {
                 top
                 position={GeoDataPoint.centralPoint}
               >
-                <mesh>
-                  <sphereGeometry args={[0.5, 64, 64]} />
-                  <meshStandardMaterial color="#9d4b4b" />
-                </mesh>
+                <CommercialModel scale={new THREE.Vector3(0.125, 0.125, 0.125)} />
               </Center>
             );
           }
@@ -240,10 +241,7 @@ export default function GenerateObjects() {
                 top
                 position={GeoDataPoint.centralPoint}
               >
-                <mesh>
-                  <sphereGeometry args={[0.5, 64, 64]} />
-                  <meshStandardMaterial color="#9d4b4b" />
-                </mesh>
+                <IndustrialModel scale={new THREE.Vector3(0.04, 0.04, 0.04)} />
               </Center>
             );
           }
@@ -306,7 +304,7 @@ export default function GenerateObjects() {
                 position={GeoDataPoint.centralPoint}
               >
                 <mesh>
-                  <AdministrativeModel scale={new THREE.Vector3(5, 5, 5)} />
+                  <AdministrativeModel scale={new THREE.Vector3(6, 6, 6)} />
                 </mesh>
               </Center>
             );
