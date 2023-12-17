@@ -4,7 +4,7 @@ import * as THREE from "three";
 import { checkSafe, getTerrainMap } from "../utils/terrain";
 import { Toolbar } from "../interface/toolbar";
 import { generateUUID } from "three/src/math/MathUtils.js";
-import { GeoDataPoint } from "../interface/geo";
+import { GeoDataPoint, GeoDataType } from "../interface/geo";
 
 function VisualBlock() {
   // @ts-ignore
@@ -15,6 +15,7 @@ function VisualBlock() {
   const { selectedTool, setSelectedTool } = useContext(ToolbarContext);
 
   const [safe, setSafe] = useState<Boolean>(false);
+  const [roadPoints, setRoadPoints] = useState<THREE.Vector3[]>([]);
 
   // const checkIfSafe = () => {};
 
@@ -27,7 +28,8 @@ function VisualBlock() {
       selectedTool == Toolbar.ELECTRICITY ||
       selectedTool == Toolbar.ADMINISTRATION ||
       selectedTool == Toolbar.COMMERCIAL ||
-      selectedTool == Toolbar.INDUSTRIAL
+      selectedTool == Toolbar.INDUSTRIAL ||
+      selectedTool == Toolbar.ROAD
     ) {
       setSafe(checkSafe(geoStore.terrainMap, mouseControl, selectedTool));
     }
@@ -58,6 +60,33 @@ function VisualBlock() {
     setGeoStore({ ...geoStore, data, terrainMap });
   };
 
+  const addRoad = (points: THREE.Vector3[]) => {
+    const newRoad : GeoDataPoint = {
+      key: generateUUID(),
+      type: GeoDataType.ROAD,
+      steps: points,
+      metadata: {
+        roadDistance: 0,
+        residentialDistance: 0,
+        hospitalDistance: 0,
+        agriculturalDistance: 0,
+        commercialDistance: 0,
+        industrialDistance: 0,
+        schoolDistance: 0,
+        sewageTreatmentDistance: 0,
+        waterBodyDistance: 0,
+      },
+    }
+
+    console.log(newRoad);
+  
+    let data = [...geoStore.data, newRoad];
+    const terrainMap = getTerrainMap(data);
+    setGeoStore({ ...geoStore, data, terrainMap });
+
+    setRoadPoints([]);
+  }
+
   return (
     <>
       {(selectedTool == Toolbar.HOSPITAL ||
@@ -83,6 +112,28 @@ function VisualBlock() {
             color={safe ? "green" : "red"}
           />
         </mesh>
+      )}
+      {(selectedTool == Toolbar.ROAD) && (
+        <>
+          <mesh
+            position={[mouseControl.x, -0.5, mouseControl.z]}
+            rotation={[-1.57, 0, 0]}
+            onClick={(event) => {
+              event.stopPropagation();
+              if (safe) setRoadPoints([...roadPoints, event.point]);
+            }}
+            onDoubleClick={(event) => {
+              addRoad(roadPoints);
+            }}
+          >
+            <planeGeometry args={[4, 4]} />
+            <meshStandardMaterial
+              transparent
+              opacity={0.5}
+              color={safe ? "green" : "red"}
+            />
+          </mesh>
+        </>
       )}
     </>
   );

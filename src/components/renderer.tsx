@@ -8,6 +8,7 @@ import { GLTFLoader } from "three/examples/jsm/Addons.js";
 import {
   getRoadCoordinates,
   getTerrainCoordinateArray,
+  getTerrainMap,
 } from "../utils/terrain";
 // @ts-ignore
 import { House1Model } from "./models/house1";
@@ -63,8 +64,8 @@ export default function GenerateObjects() {
         newGeoData.push(point);
       }
     });
-
-    setGeoStore({ ...geoStore, data: newGeoData });
+    const terrainMap = getTerrainMap(newGeoData);
+    setGeoStore({ ...geoStore, data: newGeoData, terrainMap });
   };
 
   const handleClick = (geoDataPoint: GeoDataPoint) => {
