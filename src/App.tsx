@@ -189,6 +189,7 @@ export default function App() {
                               </group>
                               <OrbitControls
                                 makeDefault
+                                enableDamping={false}
                                 maxPolarAngle={Math.PI / 2}
                               />
                               <Stats />
