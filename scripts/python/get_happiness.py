@@ -22,7 +22,7 @@ G = ox.graph_from_bbox(
 Gp = ox.project_graph(G)
 Gc = ox.consolidate_intersections(Gp, rebuild_graph=True, tolerance=20, dead_ends=False)
 
-Gc.graph["crs"]
+max_dist = ox.stats.edge_length_total(Gc)
 
 facilities = {
     "administrative": [10, 1],
@@ -78,8 +78,6 @@ def get_initial_happiness(initial_data):
     for facility in facilities.keys():
         happiness[facility] = 0
     avg_happiness = 0
-
-    max_dist = 65  # ye dekhna h kese nikaalna h
 
     for house_uuid in houses_coord.keys():
         nearest_dist = []
