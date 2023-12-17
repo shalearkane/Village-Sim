@@ -57,12 +57,11 @@ def dist_road(point1: Point, point2: Point) -> float:
 
 
 def dist_cityblock(point1, point2):
-    lat_longs = [point1, point2]
-    points = GeoSeries(lat_longs, crs="wgs84")
-    points_proj = points.to_crs(epsg="32643")
-    distance = abs(points_proj[0].x - points_proj[1].x) + abs(
-        points_proj[0].y - points_proj[1].y
-    )
+    Lat1 = point1.x
+    Lat2 = point2.x
+    Lon1 = point1.y
+    Lon2 = point2.y
+    distance = acos((sin(radians(Lat1)) * sin(radians(Lat2))) + (cos(radians(Lat1)) * cos(radians(Lat2))) * (cos(radians(Lon2) - radians(Lon1)))) * 6371000
     return distance
 
 
