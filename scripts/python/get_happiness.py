@@ -299,11 +299,14 @@ with open("facilities-mini.json", "r") as f, open("house-mini.json", "r") as h:
 
     d["new"] = {
         "key": "uuid",
-        "facility_type": "water_facility",
+        "facility_type": "school",
         "central_point": {
-            "long": 77.56,
-            "lat": 25.61
+            "long": 77.67305,
+            "lat": 28.5398
         }
     }
 
     happiness, avg_happiness, d = get_updated_happiness(d, happiness)
+
+    print(happiness)
+    print(avg_happiness)
