@@ -300,7 +300,6 @@ function Minimap() {
                   )}
                 </Layer>
               </Stage>
-              w
             </div>
           </div>
         </div>

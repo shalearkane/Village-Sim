@@ -112,7 +112,11 @@ export default function GenerateObjects() {
 
   useEffect(() => {
     checkAcceptedArea();
-  }, [mouseControl]);
+<<<<<<< Updated upstream
+  }, [mouseControl.camPos, geoStore]);
+=======
+  }, [mouseControl.camPos]);
+>>>>>>> Stashed changes
 
   return (
     <>

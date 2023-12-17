@@ -11,7 +11,7 @@ import {
 import GenerateObjects from "./components/renderer";
 import { dummyData } from "./dummy";
 import { GeoStore } from "./interface/geo";
-import { useCallback, useState } from "react";
+import { Suspense, useCallback, useState } from "react";
 
 // @ts-ignore
 import DeviceOrientation, { Orientation } from "react-screen-orientation";
@@ -30,6 +30,7 @@ import Minimap from "./components/minimap";
 import { IconRotate } from "@tabler/icons-react";
 import Roads from "./components/road";
 import Camera from "./components/camera";
+import Loading from "./components/loading";
 
 export const ToolbarContext = createContext<ToolbarInterface>(
   ToolbarInterface.CURSOR
@@ -121,56 +122,61 @@ export default function App() {
                 </Orientation>
                 <Orientation orientation="landscape" alwaysRender={false}>
                   <div className={`relative w-[100vw]`}>
-                    <InfoModal />
-                    <Toolbar />
-                    <Minimap />
-                    <Canvas style={{ width: "100vw", height: "100vh" }}>
-                      {lightMode ? (
-                        <Sky sunPosition={[100, 20, 100]} />
-                      ) : (
-                        <Stars
-                          radius={100}
-                          depth={50}
-                          count={5000}
-                          factor={4}
-                          saturation={0}
-                          fade
-                          speed={1}
-                        />
-                      )}
-                      <Camera>
-                        <ambientLight intensity={0.3} />
-                        <pointLight
-                          intensity={0.8}
-                          position={[100, 100, 100]}
-                        />
-                        <VisualBlock />
-                        <group position={[0, -0.5, 0]}>
-                          <GenerateObjects />
-                          <Roads />
+                    <Suspense fallback={<Loading />}>
+                      <InfoModal />
+                      <Toolbar />
+                      <Minimap />
+                      <Canvas style={{ width: "100vw", height: "100vh" }}>
+                        {lightMode ? (
+                          <Sky sunPosition={[100, 20, 100]} />
+                        ) : (
+                          <Stars
+                            radius={100}
+                            depth={50}
+                            count={5000}
+                            factor={4}
+                            saturation={0}
+                            fade
+                            speed={1}
+                          />
+                        )}
+                        <Camera>
+                          <ambientLight intensity={0.3} />
+                          <pointLight
+                            intensity={0.8}
+                            position={[100, 100, 100]}
+                          />
+                          <VisualBlock />
+                          <group position={[0, -0.5, 0]}>
+                            <GenerateObjects />
+                            <Roads />
 
-                          {/* <Grid
+                            {/* <Grid
                           position={[0, -0.01, 0]}
                           args={gridSize}
                           {...gridConfig}
                         /> */}
-                        </group>
-                        <OrbitControls
-                          makeDefault
-                          enableDamping={false}
-                          maxPolarAngle={Math.PI / 2}
-                        />
-                        <Stats />
-                        <Environment files="/potsdamer_platz_1k.hdr" />
-                        <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
-                          <GizmoViewport
-                            axisColors={["#9d4b4b", "#2f7f4f", "#3b5b9d"]}
-                            labelColor="white"
+                          </group>
+                          <OrbitControls
+                            makeDefault
+                            enableDamping={false}
+                            maxPolarAngle={Math.PI / 2}
                           />
-                        </GizmoHelper>
-                        <Earth />
-                      </Camera>
-                    </Canvas>
+                          <Stats />
+                          <Environment files="/potsdamer_platz_1k.hdr" />
+                          <GizmoHelper
+                            alignment="bottom-right"
+                            margin={[80, 80]}
+                          >
+                            <GizmoViewport
+                              axisColors={["#9d4b4b", "#2f7f4f", "#3b5b9d"]}
+                              labelColor="white"
+                            />
+                          </GizmoHelper>
+                          <Earth />
+                        </Camera>
+                      </Canvas>
+                    </Suspense>
                   </div>
                 </Orientation>
               </DeviceOrientation>
