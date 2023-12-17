@@ -8,6 +8,7 @@ import osmnx as ox
 import networkx as nx
 from geopandas import GeoSeries
 from shapely.geometry import Point
+from math import acos, sin, cos, radians 
 
 MAX_HAPPINESS = 2
 np.random.seed(0)
@@ -57,16 +58,20 @@ def dist_road(point1: Point, point2: Point) -> float:
 
 
 def dist_cityblock(point1, point2):
-    Lat1 = point1.x
-    Lat2 = point2.x
-    Lon1 = point1.y
-    Lon2 = point2.y
+    Lon1 = point1.x
+    Lon2 = point2.x
+    Lat1 = point1.y
+    Lat2 = point2.y
     distance = acos((sin(radians(Lat1)) * sin(radians(Lat2))) + (cos(radians(Lat1)) * cos(radians(Lat2))) * (cos(radians(Lon2) - radians(Lon1)))) * 6371000
     return distance
 
 
 def get_initial_happiness(initial_data):
     houses_coord = initial_data["old"]["houses"]
+
+    if len(houses_coord) == 0:
+        return 0
+    
     facilities_coord = initial_data["old"]["facilities"]
 
     happiness = {}
@@ -154,6 +159,8 @@ def get_updated_happiness(data, happiness):
     )
 
     if new_building != "house":
+        if len(houses_coord) == 0:
+            return 0
         for house_uuid in houses_coord.keys():
             curr_house_coordinates = Point(
                 houses_coord[house_uuid]["central_point"]["long"],
@@ -179,12 +186,18 @@ def get_updated_happiness(data, happiness):
 
                 if new_distance < old_distance:
                     if old_distance != float("inf"):
-                        happiness[new_building] -= (
-                            facilities[new_building][0] / old_distance
+                        if old_distance > 0:
+                            happiness[new_building] -= (
+                                facilities[new_building][0] / old_distance
+                            )
+                        else:
+                            happiness[new_building] -= MAX_HAPPINESS
+                    if new_distance > 0
+                        happiness[new_building] += (
+                            facilities[new_building][0] / new_distance
                         )
-                    happiness[new_building] += (
-                        facilities[new_building][0] / new_distance
-                    )
+                    else:
+                        happiness[new_building] += MAX_HAPPINESS
 
             else:
                 new_distance = dist_cityblock(
@@ -240,8 +253,11 @@ def get_updated_happiness(data, happiness):
                         dist_road(new_building_coord, curr_facility_coordinates),
                         distance,
                     )
-                happiness[facility] += facilities[facility][0] / distance
-
+                if distance > 0:
+                    happiness[facility] += facilities[facility][0] / distance
+                else:
+                    happiness[facility] += MAX_HAPPINESS
+                
             else:
                 distance = float("inf")
                 for facility_uuid in facilities_coord[facility].keys():
