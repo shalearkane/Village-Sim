@@ -11,3 +11,12 @@ export interface InitialCostData {
   [GeoDataType.SCHOOL]: number;
   [GeoDataType.WATER_SUPPLY]: number;
 }
+
+export interface InitialStateForm {
+  stateId: number;
+  districtId: number;
+  blockId: number;
+  gramId: number;
+  shpFile: File | null;
+  prjFile: File | null;
+}

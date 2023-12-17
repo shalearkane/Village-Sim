@@ -32,7 +32,8 @@ import Roads from "./components/road";
 import Camera from "./components/camera";
 import Loading from "./components/loading";
 import FormModal from "./components/formModal";
-import { InitialCostData } from "./interface/form";
+import { InitialCostData, InitialStateForm } from "./interface/form";
+import StateForm from "./components/stateForm";
 
 export const initialCostData = {
   set: false,
@@ -57,6 +58,15 @@ const initialMouseControl = {
   },
 };
 
+export const initialStateFormData: InitialStateForm = {
+  stateId: 0,
+  blockId: 0,
+  gramId: 0,
+  districtId: 0,
+  shpFile: null,
+  prjFile: null,
+};
+
 export const ToolbarContext = createContext<ToolbarInterface>(
   ToolbarInterface.CURSOR
 );
@@ -67,6 +77,8 @@ export const GeoStoreContext = createContext<GeoStore>({
   terrainMap: {},
 });
 export const CostDataContext = createContext<InitialCostData>(initialCostData);
+export const StateDataContext =
+  createContext<InitialStateForm>(initialStateFormData);
 
 export default function App() {
   const [geoStore, setGeoStore] = useState<GeoStore>({
@@ -77,6 +89,8 @@ export default function App() {
     ToolbarInterface.CURSOR
   );
   const [costData, setCostData] = useState<InitialCostData>(initialCostData);
+  const [stateData, setStateData] =
+    useState<InitialStateForm>(initialStateFormData);
   const [mouseControl, setMouseControl] =
     useState<MouseControl>(initialMouseControl);
   const [lightMode] = useState<boolean>(true);
@@ -121,80 +135,85 @@ export default function App() {
         <MouseControlContext.Provider value={{ mouseControl, setMouseControl }}>
           {/* @ts-ignore */}
           <CostDataContext.Provider value={{ costData, setCostData }}>
-            <FullScreen handle={fullScreenHanler} onChange={reportChange}>
-              <FormModal />
-              {!beginGame ? (
-                <div className="flex justify-center items-center flex-col w-[100vw]">
-                  <h1>Panchayat Sim</h1>
-                  <p>A simulator to visualize the possibilities of growth</p>
-                  <button className="mt-5" onClick={toggleFullScreen}>
-                    {costData.set ? "RESUME GAME !" : "START GAME !"}
-                  </button>
-                </div>
-              ) : (
-                <DeviceOrientation lockOrientation={"landscape"}>
-                  <Orientation orientation="portrait" alwaysRender={false}>
-                    <div className="flex flex-col justify-center items-center w-[100vw]">
-                      <IconRotate />
-                      <p>Please rotate your device</p>
-                    </div>
-                  </Orientation>
-                  <Orientation orientation="landscape" alwaysRender={false}>
-                    <div className={`relative w-[100vw]`}>
-                      <Suspense fallback={<Loading />}>
-                        <InfoModal />
-                        <Toolbar />
-                        <Minimap />
-                        <Canvas style={{ width: "100vw", height: "100vh" }}>
-                          {lightMode ? (
-                            <Sky sunPosition={[100, 20, 100]} />
-                          ) : (
-                            <Stars
-                              radius={100}
-                              depth={50}
-                              count={5000}
-                              factor={4}
-                              saturation={0}
-                              fade
-                              speed={1}
-                            />
-                          )}
-                          <Camera>
-                            <ambientLight intensity={0.3} />
-                            <pointLight
-                              intensity={0.8}
-                              position={[100, 100, 100]}
-                            />
-                            <VisualBlock />
-                            <group position={[0, -0.5, 0]}>
-                              <GenerateObjects />
-                              <Roads />
-                            </group>
-                            <OrbitControls
-                              makeDefault
-                              enableDamping={false}
-                              maxPolarAngle={Math.PI / 2}
-                            />
-                            <Stats />
-                            <Environment files="/potsdamer_platz_1k.hdr" />
-                            <GizmoHelper
-                              alignment="bottom-right"
-                              margin={[80, 80]}
-                            >
-                              <GizmoViewport
-                                axisColors={["#9d4b4b", "#2f7f4f", "#3b5b9d"]}
-                                labelColor="white"
+            {/* @ts-ignore */}
+            <StateDataContext.Provider value={{ stateData, setStateData }}>
+              <FullScreen handle={fullScreenHanler} onChange={reportChange}>
+                <FormModal />
+                {!beginGame ? (
+                  <div className="flex justify-center items-center flex-col w-[100vw]">
+                    <h1>Panchayat Sim</h1>
+                    <p>A simulator to visualize the possibilities of growth</p>
+                    <StateForm />
+                    <button className="mt-5" onClick={toggleFullScreen}>
+                      {costData.set ? "RESUME GAME !" : "START GAME !"}
+                    </button>
+                  </div>
+                ) : (
+                  <DeviceOrientation lockOrientation={"landscape"}>
+                    <Orientation orientation="portrait" alwaysRender={false}>
+                      <div className="flex flex-col justify-center items-center w-[100vw]">
+                        <IconRotate />
+                        <p>Please rotate your device</p>
+                      </div>
+                    </Orientation>
+                    <Orientation orientation="landscape" alwaysRender={false}>
+                      <div className={`relative w-[100vw]`}>
+                        <Suspense fallback={<Loading />}>
+                          <InfoModal />
+                          <Toolbar />
+                          <Minimap />
+                          <Canvas style={{ width: "100vw", height: "100vh" }}>
+                            {lightMode ? (
+                              <Sky sunPosition={[100, 20, 100]} />
+                            ) : (
+                              <Stars
+                                radius={100}
+                                depth={50}
+                                count={5000}
+                                factor={4}
+                                saturation={0}
+                                fade
+                                speed={1}
                               />
-                            </GizmoHelper>
-                            <Earth />
-                          </Camera>
-                        </Canvas>
-                      </Suspense>
-                    </div>
-                  </Orientation>
-                </DeviceOrientation>
-              )}
-            </FullScreen>
+                            )}
+                            <Camera>
+                              <ambientLight intensity={0.3} />
+                              <pointLight
+                                intensity={0.8}
+                                position={[100, 100, 100]}
+                              />
+                              <VisualBlock />
+                              <group position={[0, -0.5, 0]}>
+                                <GenerateObjects />
+                                <Roads />
+                              </group>
+                              <OrbitControls
+                                makeDefault
+                                enableDamping={true}
+                                maxPolarAngle={Math.PI / 2}
+                                maxDistance={10000}
+                              />
+                              <Stats />
+                              <Environment files="/potsdamer_platz_1k.hdr" />
+                              <GizmoHelper
+                                alignment="bottom-right"
+                                margin={[80, 80]}
+                              >
+                                <GizmoViewport
+                                  axisColors={["#9d4b4b", "#2f7f4f", "#3b5b9d"]}
+                                  labelColor="white"
+                                />
+                              </GizmoHelper>
+                              <Earth />
+                            </Camera>
+                          </Canvas>
+                        </Suspense>
+                      </div>
+                    </Orientation>
+                  </DeviceOrientation>
+                )}
+              </FullScreen>
+            </StateDataContext.Provider>
           </CostDataContext.Provider>
         </MouseControlContext.Provider>
       </GeoStoreContext.Provider>
