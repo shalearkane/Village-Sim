@@ -26,7 +26,8 @@
     "react-full-screen": "^1.1.1",
     "react-screen-orientation": "^0.0.4",
     "tailwindcss": "^3.3.6",
-    "three": "^0.159.0"
+    "three": "^0.159.0",
+    "tweenjs": "^1.0.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

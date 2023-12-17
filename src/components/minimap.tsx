@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { GeoStoreContext, MouseControlContext } from "../App";
 import { getBounds } from "../utils/math";
 import { Boundaries, GeoDataPoint, GeoDataType } from "../interface/geo";
-import { IconMap, IconX, IconZoomIn, IconZoomOut } from "@tabler/icons-react";
+import { IconMap, IconX } from "@tabler/icons-react";
 import { FilterOptions } from "../interface/filter";
 import { Vector3 } from "three";
 
@@ -10,7 +10,7 @@ function Minimap() {
   // @ts-ignore
   const { geoStore } = useContext(GeoStoreContext);
   // @ts-ignore
-  const { mouseControl, setMouseControl } = useContext(MouseControlContext);
+  const { setMouseControl } = useContext(MouseControlContext);
 
   const [bounds, setBounds] = useState<Boundaries>({
     minX: 0,
@@ -27,7 +27,7 @@ function Minimap() {
     [GeoDataType.COMMERCIAL]: false,
     [GeoDataType.ROAD]: false,
   });
-  const [scale, setScale] = useState<number>(1.5);
+  const [scale] = useState<number>(1.5);
   const canvasRef = useRef();
 
   const padding = 5;
@@ -38,21 +38,21 @@ function Minimap() {
     setBounds({ minX, minY, maxX, maxY });
   };
 
-  const scaleUp = () => {
-    // @ts-ignore
-    const ctx = canvasRef.current?.getContext("2d");
-    ctx.scale(scale + 0.5, scale + 0.5);
-    setScale(scale + 0.5);
-  };
+  // const scaleUp = () => {
+  //   // @ts-ignore
+  //   const ctx = canvasRef.current?.getContext("2d");
+  //   ctx.scale(scale + 0.5, scale + 0.5);
+  //   setScale(scale + 0.5);
+  // };
 
-  const scaleDown = () => {
-    if (scale > 1) {
-      // @ts-ignore
-      const ctx = canvasRef.current?.getContext("2d");
-      ctx.scale(scale - 0.5, scale - 0.5);
-      setScale(scale - 0.5);
-    }
-  };
+  // const scaleDown = () => {
+  //   if (scale > 1) {
+  //     // @ts-ignore
+  //     const ctx = canvasRef.current?.getContext("2d");
+  //     ctx.scale(scale - 0.5, scale - 0.5);
+  //     setScale(scale - 0.5);
+  //   }
+  // };
 
   const plot = () => {
     // @ts-ignore
@@ -165,15 +165,22 @@ function Minimap() {
   const handleClick = (event: MouseEvent) => {
     // @ts-ignore
     const rect = canvasRef.current?.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+    // console.log(
+    //   rect.left / scale + bounds.minX,
+    //   rect.right / scale + bounds.minX,
+    //   rect.top / scale + bounds.minY,
+    //   rect.bottom / scale + bounds.minY
+    // );
+    // console.log(bounds);
+    const x = (event.clientX - rect.left) / scale + bounds.minX;
+    const y = (event.clientY - rect.top) / scale + bounds.minY;
+    console.log({ x, y });
+
     setMouseControl({
-      ...mouseControl,
-      x: (bounds.maxX - x) / scale,
-      z: (bounds.minY - y) / scale,
+      ...MouseControlContext,
       newCameraPos: {
-        x: (bounds.maxX - x) / scale,
-        z: (bounds.minY - y) / scale,
+        x,
+        z: y,
       },
     });
   };
@@ -189,8 +196,8 @@ function Minimap() {
         <div>
           <div className="flex justify-between cursor-pointer items-center w-full">
             <div className="flex m-3 gap-4">
-              <IconZoomIn onClick={scaleUp} />
-              <IconZoomOut onClick={scaleDown} />
+              {/* <IconZoomIn onClick={scaleUp} />
+              <IconZoomOut onClick={scaleDown} /> */}
             </div>
             <IconX
               onClick={() => {
@@ -242,11 +249,10 @@ function Minimap() {
                 Road
               </div>
             </div>
-            <div className="flex max-h-[80vh] overflow-scroll">
+            <div className="flex h-[80vh] overflow-scroll">
               <canvas
                 //@ts-ignore
                 onClick={handleClick}
-                className="m-auto"
                 height={(bounds.maxY - bounds.minY + padding) * scale}
                 width={(bounds.maxX - bounds.minX + padding) * scale}
                 //@ts-ignore

@@ -63,8 +63,6 @@ export default function GenerateObjects() {
     setGeoStore({ ...geoStore, data: newGeoData });
   };
 
-  console.log(mouseControl, visibleGeoData);
-
   const handleClick = (geoDataPoint: GeoDataPoint) => {
     setMouseControl({
       ...mouseControl,

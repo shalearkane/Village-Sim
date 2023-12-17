@@ -11,7 +11,7 @@ import {
 import GenerateObjects from "./components/renderer";
 import { dummyData } from "./dummy";
 import { GeoStore } from "./interface/geo";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 // @ts-ignore
 import DeviceOrientation, { Orientation } from "react-screen-orientation";
@@ -29,6 +29,8 @@ import InfoModal from "./components/modal";
 import Minimap from "./components/minimap";
 import { IconRotate } from "@tabler/icons-react";
 import Roads from "./components/road";
+import * as THREE from "three";
+import Camera from "./components/camera";
 
 export const ToolbarContext = createContext<ToolbarInterface>(
   ToolbarInterface.CURSOR
@@ -60,6 +62,7 @@ export default function App() {
   const fullScreenHanler = useFullScreenHandle();
   const [beginGame, setBeginGame] = useState<boolean>(false);
   const [fullScreenError, setFullScreenError] = useState<boolean>(false);
+  const camera = useRef<THREE.PerspectiveCamera | undefined>();
 
   // const Camera = new PerspectiveCamera();
 
@@ -188,7 +191,14 @@ export default function App() {
                     <InfoModal />
                     <Toolbar />
                     <Minimap />
-
+                    <button
+                      onClick={() => {
+                        // @ts-ignore
+                        console.log(camera.current.getFilmHeight());
+                      }}
+                    >
+                      CHANGE
+                    </button>
                     <Canvas style={{ width: "100vw", height: "100vh" }}>
                       {lightMode ? (
                         <Sky sunPosition={[100, 20, 100]} />
@@ -203,43 +213,38 @@ export default function App() {
                           speed={1}
                         />
                       )}
-                      {/* <PerspectiveCamera
-                        // @ts-ignore
-                        ref={camera}
-                        position={[
-                          mouseControl.newCameraPos
-                            ? mouseControl.newCameraPos.x
-                            : 10,
-                          -2,
-                          mouseControl.newCameraPos
-                            ? mouseControl.newCameraPos.z
-                            : 10,
-                        ]}
-                      > */}
-                      <ambientLight intensity={0.3} />
-                      <pointLight intensity={0.8} position={[100, 100, 100]} />
-                      <VisualBlock />
-                      <group position={[0, -0.5, 0]}>
-                        <GenerateObjects />
-                        <Roads />
+                      <Camera>
+                        <ambientLight intensity={0.3} />
+                        <pointLight
+                          intensity={0.8}
+                          position={[100, 100, 100]}
+                        />
+                        <VisualBlock />
+                        <group position={[0, -0.5, 0]}>
+                          <GenerateObjects />
+                          <Roads />
 
-                        {/* <Grid
+                          {/* <Grid
                           position={[0, -0.01, 0]}
                           args={gridSize}
                           {...gridConfig}
                         /> */}
-                      </group>
-                      <OrbitControls makeDefault maxPolarAngle={Math.PI / 2} />
-                      <Stats />
-                      <Environment files="/potsdamer_platz_1k.hdr" />
-                      <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
-                        <GizmoViewport
-                          axisColors={["#9d4b4b", "#2f7f4f", "#3b5b9d"]}
-                          labelColor="white"
+                        </group>
+                        <OrbitControls
+                          makeDefault
+                          enableDamping={false}
+                          maxPolarAngle={Math.PI / 2}
                         />
-                      </GizmoHelper>
-                      <Earth />
-                      {/* </PerspectiveCamera> */}
+                        <Stats />
+                        <Environment files="/potsdamer_platz_1k.hdr" />
+                        <GizmoHelper alignment="bottom-right" margin={[80, 80]}>
+                          <GizmoViewport
+                            axisColors={["#9d4b4b", "#2f7f4f", "#3b5b9d"]}
+                            labelColor="white"
+                          />
+                        </GizmoHelper>
+                        <Earth />
+                      </Camera>
                     </Canvas>
                   </div>
                 </Orientation>
