@@ -112,7 +112,7 @@ export default function GenerateObjects() {
 
   useEffect(() => {
     checkAcceptedArea();
-  }, [mouseControl]);
+  }, [mouseControl.camPos]);
 
   return (
     <>

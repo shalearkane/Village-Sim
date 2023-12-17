@@ -1,10 +1,11 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { ReactNode, useContext, useEffect, useRef, useState } from "react";
 import { GeoStoreContext, MouseControlContext } from "../App";
 import { getBounds } from "../utils/math";
 import { Boundaries, GeoDataPoint, GeoDataType } from "../interface/geo";
 import { IconMap, IconX } from "@tabler/icons-react";
 import { FilterOptions } from "../interface/filter";
 import { Vector3 } from "three";
+import { Stage, Circle, Layer } from "react-konva";
 
 function Minimap() {
   // @ts-ignore
@@ -26,155 +27,45 @@ function Minimap() {
     [GeoDataType.SEWAGE_TREATMENT]: false,
     [GeoDataType.COMMERCIAL]: false,
     [GeoDataType.ROAD]: false,
+    [GeoDataType.ELECTRICITY]: false,
+    [GeoDataType.ADMINISTRATION]: false,
+    [GeoDataType.WATER_SUPPLY]: false,
+    YOUR_POSITION: true,
   });
   const [scale] = useState<number>(1.5);
   const canvasRef = useRef();
 
   const padding = 5;
-  const pointWidth = 2;
+  const pointWidth = 1;
 
   const resizeCanvas = () => {
     const { minX, maxX, minY, maxY } = getBounds(geoStore.data);
     setBounds({ minX, minY, maxX, maxY });
   };
 
-  // const scaleUp = () => {
-  //   // @ts-ignore
-  //   const ctx = canvasRef.current?.getContext("2d");
-  //   ctx.scale(scale + 0.5, scale + 0.5);
-  //   setScale(scale + 0.5);
-  // };
-
-  // const scaleDown = () => {
-  //   if (scale > 1) {
-  //     // @ts-ignore
-  //     const ctx = canvasRef.current?.getContext("2d");
-  //     ctx.scale(scale - 0.5, scale - 0.5);
-  //     setScale(scale - 0.5);
-  //   }
-  // };
-
-  const plot = () => {
-    // @ts-ignore
-    const ctx = canvasRef.current?.getContext("2d");
-
-    geoStore.data.forEach((point: GeoDataPoint) => {
-      switch (point.type) {
-        case GeoDataType.RESIDENTIAL: {
-          ctx.fillStyle = "#22c55e";
-          ctx.fillRect(
-            scale * (point.centralPoint.x - bounds.minX),
-            scale * (point.centralPoint.z - bounds.minY),
-            pointWidth,
-            pointWidth
-          );
-          break;
-        }
-        case GeoDataType.HOSPITAL: {
-          if (filters.HOSPITAL) {
-            ctx.fillStyle = "#06b6d4";
-            ctx.fillRect(
-              scale * (point.centralPoint.x - bounds.minX),
-              scale * (point.centralPoint.z - bounds.minY),
-              pointWidth,
-              pointWidth
-            );
-          } else {
-            ctx.clearRect(
-              scale * (point.centralPoint.x - bounds.minX),
-              scale * (point.centralPoint.z - bounds.minY),
-              pointWidth,
-              pointWidth
-            );
-          }
-          break;
-        }
-        case GeoDataType.SCHOOL: {
-          if (filters.SCHOOL) {
-            ctx.fillStyle = "#f97316";
-            ctx.fillRect(
-              scale * (point.centralPoint.x - bounds.minX),
-              scale * (point.centralPoint.z - bounds.minY),
-              pointWidth,
-              pointWidth
-            );
-          } else {
-            ctx.clearRect(
-              scale * (point.centralPoint.x - bounds.minX),
-              scale * (point.centralPoint.z - bounds.minY),
-              pointWidth,
-              pointWidth
-            );
-          }
-          break;
-        }
-        case GeoDataType.SEWAGE_TREATMENT: {
-          if (filters.SEWAGE_TREATMENT) {
-            ctx.fillStyle = "#8b5cf6";
-            ctx.fillRect(
-              scale * (point.centralPoint.x - bounds.minX),
-              scale * (point.centralPoint.z - bounds.minY),
-              pointWidth,
-              pointWidth
-            );
-          } else {
-            ctx.clearRect(
-              scale * (point.centralPoint.x - bounds.minX),
-              scale * (point.centralPoint.z - bounds.minY),
-              pointWidth,
-              pointWidth
-            );
-          }
-          break;
-        }
-        case GeoDataType.ROAD: {
-          if (filters.ROAD) {
-            ctx.fillStyle = "white";
-            point.steps.forEach((stepPoint: Vector3) => {
-              ctx.fillRect(
-                scale * (stepPoint.x - bounds.minX),
-                scale * (stepPoint.z - bounds.minY),
-                pointWidth,
-                pointWidth
-              );
-            });
-          } else {
-            point.steps.forEach((stepPoint: Vector3) => {
-              ctx.clearRect(
-                scale * (stepPoint.x - bounds.minX),
-                scale * (stepPoint.z - bounds.minY),
-                pointWidth,
-                pointWidth
-              );
-            });
-          }
-          break;
-        }
-      }
-    });
+  const colorCoding = {
+    [GeoDataType.ROAD]: "white",
+    [GeoDataType.SCHOOL]: "#f97316",
+    [GeoDataType.RESIDENTIAL]: "#22c55e",
+    [GeoDataType.HOSPITAL]: "#ef4444",
+    [GeoDataType.WATER_SUPPLY]: "#0ea5e9",
+    [GeoDataType.SEWAGE_TREATMENT]: "#8b5cf6",
+    [GeoDataType.ELECTRICITY]: "#14b8a6",
+    [GeoDataType.ADMINISTRATION]: "#84cc16",
   };
-
-  useEffect(() => {
-    if (canvasRef.current) plot();
-  });
 
   useEffect(() => {
     resizeCanvas();
   }, [geoStore, filters]);
 
-  const handleClick = (event: MouseEvent) => {
-    // @ts-ignore
-    const rect = canvasRef.current?.getBoundingClientRect();
-    // console.log(
-    //   rect.left / scale + bounds.minX,
-    //   rect.right / scale + bounds.minX,
-    //   rect.top / scale + bounds.minY,
-    //   rect.bottom / scale + bounds.minY
-    // );
-    // console.log(bounds);
-    const x = (event.clientX - rect.left) / scale + bounds.minX;
-    const y = (event.clientY - rect.top) / scale + bounds.minY;
-    console.log({ x, y });
+  const handleClick = (event: any) => {
+    const stage = event.target.getStage();
+    const pointerPosition = stage.getPointerPosition();
+    let offset = { x: event.target.attrs.x, y: event.target.attrs.y };
+    if (!offset.x) offset.x = 0;
+    if (!offset.y) offset.y = 0;
+    const x = (pointerPosition.x - offset.x) / scale + bounds.minX;
+    const y = (pointerPosition.y - offset.y) / scale + bounds.minY;
 
     setMouseControl({
       ...mouseControl,
@@ -209,8 +100,8 @@ function Minimap() {
           <div className="h-[92vh] w-[40vw] flex flex-col justify-between">
             <div className="flex flex-wrap ml-2 mr-2 h-1 z-10">
               <div
-                className={`border border-sky-500 m-2 pl-1 pr-1 rounded-md ${
-                  filters.HOSPITAL && "bg-sky-500"
+                className={`border border-red-500 m-2 pl-1 pr-1 rounded-md ${
+                  filters.HOSPITAL && "bg-red-500  text-black"
                 }`}
                 onClick={() => {
                   toggleFilter(GeoDataType.HOSPITAL);
@@ -220,7 +111,7 @@ function Minimap() {
               </div>
               <div
                 className={`border border-orange-500 m-2 pl-1 pr-1 rounded-md ${
-                  filters.SCHOOL && "bg-orange-500"
+                  filters.SCHOOL && "bg-orange-500  text-black"
                 }`}
                 onClick={() => {
                   toggleFilter(GeoDataType.SCHOOL);
@@ -230,7 +121,7 @@ function Minimap() {
               </div>
               <div
                 className={`border border-violet-500 m-2 pl-1 pr-1 rounded-md ${
-                  filters.SEWAGE_TREATMENT && "bg-violet-500"
+                  filters.SEWAGE_TREATMENT && "bg-violet-500  text-black"
                 }`}
                 onClick={() => {
                   toggleFilter(GeoDataType.SEWAGE_TREATMENT);
@@ -248,16 +139,167 @@ function Minimap() {
               >
                 Road
               </div>
+              <div
+                className={`border border-teal-500 m-2 pl-1 pr-1 rounded-md ${
+                  filters.ELECTRICITY && "bg-teal-500 text-black"
+                }`}
+                onClick={() => {
+                  toggleFilter(GeoDataType.ELECTRICITY);
+                }}
+              >
+                Electricity
+              </div>
+              <div
+                className={`border border-sky-500 m-2 pl-1 pr-1 rounded-md ${
+                  filters.WATER_SUPPLY && "bg-sky-500 text-black"
+                }`}
+                onClick={() => {
+                  toggleFilter(GeoDataType.WATER_SUPPLY);
+                }}
+              >
+                Water Supply
+              </div>
+              <div
+                className={`border border-lime-500 m-2 pl-1 pr-1 rounded-md ${
+                  filters.ADMINISTRATION && "bg-lime-500 text-black"
+                }`}
+                onClick={() => {
+                  toggleFilter(GeoDataType.ADMINISTRATION);
+                }}
+              >
+                Administration
+              </div>
+              <div
+                className={`border border-cyan-500 m-2 pl-1 pr-1 rounded-md ${
+                  filters.YOUR_POSITION && "bg-cyan-500 text-black"
+                }`}
+                onClick={() => {
+                  // @ts-ignore
+                  toggleFilter("YOUR_POSITION");
+                }}
+              >
+                Your Position
+              </div>
             </div>
             <div className="flex h-[80vh] overflow-scroll">
-              <canvas
-                //@ts-ignore
-                onClick={handleClick}
+              <Stage
                 height={(bounds.maxY - bounds.minY + padding) * scale}
                 width={(bounds.maxX - bounds.minX + padding) * scale}
-                //@ts-ignore
-                ref={canvasRef}
-              ></canvas>
+                // @ts-ignore
+                onClick={handleClick}
+              >
+                {/* @ts-ignore */}
+                <Layer ref={canvasRef}>
+                  {geoStore.data.map((point: GeoDataPoint) => {
+                    switch (point.type) {
+                      case GeoDataType.ROAD: {
+                        const road: ReactNode[] = [];
+                        if (filters.ROAD)
+                          point.steps.forEach(
+                            (step: Vector3, stepIndex: number) => {
+                              road.push(
+                                <Circle
+                                  key={`GeoDataPoint_Minimap_${point.key}_${stepIndex}`}
+                                  radius={pointWidth}
+                                  fill={colorCoding[point.type]}
+                                  x={scale * (step.x - bounds.minX)}
+                                  y={scale * (step.z - bounds.minY)}
+                                />
+                              );
+                            }
+                          );
+                        return road;
+                      }
+                      case GeoDataType.RESIDENTIAL: {
+                        return (
+                          <Circle
+                            key={`GeoDataPoint_Minimap_${point.key}`}
+                            radius={pointWidth}
+                            fill={colorCoding[point.type]}
+                            x={scale * (point.centralPoint.x - bounds.minX)}
+                            y={scale * (point.centralPoint.z - bounds.minY)}
+                          />
+                        );
+                      }
+                      case GeoDataType.HOSPITAL: {
+                        return (
+                          filters.HOSPITAL && (
+                            <Circle
+                              key={`GeoDataPoint_Minimap_${point.key}`}
+                              radius={pointWidth}
+                              fill={colorCoding[point.type]}
+                              x={scale * (point.centralPoint.x - bounds.minX)}
+                              y={scale * (point.centralPoint.z - bounds.minY)}
+                            />
+                          )
+                        );
+                      }
+                      case GeoDataType.SEWAGE_TREATMENT: {
+                        return (
+                          filters.SEWAGE_TREATMENT && (
+                            <Circle
+                              key={`GeoDataPoint_Minimap_${point.key}`}
+                              radius={pointWidth}
+                              fill={colorCoding[point.type]}
+                              x={scale * (point.centralPoint.x - bounds.minX)}
+                              y={scale * (point.centralPoint.z - bounds.minY)}
+                            />
+                          )
+                        );
+                      }
+                      case GeoDataType.WATER_SUPPLY: {
+                        return (
+                          filters.WATER_SUPPLY && (
+                            <Circle
+                              key={`GeoDataPoint_Minimap_${point.key}`}
+                              radius={pointWidth}
+                              fill={colorCoding[point.type]}
+                              x={scale * (point.centralPoint.x - bounds.minX)}
+                              y={scale * (point.centralPoint.z - bounds.minY)}
+                            />
+                          )
+                        );
+                      }
+                      case GeoDataType.ADMINISTRATION: {
+                        return (
+                          filters.ADMINISTRATION && (
+                            <Circle
+                              key={`GeoDataPoint_Minimap_${point.key}`}
+                              radius={pointWidth}
+                              fill={colorCoding[point.type]}
+                              x={scale * (point.centralPoint.x - bounds.minX)}
+                              y={scale * (point.centralPoint.z - bounds.minY)}
+                            />
+                          )
+                        );
+                      }
+                      case GeoDataType.ELECTRICITY: {
+                        return (
+                          filters.ELECTRICITY && (
+                            <Circle
+                              key={`GeoDataPoint_Minimap_${point.key}`}
+                              radius={pointWidth}
+                              fill={colorCoding[point.type]}
+                              x={scale * (point.centralPoint.x - bounds.minX)}
+                              y={scale * (point.centralPoint.z - bounds.minY)}
+                            />
+                          )
+                        );
+                      }
+                    }
+                  })}
+                </Layer>
+                <Layer>
+                  {filters.YOUR_POSITION && (
+                    <Circle
+                      radius={10}
+                      fill={"#67e8f9"}
+                      x={scale * (mouseControl.camPos.x - bounds.minX)}
+                      y={scale * (mouseControl.camPos.z - bounds.minY)}
+                    />
+                  )}
+                </Layer>
+              </Stage>
             </div>
           </div>
         </div>
