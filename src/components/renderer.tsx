@@ -110,13 +110,12 @@ export default function GenerateObjects() {
         }
       }
     });
-
     setVisibleGeoData(visibleGeoData);
   };
 
   useEffect(() => {
     checkAcceptedArea();
-  }, [mouseControl.camPos, geoStore]);
+  }, [mouseControl.camPos, mouseControl.newCameraPos, geoStore]);
 
   return (
     <>
@@ -148,6 +147,9 @@ export default function GenerateObjects() {
                   }}
                   key={GeoDataPoint.key}
                   top
+                  onBeforeRender={() => {
+                    "Hello";
+                  }}
                   position={GeoDataPoint.centralPoint}
                 >
                   <House1Model />
@@ -227,7 +229,9 @@ export default function GenerateObjects() {
                 top
                 position={GeoDataPoint.centralPoint}
               >
-                <CommercialModel scale={new THREE.Vector3(0.125, 0.125, 0.125)} />
+                <CommercialModel
+                  scale={new THREE.Vector3(0.125, 0.125, 0.125)}
+                />
               </Center>
             );
           }
