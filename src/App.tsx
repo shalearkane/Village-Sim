@@ -172,9 +172,8 @@ export default function App() {
                             </group>
                             <OrbitControls
                               makeDefault
-                              enableDamping={true}
+                              enableDamping={false}
                               maxPolarAngle={Math.PI / 2}
-                              maxDistance={10000}
                             />
                             <Stats />
                             <Environment files="/potsdamer_platz_1k.hdr" />
