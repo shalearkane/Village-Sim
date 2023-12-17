@@ -122,7 +122,7 @@ function VisualBlock() {
               event.stopPropagation();
               if (safe) setRoadPoints([...roadPoints, event.point]);
             }}
-            onDoubleClick={(event) => {
+            onDoubleClick={() => {
               addRoad(roadPoints);
             }}
           >
