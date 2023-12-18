@@ -28,7 +28,7 @@ function ToolbarComponent() {
 
   return (
     <div>
-      <div className="absolute opacity-70 z-10 top-[10px] left-[100px] bg-black rounded-lg p-3">
+      <div className="absolute opacity-70 z-10 top-[10px] right-[70px] bg-black rounded-lg p-3">
         {showInfo ? (
           <>
             <div className="flex flex-end m-2">
