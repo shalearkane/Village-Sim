@@ -21,15 +21,18 @@ function Camera(props: any) {
     if (
       mouseControl.camPos.x != camera.position.x ||
       mouseControl.camPos.y != camera.position.y
-    )
+    ) {
+      const d = new Date();
       setMouseControl({
         ...mouseControl,
         camPos: {
           x: camera.position.x,
           y: camera.position.y,
           z: camera.position.z,
+          time: d.getTime()
         },
       });
+    }
   };
 
   useEffect(() => {

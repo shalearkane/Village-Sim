@@ -30,6 +30,7 @@ export interface StateStore {
   gramPanchayat: StoreFormat;
   shpFile: File | null;
   prjFile: File | null;
+  dbfFile: File | null;
 }
 
 export interface LoadingState {

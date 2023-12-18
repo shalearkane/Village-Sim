@@ -27,6 +27,7 @@ function StateForm() {
     gramPanchayat: defaultStore,
     shpFile: null,
     prjFile: null,
+    dbfFile: null,
   });
   const [loading, setLoading] = useState<LoadingState>({
     districts: true,
@@ -97,6 +98,38 @@ function StateForm() {
     setStateData(input);
     setLoading({ ...loading, gramPanchayat: false });
     setShowSpinner(false);
+  };
+
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    //@ts-ignore
+    formData.append("stateId", input.stateId);
+    //@ts-ignore
+    formData.append("districtId", input.districtId);
+    //@ts-ignore
+    formData.append("blockId", input.blockId);
+    //@ts-ignore
+    formData.append("gramId", input.gramId);
+    //@ts-ignore
+    formData.append("shpFile", input.shpFile);
+    //@ts-ignore
+    formData.append("prjFile", input.prjFile);
+    //@ts-ignore
+    formData.append("dbfFile", input.dbfFile);
+    axios({
+      method: "post",
+      url: "url",
+      data: formData,
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+      .then(function (response) {
+        //handle success
+        console.log(response);
+      })
+      .catch(function (response) {
+        //handle error
+        console.log(response);
+      });
   };
 
   useEffect(() => {
@@ -330,6 +363,29 @@ function StateForm() {
                   </div>
                 )}
               </label>
+
+              {/* SHP File Upload */}
+              <label className="form-control w-full max-w-xs">
+                <div className="label">
+                  <span className="label-text">Upload .DBF file</span>
+                </div>
+                <input
+                  type="file"
+                  accept=".dbf"
+                  onChange={(e) =>
+                    // @ts-ignore
+                    setInput({ ...input, dbfFile: e.target.files[0] })
+                  }
+                  className="file-input file-input-bordered w-full max-w-xs"
+                />
+                {!input.dbfFile && (
+                  <div className="label">
+                    <span className="label-text-alt text-red-200">
+                      This field is required
+                    </span>
+                  </div>
+                )}
+              </label>
             </div>
           ) : (
             <></>
@@ -337,10 +393,21 @@ function StateForm() {
 
           {input.prjFile &&
             input.shpFile &&
+            input.dbfFile &&
             input.blockId &&
             input.districtId &&
             input.gramId &&
-            input.stateId && <button className="m-2"> START GAME </button>}
+            input.stateId && (
+              <button
+                className="m-2"
+                onClick={() => {
+                  handleSubmit();
+                }}
+              >
+                {" "}
+                START GAME{" "}
+              </button>
+            )}
         </div>
       )}
     </>

@@ -2,6 +2,7 @@ import { ThreeEvent, useLoader } from "@react-three/fiber";
 import { useContext } from "react";
 import * as THREE from "three";
 import { MouseControlContext } from "../App";
+import {isMobile, isDesktop} from 'react-device-detect';
 
 export default function Earth() {
   // @ts-ignore
@@ -24,12 +25,8 @@ export default function Earth() {
     "/aerial_rocks_04_nor_4k.png"
   );
 
-  return (
-    <mesh
-      position={[0, -0.55, 0]}
-      rotation={[-1.57, 0, 0]}
-      onPointerMove={(event: ThreeEvent<PointerEvent>) => {
-        let target = new THREE.Vector3();
+  const changeMousePointer = (event: ThreeEvent<PointerEvent>) => {
+    let target = new THREE.Vector3();
         let plane = new THREE.Plane();
         plane.setFromCoplanarPoints(
           new THREE.Vector3(0, -0.55, 0),
@@ -43,6 +40,20 @@ export default function Earth() {
           y: target.y,
           z: target.z,
         });
+  }
+
+  return (
+    <mesh
+      position={[0, -0.55, 0]}
+      rotation={[-1.57, 0, 0]}
+      onPointerDown={(event: ThreeEvent<PointerEvent>) => {
+        if(isMobile) changeMousePointer(event)
+      }}
+      onPointerUp={(event: ThreeEvent<PointerEvent>) => {
+        if(isMobile) changeMousePointer(event)
+      }}
+      onPointerMove={(event: ThreeEvent<PointerEvent>) => {
+        if(isDesktop) changeMousePointer(event)
       }}
     >
       <planeGeometry args={[200, 200, 100, 100]} />

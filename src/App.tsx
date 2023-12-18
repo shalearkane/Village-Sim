@@ -31,6 +31,7 @@ import FormModal from "./components/formModal";
 import { InitialCostData, InitialStateForm } from "./interface/form";
 import StateForm from "./components/stateForm";
 import { Canvas } from "@react-three/fiber";
+import ConfirmModal from "./components/confirmModal";
 
 export const initialCostData = {
   set: false,
@@ -44,6 +45,8 @@ export const initialCostData = {
   [GeoDataType.SEWAGE_TREATMENT]: 0,
 };
 
+const date = new Date();
+
 const initialMouseControl = {
   x: 0,
   y: 0,
@@ -52,6 +55,7 @@ const initialMouseControl = {
     x: 0,
     y: 0,
     z: 0,
+    time: date.getTime()
   },
 };
 
@@ -62,6 +66,7 @@ export const initialStateFormData: InitialStateForm = {
   districtId: 0,
   shpFile: null,
   prjFile: null,
+  dbfFile: null,
 };
 
 export const ToolbarContext = createContext<ToolbarInterface>(
@@ -156,6 +161,7 @@ export default function App() {
                       <div className={`relative w-[100vw]`}>
                         <Suspense fallback={<Loading />}>
                           <InfoModal />
+                          <ConfirmModal />
                           <Toolbar />
                           <Minimap />
                           <Canvas

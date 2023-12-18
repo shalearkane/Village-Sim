@@ -1,5 +1,10 @@
 import { useContext, useEffect, useState } from "react";
-import { CostDataContext, GeoStoreContext, MouseControlContext, ToolbarContext } from "../App";
+import {
+  CostDataContext,
+  GeoStoreContext,
+  MouseControlContext,
+  ToolbarContext,
+} from "../App";
 import * as THREE from "three";
 import { checkSafe, getTerrainMap } from "../utils/terrain";
 import { Toolbar } from "../interface/toolbar";
@@ -9,7 +14,7 @@ import { Center } from "@react-three/drei";
 
 function VisualBlock() {
   // @ts-ignore
-  const { mouseControl } = useContext(MouseControlContext);
+  const { mouseControl, setMouseControl } = useContext(MouseControlContext);
   // @ts-ignore
   const { geoStore, setGeoStore } = useContext(GeoStoreContext);
   // @ts-ignore
@@ -39,6 +44,15 @@ function VisualBlock() {
     }
   }, [mouseControl]);
 
+  const handleClick = (point: THREE.Vector3) => {
+    const modal = document?.getElementById("confirm_modal");
+    modal?.click();
+    const modalButton = document?.getElementById("confirm_button");
+    modalButton?.addEventListener("click", () => {
+      addObject(point);
+    })
+  };
+
   const addObject = (point: THREE.Vector3) => {
     point.y = 0;
     const newPoint: GeoDataPoint = {
@@ -59,15 +73,15 @@ function VisualBlock() {
       },
     };
 
-    const newBudget = costData.budget - costData[selectedTool];
-    setCostData({...costData, budget: newBudget});
+    const newBudget = costData.budget - (costData[selectedTool]? costData[selectedTool] : 0);
+    setCostData({ ...costData, budget: newBudget });
     let data = [...geoStore.data, newPoint];
     const terrainMap = getTerrainMap(data);
     setGeoStore({ ...geoStore, data, terrainMap });
   };
 
   const addRoad = (points: THREE.Vector3[]) => {
-    const newRoad : GeoDataPoint = {
+    const newRoad: GeoDataPoint = {
       key: generateUUID(),
       type: GeoDataType.ROAD,
       steps: points,
@@ -82,16 +96,16 @@ function VisualBlock() {
         sewageTreatmentDistance: 0,
         waterBodyDistance: 0,
       },
-    }
+    };
 
     console.log(newRoad);
-  
+
     let data = [...geoStore.data, newRoad];
     const terrainMap = getTerrainMap(data);
     setGeoStore({ ...geoStore, data, terrainMap });
 
     setRoadPoints([]);
-  }
+  };
 
   const roadVisual = () => {
     console.log(roadCircles);
@@ -126,12 +140,15 @@ function VisualBlock() {
         <mesh
           position={[mouseControl.x, -0.5, mouseControl.z]}
           rotation={[-1.57, 0, 0]}
-          onDoubleClick={(event) => {
+          onClick={(event) => {
             event.stopPropagation();
-            if (safe) addObject(event.point);
+            const d = new Date();
+            if (safe && d.getTime() - mouseControl.camPos.time >= 200) {
+              handleClick(event.point);
+            }
           }}
         >
-          <planeGeometry args={[4, 4]} />
+          <planeGeometry args={[3, 3]} />
           <meshStandardMaterial
             transparent
             opacity={0.5}
@@ -139,20 +156,22 @@ function VisualBlock() {
           />
         </mesh>
       )}
-      {(selectedTool == Toolbar.ROAD) && (
+      {selectedTool == Toolbar.ROAD && (
         <>
           <mesh
             position={[mouseControl.x, -0.5, mouseControl.z]}
             rotation={[-1.57, 0, 0]}
             onClick={(event) => {
               event.stopPropagation();
-              if (safe) setRoadPoints([...roadPoints, event.point]);
+              const d = new Date();
+              if (safe && d.getTime() - mouseControl.camPos.time >= 200)
+                setRoadPoints([...roadPoints, event.point]);
             }}
             onDoubleClick={() => {
               addRoad(roadPoints);
             }}
           >
-            <planeGeometry args={[4, 4]} />
+            <planeGeometry args={[3, 3]} />
             <meshStandardMaterial
               transparent
               opacity={0.5}
