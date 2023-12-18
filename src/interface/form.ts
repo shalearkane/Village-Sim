@@ -9,7 +9,7 @@ export interface InitialCostData {
   [GeoDataType.HOSPITAL]: number;
   [GeoDataType.INDUSTRIAL]: number;
   [GeoDataType.SCHOOL]: number;
-  [GeoDataType.WATER_SUPPLY]: number;
+  [GeoDataType.SEWAGE_TREATMENT]: number;
 }
 
 export interface InitialStateForm {

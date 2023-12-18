@@ -41,7 +41,7 @@ export const initialCostData = {
   [GeoDataType.ELECTRICITY]: 0,
   [GeoDataType.INDUSTRIAL]: 0,
   [GeoDataType.SCHOOL]: 0,
-  [GeoDataType.WATER_SUPPLY]: 0,
+  [GeoDataType.SEWAGE_TREATMENT]: 0,
 };
 
 const initialMouseControl = {
