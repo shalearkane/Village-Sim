@@ -1,6 +1,6 @@
 import { GeoDataType } from "./geo";
 
-export interface RootResponse {
+export interface GeoResponse {
   old: OldGeoSchema;
   new: NewGeoSchema;
 }
@@ -48,6 +48,8 @@ export interface FacilityMap {
   [Facility.sanitation]: FacilityMapData;
   [Facility.school]: FacilityMapData;
   [Facility.water_facility]: FacilityMapData;
+  [Facility.house]: FacilityMapData;
+  [Facility.road]: FacilityMapData;
 }
 
 export enum Facility {
@@ -57,6 +59,8 @@ export enum Facility {
   "healthcare" = "healthcare",
   "sanitation" = "sanitation",
   "school" = "school",
+  "house" = "house",
+  "road" = "road",
 }
 
 export interface NewGeoSchema {
@@ -65,20 +69,20 @@ export interface NewGeoSchema {
   central_point: CentralPoint;
 }
 
-export interface FacilityToGeoDataTypeMap {
-  administrative: GeoDataType.ADMINISTRATION;
-  water_facility: GeoDataType.WATER_SUPPLY;
-  electric_facility: GeoDataType.ELECTRICITY;
-  healthcare: GeoDataType.HOSPITAL;
-  sanitation: GeoDataType.SEWAGE_TREATMENT;
-  school: GeoDataType.SCHOOL;
-}
+export const FacilityToGeoDataTypeMap = {
+  administrative: GeoDataType.ADMINISTRATION,
+  water_facility: GeoDataType.WATER_SUPPLY,
+  electric_facility: GeoDataType.ELECTRICITY,
+  healthcare: GeoDataType.HOSPITAL,
+  sanitation: GeoDataType.SEWAGE_TREATMENT,
+  school: GeoDataType.SCHOOL,
+};
 
-export interface GeoDataTypeToFacility {
-  [GeoDataType.ADMINISTRATION]: "administrative";
-  [GeoDataType.WATER_SUPPLY]: "water_facility";
-  [GeoDataType.ELECTRICITY]: "electric_facility";
-  [GeoDataType.HOSPITAL]: "healthcare";
-  [GeoDataType.SEWAGE_TREATMENT]: "sanitation";
-  [GeoDataType.SCHOOL]: "school";
-}
+export const GeoDataTypeToFacility = {
+  [GeoDataType.ADMINISTRATION]: "administrative",
+  [GeoDataType.WATER_SUPPLY]: "water_facility",
+  [GeoDataType.ELECTRICITY]: "electric_facility",
+  [GeoDataType.HOSPITAL]: "healthcare",
+  [GeoDataType.SEWAGE_TREATMENT]: "sanitation",
+  [GeoDataType.SCHOOL]: "school",
+};
