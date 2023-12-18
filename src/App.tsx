@@ -44,6 +44,8 @@ export const initialCostData = {
   [GeoDataType.SEWAGE_TREATMENT]: 0,
 };
 
+const d = new Date();
+
 const initialMouseControl = {
   x: 0,
   y: 0,
@@ -52,6 +54,7 @@ const initialMouseControl = {
     x: 0,
     y: 0,
     z: 0,
+    time: d.getTime()
   },
 };
 

@@ -11,6 +11,7 @@ export interface MouseControl {
     x: number;
     y: number;
     z: number;
+    time: number;
   };
   newCameraPos?: {
     x: number;

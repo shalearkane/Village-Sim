@@ -104,12 +104,15 @@ function VisualBlock() {
         <mesh
           position={[mouseControl.x, -0.5, mouseControl.z]}
           rotation={[-1.57, 0, 0]}
-          onDoubleClick={(event) => {
+          onClick={(event) => {
             event.stopPropagation();
-            if (safe) addObject(event.point);
+            const d = new Date();
+            if (safe && ((d.getTime() - mouseControl.camPos.time) >= 200)) {
+              addObject(event.point);
+            }
           }}
         >
-          <planeGeometry args={[4, 4]} />
+          <planeGeometry args={[3, 3]} />
           <meshStandardMaterial
             transparent
             opacity={0.5}
@@ -124,13 +127,15 @@ function VisualBlock() {
             rotation={[-1.57, 0, 0]}
             onClick={(event) => {
               event.stopPropagation();
-              if (safe) setRoadPoints([...roadPoints, event.point]);
+              const d = new Date();
+              if (safe && ((d.getTime() - mouseControl.camPos.time) >= 200))  
+                setRoadPoints([...roadPoints, event.point]);
             }}
             onDoubleClick={() => {
               addRoad(roadPoints);
             }}
           >
-            <planeGeometry args={[4, 4]} />
+            <planeGeometry args={[3, 3]} />
             <meshStandardMaterial
               transparent
               opacity={0.5}
