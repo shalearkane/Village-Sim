@@ -1,7 +1,7 @@
 // import { Canvas } from "@react-three/offscreen";
 
 import { dummyData } from "./dummy";
-import { GeoData, GeoDataType, GeoStore } from "./interface/geo";
+import { GeoDataType, GeoStore } from "./interface/geo";
 import { Suspense, lazy, useCallback, useState } from "react";
 
 // This is the fallback component that will be rendered on the main thread
