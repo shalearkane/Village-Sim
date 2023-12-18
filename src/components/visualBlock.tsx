@@ -5,6 +5,7 @@ import { checkSafe, getTerrainMap } from "../utils/terrain";
 import { Toolbar } from "../interface/toolbar";
 import { generateUUID } from "three/src/math/MathUtils.js";
 import { GeoDataPoint, GeoDataType } from "../interface/geo";
+import { Center } from "@react-three/drei";
 
 function VisualBlock() {
   // @ts-ignore
@@ -17,7 +18,8 @@ function VisualBlock() {
   const { costData, setCostData } = useContext(CostDataContext);
 
   const [safe, setSafe] = useState<Boolean>(false);
-  const [roadPoints, setRoadPoints] = useState<THREE.Vector3[]>([]);
+  const [roadPoints, setRoadPoints] = useState<THREE.Vector3[]>([new THREE.Vector3(0, 0, 0)]);
+  const [roadCircles, setRoadCircles] = useState<any>();
 
   // const checkIfSafe = () => {};
 
@@ -91,6 +93,26 @@ function VisualBlock() {
     setRoadPoints([]);
   }
 
+  const roadVisual = () => {
+    console.log(roadCircles);
+    return (roadPoints?.map((point: THREE.Vector3) => {
+      <mesh
+        position={[2, 0, 0]}
+        rotation={[-1.57, 0, 0]}
+      >
+      <circleGeometry args={[5,32]}/>
+      <meshStandardMaterial 
+        color="red"
+      />
+      </mesh>
+    }))
+  }
+
+  // useEffect(() => {
+  //   const circles: any = roadVisual();
+  //   setRoadCircles(circles);
+  // }, [roadPoints])
+
   return (
     <>
       {(selectedTool == Toolbar.HOSPITAL ||
@@ -137,7 +159,20 @@ function VisualBlock() {
               color={safe ? "green" : "red"}
             />
           </mesh>
-        </>
+          { roadPoints &&
+            roadPoints.map((point: THREE.Vector3) => {
+              <mesh
+                position={point}
+                rotation={[-1.57, 0, 0]}
+              >
+              <circleGeometry args={[2,32]}/>
+              <meshStandardMaterial 
+                color="red"
+              />
+              </mesh>
+            })
+          }
+          </>
       )}
     </>
   );
