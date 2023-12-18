@@ -31,6 +31,7 @@ import FormModal from "./components/formModal";
 import { InitialCostData, InitialStateForm } from "./interface/form";
 import StateForm from "./components/stateForm";
 import { Canvas } from "@react-three/fiber";
+import ConfirmModal from "./components/confirmModal";
 
 export const initialCostData = {
   set: false,
@@ -159,6 +160,7 @@ export default function App() {
                       <div className={`relative w-[100vw]`}>
                         <Suspense fallback={<Loading />}>
                           <InfoModal />
+                          <ConfirmModal />
                           <Toolbar />
                           <Minimap />
                           <Canvas

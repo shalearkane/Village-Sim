@@ -53,7 +53,7 @@ function ToolbarComponent() {
                 onClick={() => {
                   setShowInfo(false);
                 }}
-                // className="m-3"
+                className="m-3"
               />
             </div>
           </>
