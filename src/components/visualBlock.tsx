@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { GeoStoreContext, MouseControlContext, ToolbarContext } from "../App";
+import { CostDataContext, GeoStoreContext, MouseControlContext, ToolbarContext } from "../App";
 import * as THREE from "three";
 import { checkSafe, getTerrainMap } from "../utils/terrain";
 import { Toolbar } from "../interface/toolbar";
@@ -13,6 +13,8 @@ function VisualBlock() {
   const { geoStore, setGeoStore } = useContext(GeoStoreContext);
   // @ts-ignore
   const { selectedTool, setSelectedTool } = useContext(ToolbarContext);
+  // @ts-ignore
+  const { costData, setCostData } = useContext(CostDataContext);
 
   const [safe, setSafe] = useState<Boolean>(false);
   const [roadPoints, setRoadPoints] = useState<THREE.Vector3[]>([]);
@@ -55,6 +57,8 @@ function VisualBlock() {
       },
     };
 
+    const newBudget = costData.budget - costData[selectedTool];
+    setCostData({...costData, budget: newBudget});
     let data = [...geoStore.data, newPoint];
     const terrainMap = getTerrainMap(data);
     setGeoStore({ ...geoStore, data, terrainMap });

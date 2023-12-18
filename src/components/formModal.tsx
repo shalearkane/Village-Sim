@@ -19,7 +19,7 @@ function FormModal() {
     [GeoDataType.HOSPITAL]: 500000,
     [GeoDataType.INDUSTRIAL]: 500000,
     [GeoDataType.SCHOOL]: 500000,
-    [GeoDataType.WATER_SUPPLY]: 500000,
+    [GeoDataType.SEWAGE_TREATMENT]: 500000,
     budget: 5000000,
   };
 

@@ -13,16 +13,40 @@ import {
   IconTrash,
   IconWindElectricity,
 } from "@tabler/icons-react";
-import { MouseControlContext, ToolbarContext } from "../App";
+import { MouseControlContext, ToolbarContext, CostDataContext } from "../App";
 
 function ToolbarComponent() {
   // @ts-ignore
   const { selectedTool, setSelectedTool } = useContext(ToolbarContext);
   // @ts-ignore
   const { mouseControl } = useContext(MouseControlContext);
+  // @ts-ignore
+  const { costData } = useContext(CostDataContext);
 
   return (
     <div>
+      <div className="absolute opacity-70 z-10 top-[10px] left-[100px] bg-black rounded-lg p-3">
+        <div >
+        <p>
+          Budget Remaining: {costData.budget}
+        </p>
+        </div>
+        <div>
+        <p>
+          Budget Used: {}
+        </p>
+        </div>
+        <div>
+        <p>
+          Current Facility Cost: {costData[selectedTool]? costData[selectedTool]: "0"}
+        </p>
+        </div>
+        <div>
+        <p>
+          Happiness Index: {}
+        </p>
+        </div>
+      </div>
       <div className="absolute opacity-70 z-10 bottom-[10px] right-[10px] bg-black rounded-lg p-3">
         <p>
           Mouse: ({mouseControl.x}, {mouseControl.z})

@@ -1,4 +1,4 @@
-import { GeoStoreContext, MouseControlContext, ToolbarContext } from "../App";
+import { CostDataContext, GeoStoreContext, MouseControlContext, ToolbarContext } from "../App";
 import { GeoData, GeoDataPoint, GeoDataType } from "../interface/geo";
 import { CatmullRomLine, Center } from "@react-three/drei";
 import { Toolbar } from "../interface/toolbar";
@@ -52,6 +52,8 @@ export default function GenerateObjects() {
   // @ts-ignore
   const { geoStore, setGeoStore } = useContext(GeoStoreContext);
   // @ts-ignore
+  const { costData, setCostData } = useContext(CostDataContext);
+  // @ts-ignore
   const { mouseControl, setMouseControl } =
     useContext<MouseControl>(MouseControlContext);
 
@@ -62,6 +64,9 @@ export default function GenerateObjects() {
     geoStore.data.forEach((point: GeoDataPoint) => {
       if (point.key != key) {
         newGeoData.push(point);
+      } else {
+        const newBudget = costData.budget + costData[point.type];
+        setCostData({...costData, budget: newBudget});
       }
     });
     const terrainMap = getTerrainMap(newGeoData);
