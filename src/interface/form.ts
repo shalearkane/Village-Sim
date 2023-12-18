@@ -19,4 +19,5 @@ export interface InitialStateForm {
   gramId: number;
   shpFile: File | null;
   prjFile: File | null;
+  dbfFile: File | null;
 }

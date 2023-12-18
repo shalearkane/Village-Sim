@@ -66,6 +66,7 @@ export const initialStateFormData: InitialStateForm = {
   districtId: 0,
   shpFile: null,
   prjFile: null,
+  dbfFile: null,
 };
 
 export const ToolbarContext = createContext<ToolbarInterface>(
