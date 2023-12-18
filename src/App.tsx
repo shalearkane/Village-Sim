@@ -1,4 +1,4 @@
-import { Canvas } from "@react-three/offscreen";
+// import { Canvas } from "@react-three/offscreen";
 
 import { dummyData } from "./dummy";
 import { GeoDataType, GeoStore } from "./interface/geo";
@@ -9,9 +9,9 @@ import { Suspense, lazy, useCallback, useState } from "react";
 const Scene = lazy(() => import("./components/scene"));
 
 // This is the worker thread that will render the scene
-const worker = new Worker(new URL("./components/worker", import.meta.url), {
-  type: "module",
-});
+// const worker = new Worker(new URL("./components/worker", import.meta.url), {
+//   type: "module",
+// });
 
 // @ts-ignore
 import DeviceOrientation, { Orientation } from "react-screen-orientation";
@@ -30,6 +30,7 @@ import Loading from "./components/loading";
 import FormModal from "./components/formModal";
 import { InitialCostData, InitialStateForm } from "./interface/form";
 import StateForm from "./components/stateForm";
+import { Canvas } from "@react-three/fiber";
 
 export const initialCostData = {
   set: false,
@@ -159,9 +160,11 @@ export default function App() {
                           <Minimap />
                           <Canvas
                             style={{ width: "100vw", height: "100vh" }}
-                            worker={worker}
-                            fallback={<Scene />}
-                          />
+                            // worker={worker}
+                            // fallback={<Scene />}
+                          >
+                            <Scene />
+                          </Canvas>
                         </Suspense>
                       </div>
                     </Orientation>
