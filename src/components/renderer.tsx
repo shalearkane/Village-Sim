@@ -65,7 +65,7 @@ export default function GenerateObjects() {
       if (point.key != key) {
         newGeoData.push(point);
       } else {
-        const newBudget = costData.budget - (costData[point.type]? costData[point.type] : 0);
+        const newBudget = costData.budget + (costData[point.type]? costData[point.type] : 0);
         setCostData({...costData, budget: newBudget});
       }
     });

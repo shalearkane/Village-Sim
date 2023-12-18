@@ -1,7 +1,7 @@
 // import { Canvas } from "@react-three/offscreen";
 
 import { dummyData } from "./dummy";
-import { GeoDataType, GeoStore } from "./interface/geo";
+import { GeoData, GeoDataType, GeoStore } from "./interface/geo";
 import { Suspense, lazy, useCallback, useState } from "react";
 
 // This is the fallback component that will be rendered on the main thread
@@ -45,7 +45,7 @@ export const initialCostData = {
   [GeoDataType.SEWAGE_TREATMENT]: 0,
 };
 
-const d = new Date();
+const date = new Date();
 
 const initialMouseControl = {
   x: 0,
@@ -55,7 +55,7 @@ const initialMouseControl = {
     x: 0,
     y: 0,
     z: 0,
-    time: d.getTime()
+    time: date.getTime()
   },
 };
 

@@ -7,7 +7,7 @@ export interface GeoResponse {
 
 export interface OldGeoSchema {
   houses: HouseMap;
-  facilites: FacilityMap;
+  facilities: FacilityMap;
 }
 
 export interface HouseMap {

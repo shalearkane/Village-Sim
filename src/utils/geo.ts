@@ -22,24 +22,24 @@ export function geoResposeToGeoData(geoResponse: GeoResponse): GeoData {
       metadata: {
         roadDistance: 0,
         residentialDistance: 0,
-        hospitalDistance: house.nearest_dist[Facility.healthcare].dist,
+        hospitalDistance: house.nearest_dist[Facility.healthcare]?.dist,
         agriculturalDistance: 0,
         commercialDistance: 0,
         industrialDistance: 0,
-        schoolDistance: house.nearest_dist[Facility.school].dist,
-        sewageTreatmentDistance: house.nearest_dist[Facility.sanitation].dist,
-        waterBodyDistance: house.nearest_dist[Facility.water_facility].dist,
+        schoolDistance: house.nearest_dist[Facility.school]?.dist,
+        sewageTreatmentDistance: house.nearest_dist[Facility.water_facility]?.dist,
+        waterBodyDistance: 0,
       },
     });
   });
 
-  Object.keys(geoResponse.old.facilites).forEach((facilityType: string) => {
+  Object.keys(geoResponse.old.facilities).forEach((facilityType: string) => {
     // @ts-ignore
-    Object.keys(geoResponse.old.facilites[facilityType]).forEach(
+    Object.keys(geoResponse.old.facilities[facilityType]).forEach(
       (facilityUUID) => {
         const { central_point } =
           // @ts-ignore
-          geoResponse.old.facilites[facilityType][facilityUUID];
+          geoResponse.old.facilities[facilityType][facilityUUID];
         geoData.push({
           // @ts-ignore
           type: FacilityToGeoDataTypeMap[facilityType],
