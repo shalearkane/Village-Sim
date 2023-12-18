@@ -1,17 +1,17 @@
-import { Canvas } from "@react-three/fiber";
-import {
-  Environment,
-  GizmoHelper,
-  GizmoViewport,
-  OrbitControls,
-  Sky,
-  Stars,
-  Stats,
-} from "@react-three/drei";
-import GenerateObjects from "./components/renderer";
+import { Canvas } from "@react-three/offscreen";
+
 import { dummyData } from "./dummy";
 import { GeoDataType, GeoStore } from "./interface/geo";
-import { Suspense, useCallback, useState } from "react";
+import { Suspense, lazy, useCallback, useState } from "react";
+
+// This is the fallback component that will be rendered on the main thread
+// This will happen on systems where OffscreenCanvas is not supported
+const Scene = lazy(() => import("./components/scene"));
+
+// This is the worker thread that will render the scene
+const worker = new Worker(new URL("./components/worker", import.meta.url), {
+  type: "module",
+});
 
 // @ts-ignore
 import DeviceOrientation, { Orientation } from "react-screen-orientation";
@@ -22,14 +22,10 @@ import { FullScreen, useFullScreenHandle } from "react-full-screen";
 
 import { createContext } from "react";
 import { MouseControl } from "./interface/mouse";
-import VisualBlock from "./components/visualBlock";
 import { getTerrainMap } from "./utils/terrain";
-import Earth from "./components/earth";
 import InfoModal from "./components/modal";
 import Minimap from "./components/minimap";
 import { IconRotate } from "@tabler/icons-react";
-import Roads from "./components/road";
-import Camera from "./components/camera";
 import Loading from "./components/loading";
 import FormModal from "./components/formModal";
 import { InitialCostData, InitialStateForm } from "./interface/form";
@@ -93,7 +89,6 @@ export default function App() {
     useState<InitialStateForm>(initialStateFormData);
   const [mouseControl, setMouseControl] =
     useState<MouseControl>(initialMouseControl);
-  const [lightMode] = useState<boolean>(true);
   const fullScreenHanler = useFullScreenHandle();
   const [beginGame, setBeginGame] = useState<boolean>(false);
   const [fullScreenError, setFullScreenError] = useState<boolean>(false);
@@ -162,50 +157,11 @@ export default function App() {
                           <InfoModal />
                           <Toolbar />
                           <Minimap />
-                          <Canvas style={{ width: "100vw", height: "100vh" }}>
-                            {lightMode ? (
-                              <Sky sunPosition={[100, 20, 100]} />
-                            ) : (
-                              <Stars
-                                radius={100}
-                                depth={50}
-                                count={5000}
-                                factor={4}
-                                saturation={0}
-                                fade
-                                speed={1}
-                              />
-                            )}
-                            <Camera>
-                              <ambientLight intensity={0.3} />
-                              <pointLight
-                                intensity={0.8}
-                                position={[100, 100, 100]}
-                              />
-                              <VisualBlock />
-                              <group position={[0, -0.5, 0]}>
-                                <GenerateObjects />
-                                <Roads />
-                              </group>
-                              <OrbitControls
-                                makeDefault
-                                enableDamping={false}
-                                maxPolarAngle={Math.PI / 2}
-                              />
-                              <Stats />
-                              <Environment files="/potsdamer_platz_1k.hdr" />
-                              <GizmoHelper
-                                alignment="bottom-right"
-                                margin={[80, 80]}
-                              >
-                                <GizmoViewport
-                                  axisColors={["#9d4b4b", "#2f7f4f", "#3b5b9d"]}
-                                  labelColor="white"
-                                />
-                              </GizmoHelper>
-                              <Earth />
-                            </Camera>
-                          </Canvas>
+                          <Canvas
+                            style={{ width: "100vw", height: "100vh" }}
+                            worker={worker}
+                            fallback={<Scene />}
+                          />
                         </Suspense>
                       </div>
                     </Orientation>
