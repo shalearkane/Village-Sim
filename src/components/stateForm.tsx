@@ -201,6 +201,7 @@ function StateForm() {
                 <span className="label-text">Districts</span>
               </div>
               <select
+                value={store.districts.map[input.districtId]}
                 onChange={(e) =>
                   // @ts-ignore
                   setInput({
@@ -242,6 +243,7 @@ function StateForm() {
                 <span className="label-text">Blocks</span>
               </div>
               <select
+                value={store.blocks.map[input.blockId]}
                 onChange={(e) =>
                   // @ts-ignore
                   setInput({
@@ -283,6 +285,7 @@ function StateForm() {
                 <span className="label-text">Gram Panchayat</span>
               </div>
               <select
+                value={store.gramPanchayat.map[input.gramId]}
                 onChange={(e) =>
                   // @ts-ignore
                   setInput({
