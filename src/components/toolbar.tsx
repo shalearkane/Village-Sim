@@ -1,10 +1,11 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Toolbar } from "../interface/toolbar";
 import {
   IconBuilding,
   IconBuildingCommunity,
   IconBuildingFactory2,
   IconBuildingStore,
+  IconBulb,
   IconDropletHalf2Filled,
   IconHandMove,
   IconHospital,
@@ -21,6 +22,8 @@ import {
   CostDataContext,
   GeoStoreContext,
 } from "../App";
+import { OptimalSolution } from "../interface/geoResponse";
+import axios from "axios";
 
 function ToolbarComponent() {
   // @ts-ignore
@@ -32,9 +35,75 @@ function ToolbarComponent() {
   // @ts-ignore
   const { costData } = useContext(CostDataContext);
   const [showInfo, setShowInfo] = useState<boolean>(false);
+  const [showOptimal, setShowOptimal] = useState<boolean>(false);
+  const [optimalSolution, setOptimalSolution] = useState<OptimalSolution>();
+
+  const getOptimal = async () => {
+    console.log("working");
+    const optimalResponse: OptimalSolution = await axios.get(
+      `url`
+    );
+    setOptimalSolution(optimalResponse);
+  }
+
+  useEffect(() => {
+    getOptimal();
+  }, [geoStore])
 
   return (
     <div>
+      <div className="absolute opacity-70 z-10 top-[10px] right-[130px] bg-black rounded-lg p-3">
+        {showOptimal ? (
+          <>
+            <div className="flex flex-end m-2">
+              <div>
+                <div className="flex justify-center m-2">
+                  <p><b>Optimal solution</b></p>
+                </div>
+                <div>
+                  <p>Hospital position: {optimalSolution?.healthcare?.x || 0}, {optimalSolution?.healthcare?.y || 0}</p>
+                </div>
+                <div>
+                  <p>Electric Facility position: {optimalSolution?.electric_facility?.x || 0}, {optimalSolution?.electric_facility?.y || 0}</p>
+                </div>
+                <div>
+                  <p>Sewage Treatment position: {optimalSolution?.sanitation?.x || 0}, {optimalSolution?.sanitation?.y || 0}</p>
+                </div>
+                <div>
+                  <p>Water Supply position: {optimalSolution?.water_facility?.x || 0}, {optimalSolution?.water_facility?.y || 0}</p>
+                </div>
+                <div>
+                  <p>School position: {optimalSolution?.school?.x || 0}, {optimalSolution?.school?.y || 0}</p>
+                </div>
+                <div>
+                  <p>Administration position: {optimalSolution?.administrative?.x || 0}, {optimalSolution?.administrative?.y || 0}</p>
+                </div>
+                <div>
+                  <p>
+                    Optimal Happiness Index: 
+                    {optimalSolution?.happiness || "Not calculated"}
+                  </p>
+                </div>
+              </div>
+              <IconX
+                onClick={() => {
+                  setShowOptimal(false);
+                }}
+                className="m-3"
+              />
+            </div>
+          </>
+        ) : (
+          <>
+            <IconBulb
+              className="cursor-pointer"
+              onClick={() => {
+                setShowOptimal(true);
+              }}
+            />
+          </>
+        )}
+      </div>
       <div className="absolute opacity-70 z-10 top-[10px] right-[70px] bg-black rounded-lg p-3">
         {showInfo ? (
           <>

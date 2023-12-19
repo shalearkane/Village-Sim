@@ -104,3 +104,31 @@ export interface NormalizedGeoStore {
   };
   bounds: Boundaries;
 }
+
+export interface OptimalSolution {
+  administrative: {
+    x: number;
+    y: number;
+  };
+  electric_facility: {
+    x: number;
+    y: number;
+  };
+  healthcare: {
+    x: number;
+    y: number;
+  };
+  sanitation: {
+    x: number;
+    y: number;
+  };
+  school: {
+    x: number;
+    y: number;
+  };
+  water_facility: {
+    x: number;
+    y: number;
+  };
+  happiness: number;
+}

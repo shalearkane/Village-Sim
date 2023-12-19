@@ -72,7 +72,7 @@ export default function GenerateObjects() {
       } else {
         const newBudget =
           costData.budget + (costData[point.type] ? costData[point.type] : 0);
-        setCostData({ ...costData, budget: newBudget });
+        setCostData({ ...costData, budget: newBudget, moneyUsed: (costData.moneyUsed || 0) - (costData[[point.type]] || 0) });
       }
     });
     const terrainMap = getTerrainMap(newGeoData);
