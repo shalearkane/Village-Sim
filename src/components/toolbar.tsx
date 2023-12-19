@@ -37,18 +37,19 @@ function ToolbarComponent() {
   const [showInfo, setShowInfo] = useState<boolean>(false);
   const [showOptimal, setShowOptimal] = useState<boolean>(false);
   const [optimalSolution, setOptimalSolution] = useState<OptimalSolution>();
+  const [optimalLoading, setOptimalLoading] = useState<boolean>(false);
 
   const getOptimal = async () => {
     console.log("working");
-    const optimalResponse: OptimalSolution = await axios.get(
-      `url`
-    );
+    const optimalResponse: OptimalSolution = await axios.get(`url`);
     setOptimalSolution(optimalResponse);
-  }
+    setOptimalLoading(false);
+  };
 
   useEffect(() => {
+    setOptimalLoading(true);
     getOptimal();
-  }, [geoStore])
+  }, [geoStore]);
 
   return (
     <div>
@@ -56,35 +57,69 @@ function ToolbarComponent() {
         {showOptimal ? (
           <>
             <div className="flex flex-end m-2">
-              <div>
-                <div className="flex justify-center m-2">
-                  <p><b>Optimal solution</b></p>
-                </div>
+              {optimalLoading ? (
                 <div>
-                  <p>Hospital position: {optimalSolution?.healthcare?.x || 0}, {optimalSolution?.healthcare?.y || 0}</p>
+                  <div className="flex justify-center m-2">
+                    <p>
+                      <b>Optimal solution</b>
+                    </p>
+                  </div>
+                  <div>
+                    <p>
+                      Hospital position: {optimalSolution?.healthcare?.x || 0},{" "}
+                      {optimalSolution?.healthcare?.y || 0}
+                    </p>
+                  </div>
+                  <div>
+                    <p>
+                      Electric Facility position:{" "}
+                      {optimalSolution?.electric_facility?.x || 0},{" "}
+                      {optimalSolution?.electric_facility?.y || 0}
+                    </p>
+                  </div>
+                  <div>
+                    <p>
+                      Sewage Treatment position:{" "}
+                      {optimalSolution?.sanitation?.x || 0},{" "}
+                      {optimalSolution?.sanitation?.y || 0}
+                    </p>
+                  </div>
+                  <div>
+                    <p>
+                      Water Supply position:{" "}
+                      {optimalSolution?.water_facility?.x || 0},{" "}
+                      {optimalSolution?.water_facility?.y || 0}
+                    </p>
+                  </div>
+                  <div>
+                    <p>
+                      School position: {optimalSolution?.school?.x || 0},{" "}
+                      {optimalSolution?.school?.y || 0}
+                    </p>
+                  </div>
+                  <div>
+                    <p>
+                      Administration position:{" "}
+                      {optimalSolution?.administrative?.x || 0},{" "}
+                      {optimalSolution?.administrative?.y || 0}
+                    </p>
+                  </div>
+                  <div>
+                    <p>
+                      Optimal Happiness Index:
+                      {optimalSolution?.happiness || "Not calculated"}
+                    </p>
+                  </div>
                 </div>
+              ) : (
                 <div>
-                  <p>Electric Facility position: {optimalSolution?.electric_facility?.x || 0}, {optimalSolution?.electric_facility?.y || 0}</p>
+                  <div className="flex justify-center m-2">
+                    <p>
+                      <b>Optimal solution is being calculated...</b>
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p>Sewage Treatment position: {optimalSolution?.sanitation?.x || 0}, {optimalSolution?.sanitation?.y || 0}</p>
-                </div>
-                <div>
-                  <p>Water Supply position: {optimalSolution?.water_facility?.x || 0}, {optimalSolution?.water_facility?.y || 0}</p>
-                </div>
-                <div>
-                  <p>School position: {optimalSolution?.school?.x || 0}, {optimalSolution?.school?.y || 0}</p>
-                </div>
-                <div>
-                  <p>Administration position: {optimalSolution?.administrative?.x || 0}, {optimalSolution?.administrative?.y || 0}</p>
-                </div>
-                <div>
-                  <p>
-                    Optimal Happiness Index: 
-                    {optimalSolution?.happiness || "Not calculated"}
-                  </p>
-                </div>
-              </div>
+              )}
               <IconX
                 onClick={() => {
                   setShowOptimal(false);
