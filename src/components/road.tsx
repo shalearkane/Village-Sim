@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { GeoStoreContext } from "../App";
 import { GeoDataPoint, GeoDataType } from "../interface/geo";
 import * as THREE from "three";
-import { Line } from "@react-three/drei";
+import { CatmullRomLine } from "@react-three/drei";
 import { getRoadCoordinates } from "../utils/terrain";
 
 function Roads() {
@@ -19,10 +19,10 @@ function Roads() {
 
         return roadCoordinates.map((point: Array<THREE.Vector3>) => {
           return (
-            <Line
+            <CatmullRomLine
               // @ts-ignore
               points={point}
-              color={0x6B6B74}
+              color={0x6b6b74}
               lineWidth={3}
             />
           );

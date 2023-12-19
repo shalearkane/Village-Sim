@@ -48,6 +48,8 @@ function FormModal() {
     if (modalRef) modalRef.current?.click();
   };
 
+  console.log(input);
+
   return (
     <div>
       <input
@@ -67,37 +69,50 @@ function FormModal() {
               </p>
               <ol>
                 <li>
-                  Select the cost of each building/facility and total budget for development.
+                  Select the cost of each building/facility and total budget for
+                  development.
                 </li>
                 <li>
-                  On starting game, you will see a simulation of the village. You can freely traverse the map.
+                  On starting game, you will see a simulation of the village.
+                  You can freely traverse the map.
                 </li>
                 <li>
-                  Mini Map is in the top-right corner. Click on any region in the Mini Map to quickly go there. You can also spot your position and location of facilities.
+                  Mini Map is in the top-right corner. Click on any region in
+                  the Mini Map to quickly go there. You can also spot your
+                  position and location of facilities.
                 </li>
                 <li>
-                  Toolbar is in the left side of the screen. Use it to add facilities. A green block will appear where the facility can be put. Double click to add facility.
+                  Toolbar is in the left side of the screen. Use it to add
+                  facilities. A green block will appear where the facility can
+                  be put. Double click to add facility.
                 </li>
                 <li>
-                  To create a road, select road option. Single-click points on the map along which road will be created. Double-click to create road.
+                  To create a road, select road option. Single-click points on
+                  the map along which road will be created. Double-click to
+                  create road.
                 </li>
                 <li>
-                  To delete any facility, select delete on the toolbar and double-click on the facility.
+                  To delete any facility, select delete on the toolbar and
+                  double-click on the facility.
                 </li>
                 <li>
-                  Using selection cursor, click on any facility to know more relevant information about it.
+                  Using selection cursor, click on any facility to know more
+                  relevant information about it.
                 </li>
                 <li>
-                  Goal of the simulation is to create the happiest village in the given amount of budget and costs!!
+                  Goal of the simulation is to create the happiest village in
+                  the given amount of budget and costs!!
                 </li>
               </ol>
               <label
-                  onClick={() => {setNextPage(1)}}
-                  htmlFor="my_modal_6"
-                  className="btn"
-                >
-                  NEXT
-                </label>
+                onClick={() => {
+                  setNextPage(1);
+                }}
+                htmlFor="my_modal_6"
+                className="btn"
+              >
+                NEXT
+              </label>
             </div>
           ) : null}
           {nextPage == 1 ? (
@@ -107,9 +122,19 @@ function FormModal() {
                 Please provide the cost and budget of the development
               </p>
 
+              <span
+                className="label-text-alt cursor-pointer mt-2 mb-2"
+                onClick={() => {
+                  setInput({ ...defaultValue, set: input.set });
+                }}
+              >
+                Set all default values
+              </span>
+
               <div className="form-control w-full max-h-[50vh] overflow-scroll no-scrollbar">
-                {/* @ts-ignore */}
-                {Object.entries(defaultValue).map((entry: string, entryIndex) => {
+                {Object.entries(defaultValue).map(
+                  //@ts-ignore
+                  (entry: string, entryIndex) => {
                     return (
                       <div key={`CostData_${entryIndex}`} className="mb-2">
                         <div className="label">
