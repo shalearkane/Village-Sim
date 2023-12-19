@@ -15,7 +15,7 @@ import { geoResposeToGeoData, roadsToGeoData } from "../utils/geo";
 import { getTerrainMap } from "../utils/terrain";
 import { GeoData } from "../interface/geo";
 import { RoadResponse } from "../interface/roads";
-import { getBounds, getBoundsFromGeoResponse } from "../utils/math";
+import { getBoundsFromGeoResponse } from "../utils/math";
 
 const defaultStore = {
   map: {},
