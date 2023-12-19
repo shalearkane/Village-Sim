@@ -161,7 +161,6 @@ export default function GenerateObjects() {
             });
           }
           case GeoDataType.RESIDENTIAL: {
-            console.log("HELLO");
             if (GeoDataPoint.floors == 1) {
               return (
                 <Center

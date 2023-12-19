@@ -226,7 +226,7 @@ function Minimap() {
                           filters.HOSPITAL && (
                             <Circle
                               key={`GeoDataPoint_Minimap_${point.key}`}
-                              radius={pointWidth}
+                              radius={pointWidth * 5}
                               fill={colorCoding[point.type]}
                               x={scale * (point.centralPoint.x - bounds.minX)}
                               y={scale * (point.centralPoint.z - bounds.minY)}
@@ -239,7 +239,7 @@ function Minimap() {
                           filters.SEWAGE_TREATMENT && (
                             <Circle
                               key={`GeoDataPoint_Minimap_${point.key}`}
-                              radius={pointWidth}
+                              radius={pointWidth * 5}
                               fill={colorCoding[point.type]}
                               x={scale * (point.centralPoint.x - bounds.minX)}
                               y={scale * (point.centralPoint.z - bounds.minY)}
@@ -252,7 +252,7 @@ function Minimap() {
                           filters.WATER_SUPPLY && (
                             <Circle
                               key={`GeoDataPoint_Minimap_${point.key}`}
-                              radius={pointWidth}
+                              radius={pointWidth * 5}
                               fill={colorCoding[point.type]}
                               x={scale * (point.centralPoint.x - bounds.minX)}
                               y={scale * (point.centralPoint.z - bounds.minY)}
@@ -265,7 +265,7 @@ function Minimap() {
                           filters.ADMINISTRATION && (
                             <Circle
                               key={`GeoDataPoint_Minimap_${point.key}`}
-                              radius={pointWidth}
+                              radius={pointWidth * 5}
                               fill={colorCoding[point.type]}
                               x={scale * (point.centralPoint.x - bounds.minX)}
                               y={scale * (point.centralPoint.z - bounds.minY)}
@@ -278,7 +278,20 @@ function Minimap() {
                           filters.ELECTRICITY && (
                             <Circle
                               key={`GeoDataPoint_Minimap_${point.key}`}
-                              radius={pointWidth}
+                              radius={pointWidth * 5}
+                              fill={colorCoding[point.type]}
+                              x={scale * (point.centralPoint.x - bounds.minX)}
+                              y={scale * (point.centralPoint.z - bounds.minY)}
+                            />
+                          )
+                        );
+                      }
+                      case GeoDataType.SCHOOL: {
+                        return (
+                          filters.SCHOOL && (
+                            <Circle
+                              key={`GeoDataPoint_Minimap_${point.key}`}
+                              radius={pointWidth * 5}
                               fill={colorCoding[point.type]}
                               x={scale * (point.centralPoint.x - bounds.minX)}
                               y={scale * (point.centralPoint.z - bounds.minY)}
