@@ -212,248 +212,259 @@ function StateForm() {
         </div>
       ) : (
         <div className="w-[350px] text-center">
-          {/* State */}
-          <div className="label">
-            <span className="label-text">State</span>
-          </div>
-          <select
-            onChange={(e) =>
-              // @ts-ignore
-              setInput({ ...input, stateId: STATE_CODES[e.target.value] })
-            }
-            className="select select-bordered w-full max-w-xs"
-          >
-            {Object.keys(STATE_CODES).map((key: string, keyIndex: number) => {
-              return (
-                <option
-                  key={`State_Option_${keyIndex}`}
-                  // @ts-ignore
-                  selected={input.stateId == STATE_CODES[key]}
-                >
-                  {key}
-                </option>
-              );
-            })}
-          </select>
-          {/* @ts-ignore */}
-          {!input.stateId && (
-            <div className="label">
-              <span className="label-text-alt text-red-200">
-                This field is required
-              </span>
-            </div>
-          )}
-
-          {/* Districts */}
-          {!loading.districts && (
-            <div>
-              <div className="label">
-                <span className="label-text">Districts</span>
-              </div>
-              <select
-                value={store.districts.map[input.districtId]}
-                onChange={(e) =>
-                  // @ts-ignore
-                  setInput({
-                    ...input,
-                    districtId: store.districts.reverseMap[e.target.value],
-                  })
-                }
-                className="select select-bordered w-full max-w-xs"
-              >
-                {Object.keys(store.districts.reverseMap).map(
-                  (key: string, keyIndex: number) => {
-                    return (
-                      <option
-                        key={`Districts_Option_${keyIndex}`}
-                        // @ts-ignore
-                        selected={input.districtId == store.districts.map[key]}
-                      >
-                        {key}
-                      </option>
-                    );
-                  }
-                )}
-              </select>
-              {/* @ts-ignore */}
-              {!input.districtId && (
-                <div className="label">
-                  <span className="label-text-alt text-red-200">
-                    This field is required
-                  </span>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Blocks */}
-          {!loading.districts && !loading.blocks && (
-            <div>
-              <div className="label">
-                <span className="label-text">Blocks</span>
-              </div>
-              <select
-                value={store.blocks.map[input.blockId]}
-                onChange={(e) =>
-                  // @ts-ignore
-                  setInput({
-                    ...input,
-                    blockId: store.blocks.reverseMap[e.target.value],
-                  })
-                }
-                className="select select-bordered w-full max-w-xs"
-              >
-                {Object.keys(store.blocks.reverseMap).map(
-                  (key: string, keyIndex: number) => {
-                    return (
-                      <option
-                        key={`Districts_Option_${keyIndex}`}
-                        // @ts-ignore
-                        selected={input.blockId == store.blocks.map[key]}
-                      >
-                        {key}
-                      </option>
-                    );
-                  }
-                )}
-              </select>
-              {/* @ts-ignore */}
-              {!input.blockId && (
-                <div className="label">
-                  <span className="label-text-alt text-red-200">
-                    This field is required
-                  </span>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* GramPanchayat */}
-          {!loading.districts && !loading.blocks && !loading.gramPanchayat && (
-            <div>
-              <div className="label">
-                <span className="label-text">Gram Panchayat</span>
-              </div>
-              <select
-                value={store.gramPanchayat.map[input.gramId]}
-                onChange={(e) =>
-                  // @ts-ignore
-                  setInput({
-                    ...input,
-                    gramId: store.gramPanchayat.reverseMap[e.target.value],
-                  })
-                }
-                className="select select-bordered w-full max-w-xs"
-              >
-                {Object.keys(store.gramPanchayat.reverseMap).map(
-                  (key: string, keyIndex: number) => {
-                    return (
-                      <option
-                        key={`Districts_Option_${keyIndex}`}
-                        // @ts-ignore
-                        selected={input.gramId == store.gramPanchayat.map[key]}
-                      >
-                        {key}
-                      </option>
-                    );
-                  }
-                )}
-              </select>
-              {!input.gramId && (
-                <div className="label">
-                  <span className="label-text-alt text-red-200">
-                    This field is required
-                  </span>
-                </div>
-              )}
-            </div>
-          )}
-
-          {input.gramId && !loading.gramPanchayat ? (
-            <div>
-              {/* SHP File Upload */}
-              <label className="form-control w-full max-w-xs">
-                <div className="label">
-                  <span className="label-text">Upload .SHP file</span>
-                </div>
-                <input
-                  type="file"
-                  accept=".shp"
-                  onChange={(e) =>
-                    // @ts-ignore
-                    setInput({ ...input, shpFile: e.target.files[0] })
-                  }
-                  className="file-input file-input-bordered w-full max-w-xs"
-                />
-                {!input.shpFile && (
-                  <div className="label">
-                    <span className="label-text-alt text-red-200">
-                      This field is required
-                    </span>
-                  </div>
-                )}
-              </label>
-
-              {/* SHP File Upload */}
-              <label className="form-control w-full max-w-xs">
-                <div className="label">
-                  <span className="label-text">Upload .PRJ file</span>
-                </div>
-                <input
-                  type="file"
-                  accept=".prj"
-                  onChange={(e) =>
-                    // @ts-ignore
-                    setInput({ ...input, prjFile: e.target.files[0] })
-                  }
-                  className="file-input file-input-bordered w-full max-w-xs"
-                />
-                {!input.prjFile && (
-                  <div className="label">
-                    <span className="label-text-alt text-red-200">
-                      This field is required
-                    </span>
-                  </div>
-                )}
-              </label>
-
-              {/* SHP File Upload */}
-              <label className="form-control w-full max-w-xs">
-                <div className="label">
-                  <span className="label-text">Upload .DBF file</span>
-                </div>
-                <input
-                  type="file"
-                  accept=".dbf"
-                  onChange={(e) =>
-                    // @ts-ignore
-                    setInput({ ...input, dbfFile: e.target.files[0] })
-                  }
-                  className="file-input file-input-bordered w-full max-w-xs"
-                />
-                {!input.dbfFile && (
-                  <div className="label">
-                    <span className="label-text-alt text-red-200">
-                      This field is required
-                    </span>
-                  </div>
-                )}
-              </label>
-            </div>
-          ) : (
-            <></>
-          )}
-
           {!input.set && (
-            <button
-              disabled={btnDisabled}
-              className="m-2"
-              onClick={() => {
-                handleSubmit();
-              }}
-            >
-              SUBMIT
-            </button>
+            <div>
+              {/* State */}
+              <div className="label">
+                <span className="label-text">State</span>
+              </div>
+              <select
+                onChange={(e) =>
+                  // @ts-ignore
+                  setInput({ ...input, stateId: STATE_CODES[e.target.value] })
+                }
+                className="select select-bordered w-full max-w-xs"
+              >
+                {Object.keys(STATE_CODES).map(
+                  (key: string, keyIndex: number) => {
+                    return (
+                      <option
+                        key={`State_Option_${keyIndex}`}
+                        // @ts-ignore
+                        selected={input.stateId == STATE_CODES[key]}
+                      >
+                        {key}
+                      </option>
+                    );
+                  }
+                )}
+              </select>
+              {/* @ts-ignore */}
+              {!input.stateId && (
+                <div className="label">
+                  <span className="label-text-alt text-red-200">
+                    This field is required
+                  </span>
+                </div>
+              )}
+
+              {/* Districts */}
+              {!loading.districts && (
+                <div>
+                  <div className="label">
+                    <span className="label-text">Districts</span>
+                  </div>
+                  <select
+                    value={store.districts.map[input.districtId]}
+                    onChange={(e) =>
+                      // @ts-ignore
+                      setInput({
+                        ...input,
+                        districtId: store.districts.reverseMap[e.target.value],
+                      })
+                    }
+                    className="select select-bordered w-full max-w-xs"
+                  >
+                    {Object.keys(store.districts.reverseMap).map(
+                      (key: string, keyIndex: number) => {
+                        return (
+                          <option
+                            key={`Districts_Option_${keyIndex}`}
+                            selected={
+                              // @ts-ignore
+                              input.districtId == store.districts.map[key]
+                            }
+                          >
+                            {key}
+                          </option>
+                        );
+                      }
+                    )}
+                  </select>
+                  {/* @ts-ignore */}
+                  {!input.districtId && (
+                    <div className="label">
+                      <span className="label-text-alt text-red-200">
+                        This field is required
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Blocks */}
+              {!loading.districts && !loading.blocks && (
+                <div>
+                  <div className="label">
+                    <span className="label-text">Blocks</span>
+                  </div>
+                  <select
+                    value={store.blocks.map[input.blockId]}
+                    onChange={(e) =>
+                      // @ts-ignore
+                      setInput({
+                        ...input,
+                        blockId: store.blocks.reverseMap[e.target.value],
+                      })
+                    }
+                    className="select select-bordered w-full max-w-xs"
+                  >
+                    {Object.keys(store.blocks.reverseMap).map(
+                      (key: string, keyIndex: number) => {
+                        return (
+                          <option
+                            key={`Districts_Option_${keyIndex}`}
+                            // @ts-ignore
+                            selected={input.blockId == store.blocks.map[key]}
+                          >
+                            {key}
+                          </option>
+                        );
+                      }
+                    )}
+                  </select>
+                  {/* @ts-ignore */}
+                  {!input.blockId && (
+                    <div className="label">
+                      <span className="label-text-alt text-red-200">
+                        This field is required
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* GramPanchayat */}
+              {!loading.districts &&
+                !loading.blocks &&
+                !loading.gramPanchayat && (
+                  <div>
+                    <div className="label">
+                      <span className="label-text">Gram Panchayat</span>
+                    </div>
+                    <select
+                      value={store.gramPanchayat.map[input.gramId]}
+                      onChange={(e) =>
+                        // @ts-ignore
+                        setInput({
+                          ...input,
+                          gramId:
+                            store.gramPanchayat.reverseMap[e.target.value],
+                        })
+                      }
+                      className="select select-bordered w-full max-w-xs"
+                    >
+                      {Object.keys(store.gramPanchayat.reverseMap).map(
+                        (key: string, keyIndex: number) => {
+                          return (
+                            <option
+                              key={`Districts_Option_${keyIndex}`}
+                              selected={
+                                // @ts-ignore
+                                input.gramId == store.gramPanchayat.map[key]
+                              }
+                            >
+                              {key}
+                            </option>
+                          );
+                        }
+                      )}
+                    </select>
+                    {!input.gramId && (
+                      <div className="label">
+                        <span className="label-text-alt text-red-200">
+                          This field is required
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+              {input.gramId && !loading.gramPanchayat ? (
+                <div>
+                  {/* SHP File Upload */}
+                  <label className="form-control w-full max-w-xs">
+                    <div className="label">
+                      <span className="label-text">Upload .SHP file</span>
+                    </div>
+                    <input
+                      type="file"
+                      accept=".shp"
+                      onChange={(e) =>
+                        // @ts-ignore
+                        setInput({ ...input, shpFile: e.target.files[0] })
+                      }
+                      className="file-input file-input-bordered w-full max-w-xs"
+                    />
+                    {!input.shpFile && (
+                      <div className="label">
+                        <span className="label-text-alt text-red-200">
+                          This field is required
+                        </span>
+                      </div>
+                    )}
+                  </label>
+
+                  {/* SHP File Upload */}
+                  <label className="form-control w-full max-w-xs">
+                    <div className="label">
+                      <span className="label-text">Upload .PRJ file</span>
+                    </div>
+                    <input
+                      type="file"
+                      accept=".prj"
+                      onChange={(e) =>
+                        // @ts-ignore
+                        setInput({ ...input, prjFile: e.target.files[0] })
+                      }
+                      className="file-input file-input-bordered w-full max-w-xs"
+                    />
+                    {!input.prjFile && (
+                      <div className="label">
+                        <span className="label-text-alt text-red-200">
+                          This field is required
+                        </span>
+                      </div>
+                    )}
+                  </label>
+
+                  {/* SHP File Upload */}
+                  <label className="form-control w-full max-w-xs">
+                    <div className="label">
+                      <span className="label-text">Upload .DBF file</span>
+                    </div>
+                    <input
+                      type="file"
+                      accept=".dbf"
+                      onChange={(e) =>
+                        // @ts-ignore
+                        setInput({ ...input, dbfFile: e.target.files[0] })
+                      }
+                      className="file-input file-input-bordered w-full max-w-xs"
+                    />
+                    {!input.dbfFile && (
+                      <div className="label">
+                        <span className="label-text-alt text-red-200">
+                          This field is required
+                        </span>
+                      </div>
+                    )}
+                  </label>
+                </div>
+              ) : (
+                <></>
+              )}
+
+              <button
+                disabled={btnDisabled}
+                className="m-2"
+                onClick={() => {
+                  handleSubmit();
+                }}
+              >
+                SUBMIT
+              </button>
+            </div>
           )}
         </div>
       )}

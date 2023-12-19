@@ -139,10 +139,6 @@ export default function App() {
     }
   };
 
-  useEffect(() => {
-    if (stateData.set) toggleFullScreen();
-  }, [stateData.set]);
-
   const reportChange = useCallback(
     (state: boolean) => {
       if (!fullScreenError) setBeginGame(state);
@@ -168,11 +164,9 @@ export default function App() {
                     <h1>Panchayat Sim</h1>
                     <p>A simulator to visualize the possibilities of growth</p>
                     <StateForm />
-                    {/* {(stateData.set) &&  */}
                     <button className="mt-5" onClick={toggleFullScreen}>
-                      {costData.set ? "START GAME !" : "SKIP TO KALONDA"}
+                      {costData.set ? "ENTER GAME !" : "SKIP TO KALONDA"}
                     </button>
-                    {/* }    */}
                   </div>
                 ) : (
                   <DeviceOrientation lockOrientation={"landscape"}>
