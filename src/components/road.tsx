@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { GeoStoreContext } from "../App";
 import { GeoDataPoint, GeoDataType } from "../interface/geo";
 import * as THREE from "three";
-import { CatmullRomLine, Line } from "@react-three/drei";
+import { CatmullRomLine } from "@react-three/drei";
 import { getRoadCoordinates } from "../utils/terrain";
 
 function Roads() {
