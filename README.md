@@ -2,6 +2,10 @@
 
 A web based simulator to help gram panchayats to plan their village development through an interactive game.
 
+# Live demo:
+
+[https://village-sim.vercel.app/](https://village-sim.vercel.app/)
+
 # Problem statement
 
 Gram Panchayats, historically pivotal in local self-government, find themselves detached from the formal structure, impeding effective village development. The challenge at hand is to fill this void by tackling the absence of a simulated environment for collaborative village planning. There is a pressing need for a Village development plan platform to empower Gram Panchayats and facilitate strategic development planning in partnership with villagers. The focus of this solution would be to foster inclusive, informed, and strategic rural development effectively using allocated funds and promoting optimal infrastructure development.
