@@ -83,6 +83,7 @@ export function geoDataToGeoResponse(
 
   geoData.forEach((point: GeoDataPoint) => {
     if (point.type === GeoDataType.RESIDENTIAL) {
+      if (!point.key) return;
       geoResponse.old.houses[point.key] = {
         floors: point.floors || 0,
         central_point: {
@@ -93,7 +94,14 @@ export function geoDataToGeoResponse(
       };
     } else if (point.type != GeoDataType.ROAD) {
       // @ts-ignore
-      geoResponse.old.facilities[GeoDataTypeToFacility[point.type]] = {
+      const key = GeoDataTypeToFacility[point.type];
+      if (!key || key == "house" || key == "road") return;
+      // @ts-ignore
+      if (!geoResponse.old.facilities[key])
+        // @ts-ignore
+        geoResponse.old.facilities[key] = {};
+      // @ts-ignore
+      geoResponse.old.facilities[key][point.key] = {
         central_point: {
           lat: (point.centralPoint.x + buffer.x) / normalizationFactor,
           long: (point.centralPoint.z + buffer.y) / normalizationFactor,
@@ -102,6 +110,9 @@ export function geoDataToGeoResponse(
       };
     }
   });
+
+  delete geoResponse.old.facilities[Facility.house];
+  delete geoResponse.old.facilities[Facility.road];
 
   return geoResponse;
 }

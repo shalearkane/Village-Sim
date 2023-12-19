@@ -11,7 +11,9 @@ import { Toolbar } from "../interface/toolbar";
 import { generateUUID } from "three/src/math/MathUtils.js";
 import { GeoDataPoint, GeoDataType } from "../interface/geo";
 import { Circle } from "@react-three/drei";
-import { Facility } from "../interface/geoResponse";
+import { Facility, GeoResponse, Happiness } from "../interface/geoResponse";
+import { geoDataToGeoResponse, geoResposeToGeoData } from "../utils/geo";
+import axios from "axios";
 
 function VisualBlock() {
   // @ts-ignore
@@ -58,7 +60,7 @@ function VisualBlock() {
     dist: 0,
   };
 
-  const addObject = (point: THREE.Vector3) => {
+  const addObject = async (point: THREE.Vector3) => {
     point.y = 0;
     const newPoint: GeoDataPoint = {
       key: generateUUID(),
@@ -77,10 +79,57 @@ function VisualBlock() {
 
     const newBudget =
       costData.budget - (costData[selectedTool] ? costData[selectedTool] : 0);
-    setCostData({ ...costData, budget: newBudget });
+    setCostData({
+      ...costData,
+      budget: newBudget,
+      moneyUsed: (costData.moneyUsed || 0) + (costData[selectedTool] || 0),
+    });
     let data = [...geoStore.data, newPoint];
     const terrainMap = getTerrainMap(data);
+
+    const addNewObjectRequest: GeoResponse = geoDataToGeoResponse(
+      data,
+      {
+        key: "",
+        facility_type: selectedTool,
+        central_point: {
+          lat: point.x,
+          long: point.z,
+        },
+      },
+      {
+        x: geoStore.buffer.x,
+        y: geoStore.buffer.y,
+      }
+    );
+
     setGeoStore({ ...geoStore, data, terrainMap });
+
+    const response: {
+      data: { data: GeoResponse; avg_happiness: number; happiness: Happiness };
+    } = await axios.post(
+      `${import.meta.env.VITE_APP_BACKEND}/happiness`,
+      addNewObjectRequest
+    );
+
+    if (response.data) {
+      const normalizedNewData = geoResposeToGeoData(response.data.data);
+
+      geoStore.data.forEach((point: GeoDataPoint) => {
+        if (point.type == GeoDataType.ROAD) normalizedNewData.data.push(point);
+      });
+
+      const newTerrainMap = getTerrainMap(normalizedNewData.data);
+
+      setGeoStore({
+        ...geoStore,
+        data: normalizedNewData.data,
+        terrainMap: newTerrainMap,
+        happiness: response.data.happiness,
+        avg_happiness: response.data.avg_happiness * 100000,
+      });
+    }
+    console.log(response.data);
   };
 
   const addRoad = (points: THREE.Vector3[]) => {

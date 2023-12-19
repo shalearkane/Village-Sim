@@ -1,5 +1,5 @@
 import { Euler, Vector3 } from "three";
-import { Facility, NearestDistMetaData } from "./geoResponse";
+import { Facility, Happiness, NearestDistMetaData } from "./geoResponse";
 
 export enum GeoDataType {
   "ROAD" = "ROAD",
@@ -148,6 +148,12 @@ export interface TerrainMap {
 export interface GeoStore {
   terrainMap: TerrainMap;
   data: GeoData;
+  buffer: {
+    x: number;
+    y: number;
+  };
+  avg_happiness?: number;
+  happiness?: Happiness;
 }
 
 export interface RoadTerrain {

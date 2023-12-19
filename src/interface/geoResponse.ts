@@ -5,6 +5,15 @@ export interface GeoResponse {
   new: NewGeoSchema;
 }
 
+export interface Happiness {
+  [Facility.administrative]: number;
+  [Facility.electric_facility]: number;
+  [Facility.healthcare]: number;
+  [Facility.sanitation]: number;
+  [Facility.school]: number;
+  [Facility.water_facility]: number;
+}
+
 export interface OldGeoSchema {
   houses: HouseMap;
   facilities: FacilityMap;

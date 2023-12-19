@@ -2,7 +2,7 @@
 
 // import { dummyData } from "./dummy";
 import { GeoDataType, GeoStore } from "./interface/geo";
-import { Suspense, lazy, useCallback, useEffect, useState } from "react";
+import { Suspense, lazy, useCallback, useState } from "react";
 
 // This is the fallback component that will be rendered on the main thread
 // This will happen on systems where OffscreenCanvas is not supported
@@ -39,6 +39,7 @@ import { dummyRoads } from "./roads";
 export const initialCostData = {
   set: false,
   budget: 0,
+  moneyUsed: 0,
   [GeoDataType.HOSPITAL]: 0,
   [GeoDataType.ADMINISTRATION]: 0,
   [GeoDataType.COMMERCIAL]: 0,
@@ -96,6 +97,7 @@ export const MouseControlContext =
 export const GeoStoreContext = createContext<GeoStore>({
   data: [...dummyData, ...roadData],
   terrainMap: {},
+  buffer,
 });
 export const CostDataContext = createContext<InitialCostData>(initialCostData);
 export const StateDataContext =
@@ -105,6 +107,7 @@ export default function App() {
   const [geoStore, setGeoStore] = useState<GeoStore>({
     data: [...dummyData, ...roadData],
     terrainMap: getTerrainMap([...dummyData, ...roadData]),
+    buffer,
   });
   const [selectedTool, setSelectedTool] = useState<ToolbarInterface>(
     ToolbarInterface.CURSOR

@@ -15,13 +15,20 @@ import {
   IconWindElectricity,
   IconX,
 } from "@tabler/icons-react";
-import { MouseControlContext, ToolbarContext, CostDataContext } from "../App";
+import {
+  MouseControlContext,
+  ToolbarContext,
+  CostDataContext,
+  GeoStoreContext,
+} from "../App";
 
 function ToolbarComponent() {
   // @ts-ignore
   const { selectedTool, setSelectedTool } = useContext(ToolbarContext);
   // @ts-ignore
   const { mouseControl } = useContext(MouseControlContext);
+  // @ts-ignore
+  const { geoStore } = useContext(GeoStoreContext);
   // @ts-ignore
   const { costData } = useContext(CostDataContext);
   const [showInfo, setShowInfo] = useState<boolean>(false);
@@ -37,16 +44,13 @@ function ToolbarComponent() {
                   <p>Budget Remaining: {costData.budget}</p>
                 </div>
                 <div>
-                  <p>Budget Used: {}</p>
+                  <p>Budget Used: {costData.moneyUsed || 0}</p>
                 </div>
                 <div>
                   <p>
-                    Current Facility Cost:{" "}
-                    {costData[selectedTool] ? costData[selectedTool] : "0"}
+                    Happiness Index:
+                    {geoStore.avg_happiness || "Not calculated"}
                   </p>
-                </div>
-                <div>
-                  <p>Happiness Index: {}</p>
                 </div>
               </div>
               <IconX

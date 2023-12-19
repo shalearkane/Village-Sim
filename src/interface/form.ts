@@ -3,6 +3,7 @@ import { GeoDataType } from "./geo";
 export interface InitialCostData {
   set: boolean;
   budget: number;
+  moneyUsed: number;
   [GeoDataType.ADMINISTRATION]: number;
   [GeoDataType.COMMERCIAL]: number;
   [GeoDataType.ELECTRICITY]: number;

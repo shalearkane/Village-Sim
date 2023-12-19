@@ -122,6 +122,7 @@ function FormModal() {
               <span
                 className="label-text-alt cursor-pointer mt-2 mb-2"
                 onClick={() => {
+                  // @ts-ignore
                   setInput({ ...defaultValue, set: input.set });
                 }}
               >

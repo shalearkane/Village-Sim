@@ -152,14 +152,10 @@ function StateForm() {
 
         const geoData: GeoData = [...data, ...roadsData];
 
-        console.log("HELo 12", {
-          data: roadsData,
-          terrainMap: getTerrainMap(geoData),
-        });
-
         setGeoStore({
           data: geoData,
           terrainMap: getTerrainMap(geoData),
+          buffer,
         });
 
         setStateData({ ...stateData, set: true });
