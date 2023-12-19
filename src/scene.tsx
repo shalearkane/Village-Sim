@@ -27,6 +27,8 @@ function Scene(bounds: Boundaries) {
       </group>
       <OrbitControls
         makeDefault
+        dampingFactor={0.9}
+        rotateSpeed={0.3}
         enableDamping={false}
         maxPolarAngle={Math.PI / 2}
       />
@@ -38,7 +40,7 @@ function Scene(bounds: Boundaries) {
           labelColor="white"
         />
       </GizmoHelper>
-      <Earth {...bounds}/>
+      <Earth {...bounds} />
     </Camera>
   );
 }

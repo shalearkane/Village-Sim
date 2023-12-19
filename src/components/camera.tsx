@@ -11,10 +11,21 @@ function Camera(props: any) {
 
   const changeCameraPos = ({ x, z }: { x: number; z: number }) => {
     camera.lookAt(new Vector3(x, 0, z));
-    camera.position.lerp(new Vector3(x, 10, z), 1);
+    camera.position.lerp(new Vector3(x, 1, z), 1);
     camera.updateProjectionMatrix();
     camera.updateWorldMatrix(true, true);
     camera.updateMatrix();
+    const d = new Date();
+
+    setMouseControl({
+      ...mouseControl,
+      camPos: {
+        x: x,
+        y: 1,
+        z: z,
+        time: d.getTime(),
+      },
+    });
   };
 
   const changeCameraPosition = () => {
@@ -29,7 +40,7 @@ function Camera(props: any) {
           x: camera.position.x,
           y: camera.position.y,
           z: camera.position.z,
-          time: d.getTime()
+          time: d.getTime(),
         },
       });
     }
