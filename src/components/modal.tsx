@@ -20,40 +20,50 @@ function InfoModal() {
           </div>
           <p className="">
             <b>Type: </b>
-            {mouseControl.clickInfo?.geoDataPoint?.type}
+            {mouseControl.clickInfo?.geoDataPoint?.type} meters
           </p>
           <p className="">
             <b>Nearest Hospital: </b>
-            {mouseControl.clickInfo?.geoDataPoint?.metadata?.healthcare?.dist}
+            {
+              mouseControl.clickInfo?.geoDataPoint?.metadata?.healthcare?.dist
+            }{" "}
+            meters
           </p>
           <p className="">
             <b>Nearest Administration: </b>
             {
-              mouseControl.clickInfo?.geoDataPoint?.metadata
-                ?.administrative?.dist
-            }
+              mouseControl.clickInfo?.geoDataPoint?.metadata?.administrative
+                ?.dist
+            }{" "}
+            meters
           </p>
           <p className="">
             <b>Nearest Electric Facility: </b>
-            {mouseControl.clickInfo?.geoDataPoint?.metadata?.electric_facility?.dist}
+            {
+              mouseControl.clickInfo?.geoDataPoint?.metadata?.electric_facility
+                ?.dist
+            }{" "}
+            meters
           </p>
           <p className="">
             <b>Nearest School: </b>
-            {mouseControl.clickInfo?.geoDataPoint?.metadata?.school?.dist}
+            {mouseControl.clickInfo?.geoDataPoint?.metadata?.school?.dist}{" "}
+            meters
           </p>
           <p className="">
             <b>Nearest Sewage Treatment Plant: </b>
             {
-              mouseControl.clickInfo?.geoDataPoint?.metadata
-                ?.sanitation?.dist
-            }
+              mouseControl.clickInfo?.geoDataPoint?.metadata?.sanitation?.dist
+            }{" "}
+            meters
           </p>
           <p className="">
             <b>Nearest Water Supply Plant: </b>
             {
-              mouseControl.clickInfo?.geoDataPoint?.metadata
-                ?.water_facility?.dist
-            }
+              mouseControl.clickInfo?.geoDataPoint?.metadata?.water_facility
+                ?.dist
+            }{" "}
+            meters
           </p>
 
           <div className="text-center mt-5">

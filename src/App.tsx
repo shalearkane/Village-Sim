@@ -2,7 +2,7 @@
 
 // import { dummyData } from "./dummy";
 import { GeoDataType, GeoStore } from "./interface/geo";
-import { Suspense, lazy, useCallback, useState } from "react";
+import { Suspense, lazy, useCallback, useEffect, useState } from "react";
 
 // This is the fallback component that will be rendered on the main thread
 // This will happen on systems where OffscreenCanvas is not supported
@@ -139,6 +139,10 @@ export default function App() {
     }
   };
 
+  useEffect(() => {
+    if (stateData.set) toggleFullScreen();
+  }, [stateData.set]);
+
   const reportChange = useCallback(
     (state: boolean) => {
       if (!fullScreenError) setBeginGame(state);
@@ -166,7 +170,7 @@ export default function App() {
                     <StateForm />
                     {/* {(stateData.set) &&  */}
                     <button className="mt-5" onClick={toggleFullScreen}>
-                      {costData.set ? "START GAME !" : "SKIP"}
+                      {costData.set ? "START GAME !" : "SKIP TO KALONDA"}
                     </button>
                     {/* }    */}
                   </div>
