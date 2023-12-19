@@ -3,8 +3,9 @@ import { useContext } from "react";
 import * as THREE from "three";
 import { MouseControlContext } from "../App";
 import {isMobile, isDesktop} from 'react-device-detect';
+import { Boundaries } from "../interface/geo";
 
-export default function Earth() {
+export default function Earth(bounds: Boundaries) {
   // @ts-ignore
   const { mouseControl, setMouseControl } = useContext(MouseControlContext);
   const texture = useLoader(
@@ -56,7 +57,7 @@ export default function Earth() {
         if(isDesktop) changeMousePointer(event)
       }}
     >
-      <planeGeometry args={[200, 200, 100, 100]} />
+      <planeGeometry args={[bounds.maxX-bounds.minX, bounds.maxY-bounds.minY, 100, 100]} />
       <meshStandardMaterial
         map={texture}
         roughnessMap={roughnessMap}

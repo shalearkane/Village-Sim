@@ -190,7 +190,7 @@ export default function App() {
                             // worker={worker}
                             // fallback={<Scene />}
                           >
-                            <Scene />
+                            <Scene {...bounds}/>
                           </Canvas>
                         </Suspense>
                       </div>

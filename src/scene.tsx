@@ -11,8 +11,9 @@ import {
 import VisualBlock from "./components/visualBlock";
 import GenerateObjects from "./components/renderer";
 import Earth from "./components/earth";
+import { Boundaries } from "./interface/geo";
 
-function Scene() {
+function Scene(bounds: Boundaries) {
   const progress = useProgress();
   console.log(progress);
   return (
@@ -37,7 +38,7 @@ function Scene() {
           labelColor="white"
         />
       </GizmoHelper>
-      <Earth />
+      <Earth {...bounds}/>
     </Camera>
   );
 }
