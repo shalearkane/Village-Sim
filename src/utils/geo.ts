@@ -1,12 +1,20 @@
 import { Vector3 } from "three";
-import { GeoData, GeoDataType } from "../interface/geo";
+import { GeoData, GeoDataPoint, GeoDataType } from "../interface/geo";
 import {
   Facility,
   FacilityToGeoDataTypeMap,
+  GeoDataTypeToFacility,
   GeoResponse,
+  NewGeoSchema,
+  NormalizedGeoStore,
 } from "../interface/geoResponse";
+import { getBounds } from "./math";
 
-export function geoResposeToGeoData(geoResponse: GeoResponse): GeoData {
+const normalizationFactor = 40000;
+
+export function geoResposeToGeoData(
+  geoResponse: GeoResponse
+): NormalizedGeoStore {
   const geoData: GeoData = [];
   Object.keys(geoResponse.old.houses).forEach((houseUUID: string) => {
     const house = geoResponse.old.houses[houseUUID];
@@ -19,17 +27,7 @@ export function geoResposeToGeoData(geoResponse: GeoResponse): GeoData {
         0,
         house.central_point.long
       ),
-      metadata: {
-        roadDistance: 0,
-        residentialDistance: 0,
-        hospitalDistance: house.nearest_dist[Facility.healthcare]?.dist,
-        agriculturalDistance: 0,
-        commercialDistance: 0,
-        industrialDistance: 0,
-        schoolDistance: house.nearest_dist[Facility.school]?.dist,
-        sewageTreatmentDistance: house.nearest_dist[Facility.water_facility]?.dist,
-        waterBodyDistance: 0,
-      },
+      metadata: house.nearest_dist,
     });
   });
 
@@ -40,6 +38,7 @@ export function geoResposeToGeoData(geoResponse: GeoResponse): GeoData {
         const { central_point } =
           // @ts-ignore
           geoResponse.old.facilities[facilityType][facilityUUID];
+        // @ts-ignore
         geoData.push({
           // @ts-ignore
           type: FacilityToGeoDataTypeMap[facilityType],
@@ -50,5 +49,93 @@ export function geoResposeToGeoData(geoResponse: GeoResponse): GeoData {
     );
   });
 
-  return geoData;
+  return getNormalizedGeoData(geoData);
 }
+
+export function geoDataToGeoResponse(
+  geoData: GeoData,
+  newSchema: NewGeoSchema,
+  buffer: { x: number; y: number }
+): GeoResponse {
+  let geoResponse: GeoResponse = {
+    new: newSchema,
+    old: {
+      houses: {},
+      facilities: {
+        [Facility.administrative]: {},
+        [Facility.electric_facility]: {},
+        [Facility.healthcare]: {},
+        [Facility.sanitation]: {},
+        [Facility.school]: {},
+        [Facility.water_facility]: {},
+        [Facility.house]: {},
+        [Facility.road]: {},
+      },
+    },
+  };
+
+  geoData.forEach((point: GeoDataPoint) => {
+    if (point.type === GeoDataType.RESIDENTIAL) {
+      geoResponse.old.houses[point.key] = {
+        floors: point.floors || 0,
+        central_point: {
+          lat: (point.centralPoint.x + buffer.x) / normalizationFactor,
+          long: (point.centralPoint.z + buffer.y) / normalizationFactor,
+        },
+        nearest_dist: point.metadata,
+      };
+    } else if (point.type != GeoDataType.ROAD) {
+      // @ts-ignore
+      geoResponse.old.facilities[GeoDataTypeToFacility[point.type]] = {
+        central_point: {
+          lat: (point.centralPoint.x + buffer.x) / normalizationFactor,
+          long: (point.centralPoint.z + buffer.y) / normalizationFactor,
+        },
+        nearest_dist: point.metadata,
+      };
+    }
+  });
+
+  return geoResponse;
+}
+
+const getNormalizedGeoData = (geoData: GeoData): NormalizedGeoStore => {
+  const { minX, minY, maxX, maxY } = getBounds(geoData);
+  const mormalizationBufferX = ((minX + maxX) / 2) * normalizationFactor;
+  const mormalizationBufferY = ((minY + maxY) / 2) * normalizationFactor;
+
+  const getNormalizedGeoData: GeoData = [];
+
+  geoData.forEach((point: GeoDataPoint) => {
+    if (point.type != GeoDataType.ROAD) {
+      const normalizedX =
+        point.centralPoint.x * normalizationFactor - mormalizationBufferX;
+      const normalizedZ =
+        point.centralPoint.z * normalizationFactor - mormalizationBufferY;
+      getNormalizedGeoData.push({
+        ...point,
+        centralPoint: new Vector3(
+          normalizedX,
+          point.centralPoint.y,
+          normalizedZ
+        ),
+      });
+    } else {
+      const normalizedSteps: Vector3[] = [];
+      point.steps.forEach((step: Vector3) => {
+        const normalizedX = step.x * normalizationFactor - mormalizationBufferX;
+        const normalizedZ = step.z * normalizationFactor - mormalizationBufferY;
+        normalizedSteps.push(new Vector3(normalizedX, step.y, normalizedZ));
+      });
+      getNormalizedGeoData.push({
+        ...point,
+        steps: normalizedSteps,
+      });
+    }
+  });
+
+  return {
+    data: getNormalizedGeoData,
+    buffer: { x: mormalizationBufferX, y: mormalizationBufferY },
+  };
+};

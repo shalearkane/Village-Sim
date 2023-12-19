@@ -1,4 +1,9 @@
-import { CostDataContext, GeoStoreContext, MouseControlContext, ToolbarContext } from "../App";
+import {
+  CostDataContext,
+  GeoStoreContext,
+  MouseControlContext,
+  ToolbarContext,
+} from "../App";
 import { GeoData, GeoDataPoint, GeoDataType } from "../interface/geo";
 import { CatmullRomLine, Center } from "@react-three/drei";
 import { Toolbar } from "../interface/toolbar";
@@ -65,8 +70,9 @@ export default function GenerateObjects() {
       if (point.key != key) {
         newGeoData.push(point);
       } else {
-        const newBudget = costData.budget + (costData[point.type]? costData[point.type] : 0);
-        setCostData({...costData, budget: newBudget});
+        const newBudget =
+          costData.budget + (costData[point.type] ? costData[point.type] : 0);
+        setCostData({ ...costData, budget: newBudget });
       }
     });
     const terrainMap = getTerrainMap(newGeoData);
@@ -144,6 +150,7 @@ export default function GenerateObjects() {
             });
           }
           case GeoDataType.RESIDENTIAL: {
+            console.log("HELLO");
             if (GeoDataPoint.floors == 1) {
               return (
                 <Center

@@ -1,4 +1,4 @@
-import { GeoDataType } from "./geo";
+import { GeoData, GeoDataType } from "./geo";
 
 export interface GeoResponse {
   old: OldGeoSchema;
@@ -22,7 +22,7 @@ export interface NearestDistMetaData {
 export interface House {
   floors: number;
   central_point: CentralPoint;
-  nearest_dist: {
+  nearest_dist?: {
     [Facility.administrative]: NearestDistMetaData;
     [Facility.electric_facility]: NearestDistMetaData;
     [Facility.healthcare]: NearestDistMetaData;
@@ -48,8 +48,8 @@ export interface FacilityMap {
   [Facility.sanitation]: FacilityMapData;
   [Facility.school]: FacilityMapData;
   [Facility.water_facility]: FacilityMapData;
-  [Facility.house]: FacilityMapData;
-  [Facility.road]: FacilityMapData;
+  [Facility.house]?: FacilityMapData;
+  [Facility.road]?: FacilityMapData;
 }
 
 export enum Facility {
@@ -86,3 +86,11 @@ export const GeoDataTypeToFacility = {
   [GeoDataType.SEWAGE_TREATMENT]: "sanitation",
   [GeoDataType.SCHOOL]: "school",
 };
+
+export interface NormalizedGeoStore {
+  data: GeoData;
+  buffer: {
+    x: number;
+    y: number;
+  };
+}

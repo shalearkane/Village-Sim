@@ -1,6 +1,6 @@
 // import { Canvas } from "@react-three/offscreen";
 
-import { dummyData } from "./dummy";
+// import { dummyData } from "./dummy";
 import { GeoDataType, GeoStore } from "./interface/geo";
 import { Suspense, lazy, useCallback, useState } from "react";
 
@@ -32,6 +32,8 @@ import { InitialCostData, InitialStateForm } from "./interface/form";
 import StateForm from "./components/stateForm";
 import { Canvas } from "@react-three/fiber";
 import ConfirmModal from "./components/confirmModal";
+import { dummy } from "./dummy2";
+import { geoResposeToGeoData } from "./utils/geo";
 
 export const initialCostData = {
   set: false,
@@ -80,6 +82,8 @@ export const initialStateFormData: InitialStateForm = {
   prjFile: null,
   dbfFile: null,
 };
+
+const { data: dummyData } = geoResposeToGeoData(dummy);
 
 export const ToolbarContext = createContext<ToolbarInterface>(
   ToolbarInterface.CURSOR

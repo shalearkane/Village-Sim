@@ -29,7 +29,6 @@ function FormModal() {
     Object.keys(defaultValue).forEach((key: string) => {
       // @ts-ignore
       if (!input[key]) {
-        console.log(key);
         result = false;
       }
     });
@@ -47,8 +46,6 @@ function FormModal() {
     // @ts-ignore
     if (modalRef) modalRef.current?.click();
   };
-
-  console.log(input);
 
   return (
     <div>

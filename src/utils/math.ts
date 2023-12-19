@@ -7,20 +7,14 @@ import {
 
 export function getBounds(geoData: GeoData): Boundaries {
   let boundaries: Boundaries = {
-    minX: 0,
-    minY: 0,
+    minX: 1e10,
+    minY: 1e10,
     maxX: 0,
     maxY: 0,
   };
 
   geoData.forEach((point: GeoDataPoint) => {
-    if (
-      point.type == GeoDataType.SCHOOL ||
-      point.type == GeoDataType.COMMERCIAL ||
-      point.type == GeoDataType.RESIDENTIAL ||
-      point.type == GeoDataType.HOSPITAL ||
-      point.type == GeoDataType.INDUSTRIAL
-    ) {
+    if (point.type != GeoDataType.ROAD) {
       boundaries.maxX = Math.max(boundaries.maxX, point.centralPoint.x);
       boundaries.minX = Math.min(boundaries.minX, point.centralPoint.x);
       boundaries.minY = Math.min(boundaries.minY, point.centralPoint.z);
@@ -38,13 +32,7 @@ export function getMinCoordinates(geoData: GeoData): { x: number; y: number } {
   };
 
   geoData.forEach((point: GeoDataPoint) => {
-    if (
-      point.type == GeoDataType.SCHOOL ||
-      point.type == GeoDataType.COMMERCIAL ||
-      point.type == GeoDataType.RESIDENTIAL ||
-      point.type == GeoDataType.HOSPITAL ||
-      point.type == GeoDataType.INDUSTRIAL
-    ) {
+    if (point.type != GeoDataType.ROAD) {
       minC.x = Math.min(minC.x, point.centralPoint.x);
       minC.y = Math.min(minC.y, point.centralPoint.z);
     }

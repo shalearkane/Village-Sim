@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Vector3 } from "three";
 import { GeoData, GeoDataType } from "./interface/geo";
 import { generateUUID } from "three/src/math/MathUtils.js";

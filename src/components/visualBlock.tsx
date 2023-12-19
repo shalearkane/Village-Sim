@@ -11,6 +11,7 @@ import { Toolbar } from "../interface/toolbar";
 import { generateUUID } from "three/src/math/MathUtils.js";
 import { GeoDataPoint, GeoDataType } from "../interface/geo";
 import { Circle } from "@react-three/drei";
+import { Facility } from "../interface/geoResponse";
 
 function VisualBlock() {
   // @ts-ignore
@@ -52,6 +53,11 @@ function VisualBlock() {
     });
   };
 
+  const dummyMetadata = {
+    id: "",
+    dist: 0,
+  };
+
   const addObject = (point: THREE.Vector3) => {
     point.y = 0;
     const newPoint: GeoDataPoint = {
@@ -60,15 +66,12 @@ function VisualBlock() {
       boundaryPoints: [new THREE.Vector3(0.5, 0.5, 0)],
       centralPoint: point,
       metadata: {
-        roadDistance: 0,
-        residentialDistance: 0,
-        hospitalDistance: 0,
-        agriculturalDistance: 0,
-        commercialDistance: 0,
-        industrialDistance: 0,
-        schoolDistance: 0,
-        sewageTreatmentDistance: 0,
-        waterBodyDistance: 0,
+        [Facility.administrative]: dummyMetadata,
+        [Facility.electric_facility]: dummyMetadata,
+        [Facility.healthcare]: dummyMetadata,
+        [Facility.sanitation]: dummyMetadata,
+        [Facility.school]: dummyMetadata,
+        [Facility.water_facility]: dummyMetadata,
       },
     };
 
@@ -86,19 +89,14 @@ function VisualBlock() {
       type: GeoDataType.ROAD,
       steps: points,
       metadata: {
-        roadDistance: 0,
-        residentialDistance: 0,
-        hospitalDistance: 0,
-        agriculturalDistance: 0,
-        commercialDistance: 0,
-        industrialDistance: 0,
-        schoolDistance: 0,
-        sewageTreatmentDistance: 0,
-        waterBodyDistance: 0,
+        [Facility.administrative]: dummyMetadata,
+        [Facility.electric_facility]: dummyMetadata,
+        [Facility.healthcare]: dummyMetadata,
+        [Facility.sanitation]: dummyMetadata,
+        [Facility.school]: dummyMetadata,
+        [Facility.water_facility]: dummyMetadata,
       },
     };
-
-    console.log(newRoad);
 
     let data = [...geoStore.data, newRoad];
     const terrainMap = getTerrainMap(data);

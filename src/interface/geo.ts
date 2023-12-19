@@ -1,4 +1,5 @@
 import { Euler, Vector3 } from "three";
+import { Facility, NearestDistMetaData } from "./geoResponse";
 
 export enum GeoDataType {
   "ROAD" = "ROAD",
@@ -19,15 +20,12 @@ export enum GeoDataType {
 }
 
 export interface Metadata {
-  hospitalDistance: number;
-  agriculturalDistance: number;
-  commercialDistance: number;
-  industrialDistance: number;
-  schoolDistance: number;
-  sewageTreatmentDistance: number;
-  waterBodyDistance: number;
-  roadDistance?: number;
-  residentialDistance?: number;
+  [Facility.administrative]: NearestDistMetaData;
+  [Facility.electric_facility]: NearestDistMetaData;
+  [Facility.healthcare]: NearestDistMetaData;
+  [Facility.sanitation]: NearestDistMetaData;
+  [Facility.school]: NearestDistMetaData;
+  [Facility.water_facility]: NearestDistMetaData;
 }
 
 export interface Road {
