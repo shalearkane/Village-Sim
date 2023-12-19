@@ -6,7 +6,7 @@ import { Suspense, lazy, useCallback, useState } from "react";
 
 // This is the fallback component that will be rendered on the main thread
 // This will happen on systems where OffscreenCanvas is not supported
-const Scene = lazy(() => import("./components/scene"));
+const Scene = lazy(() => import("./scene"));
 
 // This is the worker thread that will render the scene
 // const worker = new Worker(new URL("./components/worker", import.meta.url), {
@@ -33,7 +33,8 @@ import StateForm from "./components/stateForm";
 import { Canvas } from "@react-three/fiber";
 import ConfirmModal from "./components/confirmModal";
 import { dummy } from "./dummy2";
-import { geoResposeToGeoData } from "./utils/geo";
+import { geoResposeToGeoData, roadsToGeoData } from "./utils/geo";
+import { dummyRoads } from "./roads";
 
 export const initialCostData = {
   set: false,
@@ -83,7 +84,8 @@ export const initialStateFormData: InitialStateForm = {
   dbfFile: null,
 };
 
-const { data: dummyData } = geoResposeToGeoData(dummy);
+const { data: dummyData, buffer, bounds } = geoResposeToGeoData(dummy);
+const { data: roadData } = roadsToGeoData(dummyRoads, buffer, bounds);
 
 export const ToolbarContext = createContext<ToolbarInterface>(
   ToolbarInterface.CURSOR
@@ -91,7 +93,7 @@ export const ToolbarContext = createContext<ToolbarInterface>(
 export const MouseControlContext =
   createContext<MouseControl>(initialMouseControl);
 export const GeoStoreContext = createContext<GeoStore>({
-  data: dummyData,
+  data: [...dummyData, ...roadData],
   terrainMap: {},
 });
 export const CostDataContext = createContext<InitialCostData>(initialCostData);
@@ -100,8 +102,8 @@ export const StateDataContext =
 
 export default function App() {
   const [geoStore, setGeoStore] = useState<GeoStore>({
-    data: dummyData,
-    terrainMap: getTerrainMap(dummyData),
+    data: [...dummyData, ...roadData],
+    terrainMap: getTerrainMap([...dummyData, ...roadData]),
   });
   const [selectedTool, setSelectedTool] = useState<ToolbarInterface>(
     ToolbarInterface.CURSOR

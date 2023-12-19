@@ -120,6 +120,16 @@ export default function GenerateObjects() {
         if (terrainMap[coordinate]) {
           visibleGeoData.push(point);
         }
+      } else {
+        const steps: THREE.Vector3[] = [];
+        point.steps.forEach((step: THREE.Vector3) => {
+          const coordinate = `${Math.floor(step.x)},${Math.floor(step.z)}`;
+          if (terrainMap[coordinate]) {
+            steps.push(step);
+          }
+        });
+
+        visibleGeoData.push({ ...point, steps });
       }
     });
     setVisibleGeoData(visibleGeoData);
@@ -139,14 +149,15 @@ export default function GenerateObjects() {
               2
             );
             return roadCoordinates.map((point: Array<Vector3>) => {
-              return (
-                <CatmullRomLine
-                  // @ts-ignore
-                  points={point}
-                  lineWidth={3}
-                  color={"grey"}
-                />
-              );
+              if (point.length > 1)
+                return (
+                  <CatmullRomLine
+                    // @ts-ignore
+                    points={point}
+                    lineWidth={3}
+                    color={"grey"}
+                  />
+                );
             });
           }
           case GeoDataType.RESIDENTIAL: {

@@ -1,5 +1,10 @@
 import { Vector3 } from "three";
-import { GeoData, GeoDataPoint, GeoDataType } from "../interface/geo";
+import {
+  Boundaries,
+  GeoData,
+  GeoDataPoint,
+  GeoDataType,
+} from "../interface/geo";
 import {
   Facility,
   FacilityToGeoDataTypeMap,
@@ -8,12 +13,14 @@ import {
   NewGeoSchema,
   NormalizedGeoStore,
 } from "../interface/geoResponse";
-import { getBounds } from "./math";
+import { getBounds, getUpsampledCoordinateArray } from "./math";
+import { RoadResponse } from "../interface/roads";
 
 const normalizationFactor = 40000;
 
 export function geoResposeToGeoData(
-  geoResponse: GeoResponse
+  geoResponse: GeoResponse,
+  buffer?: { x: number; y: number }
 ): NormalizedGeoStore {
   const geoData: GeoData = [];
   Object.keys(geoResponse.old.houses).forEach((houseUUID: string) => {
@@ -49,7 +56,7 @@ export function geoResposeToGeoData(
     );
   });
 
-  return getNormalizedGeoData(geoData);
+  return getNormalizedGeoData(geoData, buffer);
 }
 
 export function geoDataToGeoResponse(
@@ -99,12 +106,21 @@ export function geoDataToGeoResponse(
   return geoResponse;
 }
 
-const getNormalizedGeoData = (geoData: GeoData): NormalizedGeoStore => {
-  const { minX, minY, maxX, maxY } = getBounds(geoData);
-  const mormalizationBufferX = ((minX + maxX) / 2) * normalizationFactor;
-  const mormalizationBufferY = ((minY + maxY) / 2) * normalizationFactor;
+export const getNormalizedGeoData = (
+  geoData: GeoData,
+  buffer?: { x: number; y: number },
+  bounds?: Boundaries
+): NormalizedGeoStore => {
+  let mormalizationBufferX = buffer?.x || 0;
+  let mormalizationBufferY = buffer?.y || 0;
 
-  const getNormalizedGeoData: GeoData = [];
+  if (!buffer) {
+    let { minX, minY, maxX, maxY } = getBounds(geoData);
+    mormalizationBufferX = ((minX + maxX) / 2) * normalizationFactor;
+    mormalizationBufferY = ((minY + maxY) / 2) * normalizationFactor;
+  }
+
+  const normalizedGeoData: GeoData = [];
 
   geoData.forEach((point: GeoDataPoint) => {
     if (point.type != GeoDataType.ROAD) {
@@ -112,30 +128,83 @@ const getNormalizedGeoData = (geoData: GeoData): NormalizedGeoStore => {
         point.centralPoint.x * normalizationFactor - mormalizationBufferX;
       const normalizedZ =
         point.centralPoint.z * normalizationFactor - mormalizationBufferY;
-      getNormalizedGeoData.push({
-        ...point,
-        centralPoint: new Vector3(
-          normalizedX,
-          point.centralPoint.y,
-          normalizedZ
-        ),
-      });
+
+      if (
+        !bounds ||
+        (bounds.minX <= normalizedX &&
+          bounds.maxX >= normalizedX &&
+          bounds.minY <= normalizedZ &&
+          bounds.maxY >= normalizedZ)
+      ) {
+        normalizedGeoData.push({
+          ...point,
+          centralPoint: new Vector3(
+            normalizedX,
+            point.centralPoint.y,
+            normalizedZ
+          ),
+        });
+      }
     } else {
       const normalizedSteps: Vector3[] = [];
-      point.steps.forEach((step: Vector3) => {
+      const upSampledSteps: Vector3[] = getUpsampledCoordinateArray(
+        point.steps,
+        20
+      );
+      upSampledSteps.forEach((step: Vector3) => {
         const normalizedX = step.x * normalizationFactor - mormalizationBufferX;
         const normalizedZ = step.z * normalizationFactor - mormalizationBufferY;
-        normalizedSteps.push(new Vector3(normalizedX, step.y, normalizedZ));
+        if (
+          !bounds ||
+          (bounds.minX <= normalizedX &&
+            bounds.maxX >= normalizedX &&
+            bounds.minY <= normalizedZ &&
+            bounds.maxY >= normalizedZ)
+        ) {
+          normalizedSteps.push(new Vector3(normalizedX, step.y, normalizedZ));
+        }
       });
-      getNormalizedGeoData.push({
-        ...point,
-        steps: normalizedSteps,
-      });
+      if (normalizedSteps.length)
+        normalizedGeoData.push({
+          ...point,
+          steps: normalizedSteps,
+        });
     }
   });
 
+  const newBounds = getBounds(normalizedGeoData);
+
   return {
-    data: getNormalizedGeoData,
+    data: normalizedGeoData,
     buffer: { x: mormalizationBufferX, y: mormalizationBufferY },
+    bounds: newBounds,
   };
 };
+
+export function coordinateArrayToSteps(coordianteArray: number[][]): Vector3[] {
+  const steps: Vector3[] = [];
+
+  coordianteArray.forEach((coordiante: number[]) => {
+    steps.push(new Vector3(coordiante[1], 0, coordiante[0]));
+  });
+
+  return steps;
+}
+
+export function roadsToGeoData(
+  roads: RoadResponse,
+  buffer?: { x: number; y: number },
+  bounds?: Boundaries
+): NormalizedGeoStore {
+  const geoData: GeoData = [];
+
+  Object.keys(roads).map((roadUUID: string) => {
+    geoData.push({
+      type: GeoDataType.ROAD,
+      key: roadUUID,
+      steps: coordinateArrayToSteps(roads[roadUUID]),
+    });
+  });
+
+  return getNormalizedGeoData(geoData, buffer, bounds);
+}

@@ -1,4 +1,4 @@
-import { GeoData, GeoDataType } from "./geo";
+import { Boundaries, GeoData, GeoDataType } from "./geo";
 
 export interface GeoResponse {
   old: OldGeoSchema;
@@ -93,4 +93,5 @@ export interface NormalizedGeoStore {
     x: number;
     y: number;
   };
+  bounds: Boundaries;
 }

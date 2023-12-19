@@ -6,13 +6,15 @@ import {
   Stats,
   GizmoHelper,
   GizmoViewport,
+  useProgress,
 } from "@react-three/drei";
 import VisualBlock from "./components/visualBlock";
 import GenerateObjects from "./components/renderer";
-import Roads from "./components/road";
 import Earth from "./components/earth";
 
 function Scene() {
+  const progress = useProgress();
+  console.log(progress);
   return (
     <Camera>
       <Sky sunPosition={[100, 20, 100]} />
@@ -21,7 +23,6 @@ function Scene() {
       <VisualBlock />
       <group position={[0, -0.5, 0]}>
         <GenerateObjects />
-        <Roads />
       </group>
       <OrbitControls
         makeDefault
