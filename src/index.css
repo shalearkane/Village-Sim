@@ -51,12 +51,16 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
+button:hover:not([disabled]) {
   border-color: #646cff;
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+button:disabled {
+  background-color: #484848;
+  border-color: none;
 }
 
 @media (prefers-color-scheme: light) {

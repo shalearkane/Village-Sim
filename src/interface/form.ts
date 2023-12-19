@@ -20,4 +20,5 @@ export interface InitialStateForm {
   shpFile: File | null;
   prjFile: File | null;
   dbfFile: File | null;
+  set: boolean;
 }

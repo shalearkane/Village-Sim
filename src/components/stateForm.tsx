@@ -34,6 +34,7 @@ function StateForm() {
     blocks: true,
     gramPanchayat: true,
   });
+  const [btnDisabled, setBtnDisabled] = useState<boolean>(true);
 
   const fetchDistricts = async () => {
     setShowSpinner(true);
@@ -116,6 +117,7 @@ function StateForm() {
     formData.append("prjFile", input.prjFile);
     //@ts-ignore
     formData.append("dbfFile", input.dbfFile);
+    console.log("meow");
     axios({
       method: "post",
       url: "url",
@@ -124,6 +126,7 @@ function StateForm() {
     })
       .then(function (response) {
         //handle success
+        setStateData({ ...stateData, set: true });
         console.log(response);
       })
       .catch(function (response) {
@@ -131,6 +134,22 @@ function StateForm() {
         console.log(response);
       });
   };
+
+  useEffect(() => {
+    if (
+      input.prjFile &&
+      input.shpFile &&
+      input.dbfFile &&
+      input.blockId &&
+      input.districtId &&
+      input.gramId &&
+      input.stateId
+    ) {
+      setBtnDisabled(false);
+      console.log("hi");
+    }
+    console.log(input);
+  }, [input]);
 
   useEffect(() => {
     if (input.stateId) fetchDistricts();
@@ -394,22 +413,17 @@ function StateForm() {
             <></>
           )}
 
-          {input.prjFile &&
-            input.shpFile &&
-            input.dbfFile &&
-            input.blockId &&
-            input.districtId &&
-            input.gramId &&
-            input.stateId && (
-              <button
-                className="m-2"
-                onClick={() => {
-                  handleSubmit();
-                }}
-              >
-                START GAME
-              </button>
-            )}
+          {
+            <button
+              disabled={btnDisabled}
+              className="m-2"
+              onClick={() => {
+                handleSubmit();
+              }}
+            >
+              SUBMIT
+            </button>
+          }
         </div>
       )}
     </>

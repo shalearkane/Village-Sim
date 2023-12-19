@@ -82,6 +82,7 @@ export const initialStateFormData: InitialStateForm = {
   shpFile: null,
   prjFile: null,
   dbfFile: null,
+  set: false,
 };
 
 const { data: dummyData, buffer, bounds } = geoResposeToGeoData(dummy);
@@ -163,9 +164,11 @@ export default function App() {
                     <h1>Panchayat Sim</h1>
                     <p>A simulator to visualize the possibilities of growth</p>
                     <StateForm />
-                    <button className="mt-5" onClick={toggleFullScreen}>
-                      {costData.set ? "RESUME GAME !" : "START GAME !"}
+                    {/* {(stateData.set) &&  */}
+                      <button className="mt-5" onClick={toggleFullScreen}>
+                      {costData.set ? "RESUME GAME !" : "SKIP"}
                     </button>
+                    {/* }    */}
                   </div>
                 ) : (
                   <DeviceOrientation lockOrientation={"landscape"}>
