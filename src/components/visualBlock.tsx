@@ -10,6 +10,7 @@ import { checkSafe, getTerrainMap } from "../utils/terrain";
 import { Toolbar } from "../interface/toolbar";
 import { generateUUID } from "three/src/math/MathUtils.js";
 import { GeoDataPoint, GeoDataType } from "../interface/geo";
+import { Circle } from "@react-three/drei";
 
 function VisualBlock() {
   // @ts-ignore
@@ -48,7 +49,7 @@ function VisualBlock() {
     const modalButton = document?.getElementById("confirm_button");
     modalButton?.addEventListener("click", () => {
       addObject(point);
-    })
+    });
   };
 
   const addObject = (point: THREE.Vector3) => {
@@ -71,7 +72,8 @@ function VisualBlock() {
       },
     };
 
-    const newBudget = costData.budget - (costData[selectedTool]? costData[selectedTool] : 0);
+    const newBudget =
+      costData.budget - (costData[selectedTool] ? costData[selectedTool] : 0);
     setCostData({ ...costData, budget: newBudget });
     let data = [...geoStore.data, newPoint];
     const terrainMap = getTerrainMap(data);
@@ -156,6 +158,17 @@ function VisualBlock() {
               color={safe ? "green" : "red"}
             />
           </mesh>
+          {roadPoints.map((roadPoint: THREE.Vector3) => {
+            return (
+              <mesh
+                position={[roadPoint.x, -0.5, roadPoint.z]}
+                rotation={[-1.57, 0, 0]}
+              >
+                <Circle args={[0.1, 32, 0, Math.PI * 2]} />
+                <meshStandardMaterial transparent opacity={0.9} color="red" />
+              </mesh>
+            );
+          })}
         </>
       )}
     </>

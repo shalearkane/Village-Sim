@@ -45,6 +45,18 @@ export const initialCostData = {
   [GeoDataType.SEWAGE_TREATMENT]: 0,
 };
 
+export const defaultCostData = {
+  set: false,
+  budget: 0,
+  [GeoDataType.HOSPITAL]: 0,
+  [GeoDataType.ADMINISTRATION]: 0,
+  [GeoDataType.COMMERCIAL]: 0,
+  [GeoDataType.ELECTRICITY]: 0,
+  [GeoDataType.INDUSTRIAL]: 0,
+  [GeoDataType.SCHOOL]: 0,
+  [GeoDataType.SEWAGE_TREATMENT]: 0,
+};
+
 const date = new Date();
 
 const initialMouseControl = {
@@ -55,7 +67,7 @@ const initialMouseControl = {
     x: 0,
     y: 0,
     z: 0,
-    time: date.getTime()
+    time: date.getTime(),
   },
 };
 

@@ -404,8 +404,7 @@ function StateForm() {
                   handleSubmit();
                 }}
               >
-                {" "}
-                START GAME{" "}
+                START GAME
               </button>
             )}
         </div>
