@@ -165,8 +165,8 @@ export default function App() {
                     <p>A simulator to visualize the possibilities of growth</p>
                     <StateForm />
                     {/* {(stateData.set) &&  */}
-                      <button className="mt-5" onClick={toggleFullScreen}>
-                      {costData.set ? "RESUME GAME !" : "SKIP"}
+                    <button className="mt-5" onClick={toggleFullScreen}>
+                      {costData.set ? "START GAME !" : "SKIP"}
                     </button>
                     {/* }    */}
                   </div>
@@ -190,7 +190,7 @@ export default function App() {
                             // worker={worker}
                             // fallback={<Scene />}
                           >
-                            <Scene {...bounds}/>
+                            <Scene {...bounds} />
                           </Canvas>
                         </Suspense>
                       </div>

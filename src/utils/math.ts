@@ -5,6 +5,7 @@ import {
   GeoDataPoint,
   GeoDataType,
 } from "../interface/geo";
+import { GeoResponse } from "../interface/geoResponse";
 
 export function getBounds(geoData: GeoData): Boundaries {
   let boundaries: Boundaries = {
@@ -85,4 +86,41 @@ export const getUpsampledCoordinateArray = (
   }
 
   return upsampledData;
+};
+
+export const getBoundsFromGeoResponse = (
+  geoResponse: GeoResponse
+): Boundaries => {
+  let boundaries: Boundaries = {
+    minX: 1e10,
+    minY: 1e10,
+    maxX: 0,
+    maxY: 0,
+  };
+
+  Object.keys(geoResponse.old.houses).forEach((houseUUID) => {
+    const centralPoint = geoResponse.old.houses[houseUUID].central_point;
+    boundaries.maxX = Math.max(boundaries.maxX, centralPoint.lat);
+    boundaries.minX = Math.min(boundaries.minX, centralPoint.lat);
+    boundaries.minY = Math.min(boundaries.minY, centralPoint.long);
+    boundaries.maxY = Math.max(boundaries.maxY, centralPoint.long);
+  });
+
+  Object.keys(geoResponse.old.facilities).forEach((facilityType) => {
+    // @ts-ignore
+    Object.keys(geoResponse.old.facilities[facilityType]).forEach(
+      (facilityUUID) => {
+        const { centralPoint } =
+          // @ts-ignore
+          geoResponse.old.facilities[facilityType][facilityUUID];
+        // @ts-ignore
+        boundaries.maxX = Math.max(boundaries.maxX, centralPoint.lat);
+        boundaries.minX = Math.min(boundaries.minX, centralPoint.lat);
+        boundaries.minY = Math.min(boundaries.minY, centralPoint.long);
+        boundaries.maxY = Math.max(boundaries.maxY, centralPoint.long);
+      }
+    );
+  });
+
+  return boundaries;
 };

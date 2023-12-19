@@ -6,7 +6,6 @@ import {
   Stats,
   GizmoHelper,
   GizmoViewport,
-  useProgress,
 } from "@react-three/drei";
 import VisualBlock from "./components/visualBlock";
 import GenerateObjects from "./components/renderer";
@@ -14,8 +13,6 @@ import Earth from "./components/earth";
 import { Boundaries } from "./interface/geo";
 
 function Scene(bounds: Boundaries) {
-  const progress = useProgress();
-  console.log(progress);
   return (
     <Camera>
       <Sky sunPosition={[100, 20, 100]} />

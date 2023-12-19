@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { InitialStateForm } from "../interface/form";
-import { StateDataContext } from "../App";
+import { GeoStoreContext, StateDataContext } from "../App";
 import { STATE_CODES } from "../constants/state";
 import axios from "axios";
 import {
@@ -10,6 +10,12 @@ import {
 } from "../interface/state";
 import { convertDataPointToStoreFormat } from "../utils/state";
 import { Oval } from "react-loader-spinner";
+import { GeoResponse, NormalizedGeoStore } from "../interface/geoResponse";
+import { geoResposeToGeoData, roadsToGeoData } from "../utils/geo";
+import { getTerrainMap } from "../utils/terrain";
+import { GeoData } from "../interface/geo";
+import { RoadResponse } from "../interface/roads";
+import { getBounds, getBoundsFromGeoResponse } from "../utils/math";
 
 const defaultStore = {
   map: {},
@@ -19,6 +25,8 @@ const defaultStore = {
 function StateForm() {
   // @ts-ignore
   const { stateData, setStateData } = useContext(StateDataContext);
+  // @ts-ignore
+  const { setGeoStore } = useContext(GeoStoreContext);
   const [input, setInput] = useState<InitialStateForm>(stateData);
   const [showSpinner, setShowSpinner] = useState<boolean>(false);
   const [store, setStore] = useState<StateStore>({
@@ -102,37 +110,62 @@ function StateForm() {
   };
 
   const handleSubmit = async () => {
+    setShowSpinner(true);
     const formData = new FormData();
     //@ts-ignore
-    formData.append("stateId", input.stateId);
+    formData.append("shp", input.shpFile);
     //@ts-ignore
-    formData.append("districtId", input.districtId);
+    formData.append("prj", input.prjFile);
     //@ts-ignore
-    formData.append("blockId", input.blockId);
-    //@ts-ignore
-    formData.append("gramId", input.gramId);
-    //@ts-ignore
-    formData.append("shpFile", input.shpFile);
-    //@ts-ignore
-    formData.append("prjFile", input.prjFile);
-    //@ts-ignore
-    formData.append("dbfFile", input.dbfFile);
-    console.log("meow");
-    axios({
+    formData.append("dbf", input.dbfFile);
+    const geoResponse: { data: GeoResponse } = await axios({
       method: "post",
-      url: "url",
+      url: `${import.meta.env.VITE_APP_BACKEND}/interchange?gpcode=${
+        input.gramId
+      }`,
       data: formData,
       headers: { "Content-Type": "multipart/form-data" },
-    })
-      .then(function (response) {
-        //handle success
+    });
+
+    if (geoResponse.data) {
+      const { data, buffer, bounds }: NormalizedGeoStore = geoResposeToGeoData(
+        geoResponse.data
+      );
+
+      const { minX, minY, maxX, maxY } = getBoundsFromGeoResponse(
+        geoResponse.data
+      );
+
+      console.log(data);
+      const roadsResponse: { data: RoadResponse } = await axios.get(
+        `${
+          import.meta.env.VITE_APP_BACKEND
+        }/roads?north=${maxX}south=${minX}&east=${minY}&west=${maxY}`
+      );
+      if (roadsResponse.data) {
+        console.log("HELo");
+        const { data: roadsData }: NormalizedGeoStore = roadsToGeoData(
+          roadsResponse.data,
+          buffer,
+          bounds
+        );
+
+        const geoData: GeoData = [...data, ...roadsData];
+
+        console.log("HELo 12", {
+          data: roadsData,
+          terrainMap: getTerrainMap(geoData),
+        });
+
+        setGeoStore({
+          data: geoData,
+          terrainMap: getTerrainMap(geoData),
+        });
+
         setStateData({ ...stateData, set: true });
-        console.log(response);
-      })
-      .catch(function (response) {
-        //handle error
-        console.log(response);
-      });
+      }
+    }
+    setShowSpinner(false);
   };
 
   useEffect(() => {
@@ -146,9 +179,7 @@ function StateForm() {
       input.stateId
     ) {
       setBtnDisabled(false);
-      console.log("hi");
     }
-    console.log(input);
   }, [input]);
 
   useEffect(() => {
@@ -413,7 +444,7 @@ function StateForm() {
             <></>
           )}
 
-          {
+          {!input.set && (
             <button
               disabled={btnDisabled}
               className="m-2"
@@ -423,7 +454,7 @@ function StateForm() {
             >
               SUBMIT
             </button>
-          }
+          )}
         </div>
       )}
     </>
