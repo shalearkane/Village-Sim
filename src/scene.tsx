@@ -11,8 +11,27 @@ import VisualBlock from "./components/visualBlock";
 import GenerateObjects from "./components/renderer";
 import Earth from "./components/earth";
 import { Boundaries } from "./interface/geo";
+import { Vector3 } from "three";
+import { useContext, useEffect, useState } from "react";
+import { MouseControlContext } from "./App";
 
 function Scene(bounds: Boundaries) {
+  // @ts-ignore
+  const { mouseControl } = useContext(MouseControlContext);
+  const [target, setTarget] = useState<Vector3>(new Vector3(0, 0, 0));
+
+  useEffect(() => {
+    if (mouseControl.newCameraPos) {
+      setTarget(
+        new Vector3(
+          mouseControl.newCameraPos.x + 10,
+          0,
+          mouseControl.newCameraPos.z + 10
+        )
+      );
+    }
+  }, [mouseControl.newCameraPos]);
+
   return (
     <Camera>
       <Sky sunPosition={[100, 20, 100]} />
@@ -23,6 +42,7 @@ function Scene(bounds: Boundaries) {
         <GenerateObjects />
       </group>
       <OrbitControls
+        target={target}
         makeDefault
         dampingFactor={0.9}
         rotateSpeed={0.3}
