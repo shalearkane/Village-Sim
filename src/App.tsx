@@ -171,7 +171,7 @@ export default function App() {
                   <FormModal />
                   {!beginGame ? (
                     <div className="flex justify-center items-center flex-col w-[100vw]">
-                      <h1>Panchayat Sim</h1>
+                      <h1>Gram Sim</h1>
                       <p>
                         A simulator to visualize the possibilities of growth
                       </p>
