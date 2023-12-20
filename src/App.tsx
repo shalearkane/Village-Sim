@@ -35,6 +35,7 @@ import ConfirmModal from "./components/confirmModal";
 import { dummy } from "./dummy2";
 import { geoResposeToGeoData, roadsToGeoData } from "./utils/geo";
 import { dummyRoads } from "./roads";
+import { generateUUID } from "three/src/math/MathUtils.js";
 
 export const initialCostData = {
   set: false,
@@ -86,6 +87,8 @@ export const initialStateFormData: InitialStateForm = {
   set: false,
 };
 
+const cacheKey = generateUUID();
+
 const { data: dummyData, buffer, bounds } = geoResposeToGeoData(dummy);
 const { data: roadData } = roadsToGeoData(dummyRoads, buffer, bounds);
 
@@ -102,6 +105,8 @@ export const GeoStoreContext = createContext<GeoStore>({
 export const CostDataContext = createContext<InitialCostData>(initialCostData);
 export const StateDataContext =
   createContext<InitialStateForm>(initialStateFormData);
+
+export const CacheKeyContext = createContext<string>(cacheKey);
 
 export default function App() {
   const [geoStore, setGeoStore] = useState<GeoStore>({
@@ -120,6 +125,7 @@ export default function App() {
   const fullScreenHanler = useFullScreenHandle();
   const [beginGame, setBeginGame] = useState<boolean>(false);
   const [fullScreenError, setFullScreenError] = useState<boolean>(false);
+  const [cacheKeyState] = useState<string>(cacheKey);
 
   const toggleFullScreen = () => {
     if (beginGame) {
@@ -160,45 +166,49 @@ export default function App() {
           <CostDataContext.Provider value={{ costData, setCostData }}>
             {/* @ts-ignore */}
             <StateDataContext.Provider value={{ stateData, setStateData }}>
-              <FullScreen handle={fullScreenHanler} onChange={reportChange}>
-                <FormModal />
-                {!beginGame ? (
-                  <div className="flex justify-center items-center flex-col w-[100vw]">
-                    <h1>Panchayat Sim</h1>
-                    <p>A simulator to visualize the possibilities of growth</p>
-                    <StateForm />
-                    <button className="mt-5" onClick={toggleFullScreen}>
-                      {costData.set ? "ENTER GAME !" : "SKIP TO KALONDA"}
-                    </button>
-                  </div>
-                ) : (
-                  <DeviceOrientation lockOrientation={"landscape"}>
-                    <Orientation orientation="portrait" alwaysRender={false}>
-                      <div className="flex flex-col justify-center items-center w-[100vw]">
-                        <IconRotate />
-                        <p>Please rotate your device</p>
-                      </div>
-                    </Orientation>
-                    <Orientation orientation="landscape" alwaysRender={false}>
-                      <div className={`relative w-[100vw]`}>
-                        <Suspense fallback={<Loading />}>
-                          <InfoModal />
-                          <ConfirmModal />
-                          <Toolbar />
-                          <Minimap />
-                          <Canvas
-                            style={{ width: "100vw", height: "100vh" }}
-                            // worker={worker}
-                            // fallback={<Scene />}
-                          >
-                            <Scene {...bounds} />
-                          </Canvas>
-                        </Suspense>
-                      </div>
-                    </Orientation>
-                  </DeviceOrientation>
-                )}
-              </FullScreen>
+              <CacheKeyContext.Provider value={cacheKeyState}>
+                <FullScreen handle={fullScreenHanler} onChange={reportChange}>
+                  <FormModal />
+                  {!beginGame ? (
+                    <div className="flex justify-center items-center flex-col w-[100vw]">
+                      <h1>Panchayat Sim</h1>
+                      <p>
+                        A simulator to visualize the possibilities of growth
+                      </p>
+                      <StateForm />
+                      <button className="mt-5" onClick={toggleFullScreen}>
+                        {costData.set ? "ENTER GAME !" : "SKIP TO KALONDA"}
+                      </button>
+                    </div>
+                  ) : (
+                    <DeviceOrientation lockOrientation={"landscape"}>
+                      <Orientation orientation="portrait" alwaysRender={false}>
+                        <div className="flex flex-col justify-center items-center w-[100vw]">
+                          <IconRotate />
+                          <p>Please rotate your device</p>
+                        </div>
+                      </Orientation>
+                      <Orientation orientation="landscape" alwaysRender={false}>
+                        <div className={`relative w-[100vw]`}>
+                          <Suspense fallback={<Loading />}>
+                            <InfoModal />
+                            <ConfirmModal />
+                            <Toolbar />
+                            <Minimap />
+                            <Canvas
+                              style={{ width: "100vw", height: "100vh" }}
+                              // worker={worker}
+                              // fallback={<Scene />}
+                            >
+                              <Scene {...bounds} />
+                            </Canvas>
+                          </Suspense>
+                        </div>
+                      </Orientation>
+                    </DeviceOrientation>
+                  )}
+                </FullScreen>
+              </CacheKeyContext.Provider>
             </StateDataContext.Provider>
           </CostDataContext.Provider>
         </MouseControlContext.Provider>

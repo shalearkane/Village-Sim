@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import {
+  CacheKeyContext,
   CostDataContext,
   GeoStoreContext,
   MouseControlContext,
@@ -27,8 +28,7 @@ function VisualBlock() {
 
   const [safe, setSafe] = useState<Boolean>(false);
   const [roadPoints, setRoadPoints] = useState<THREE.Vector3[]>([]);
-
-  // const checkIfSafe = () => {};
+  const cacheKey = useContext(CacheKeyContext);
 
   useEffect(() => {
     if (
@@ -108,7 +108,7 @@ function VisualBlock() {
     const response: {
       data: { data: GeoResponse; avg_happiness: number; happiness: Happiness };
     } = await axios.post(
-      `${import.meta.env.VITE_APP_BACKEND}/happiness`,
+      `${import.meta.env.VITE_APP_BACKEND}/happiness?cache=${cacheKey}`,
       addNewObjectRequest
     );
 
@@ -129,7 +129,6 @@ function VisualBlock() {
         avg_happiness: response.data.avg_happiness * 100000,
       });
     }
-    console.log(response.data);
   };
 
   const addRoad = (points: THREE.Vector3[]) => {
@@ -208,7 +207,7 @@ function VisualBlock() {
           {roadPoints.map((roadPoint: THREE.Vector3) => {
             return (
               <mesh
-                position={[roadPoint.x, -0.5, roadPoint.z]}
+                position={[roadPoint.x, -0.4, roadPoint.z]}
                 rotation={[-1.57, 0, 0]}
               >
                 <Circle args={[0.1, 32, 0, Math.PI * 2]} />
