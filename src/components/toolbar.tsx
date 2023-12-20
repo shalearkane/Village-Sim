@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Toolbar } from "../interface/toolbar";
 import {
   IconBuilding,
@@ -22,8 +22,8 @@ import {
   CostDataContext,
   GeoStoreContext,
 } from "../App";
-import { OptimalSolution } from "../interface/geoResponse";
-import axios from "axios";
+// import { OptimalSolution } from "../interface/geoResponse";
+// import axios from "axios";
 
 function ToolbarComponent() {
   // @ts-ignore
@@ -36,15 +36,15 @@ function ToolbarComponent() {
   const { costData } = useContext(CostDataContext);
   const [showInfo, setShowInfo] = useState<boolean>(false);
   const [showOptimal, setShowOptimal] = useState<boolean>(false);
-  const [optimalSolution, setOptimalSolution] = useState<OptimalSolution>();
-  const [optimalLoading, setOptimalLoading] = useState<boolean>(false);
+  // const [optimalSolution, setOptimalSolution] = useState<OptimalSolution>();
+  // const [optimalLoading, setOptimalLoading] = useState<boolean>(false);
 
-  const getOptimal = async () => {
-    console.log("working");
-    const optimalResponse: OptimalSolution = await axios.get(`url`);
-    setOptimalSolution(optimalResponse);
-    setOptimalLoading(false);
-  };
+  // const getOptimal = async () => {
+  //   console.log("working");
+  //   const optimalResponse: OptimalSolution = await axios.get(`url`);
+  //   setOptimalSolution(optimalResponse);
+  //   setOptimalLoading(false);
+  // };
 
   // useEffect(() => {
   //   setOptimalLoading(true);
@@ -57,7 +57,8 @@ function ToolbarComponent() {
         {showOptimal ? (
           <>
             <div className="flex flex-end m-2">
-              {(!optimalLoading) ? (
+              {
+              // (!optimalLoading) ? (
                 <div>
                   <div className="flex justify-center m-2">
                     <p>
@@ -120,15 +121,16 @@ function ToolbarComponent() {
                     </p>
                   </div>
                 </div>
-              ) : (
-                <div>
-                  <div className="flex justify-center m-2">
-                    <p>
-                      <b>Optimal solution is being calculated...</b>
-                    </p>
-                  </div>
-                </div>
-              )}
+              // ) : (
+              //   <div>
+              //     <div className="flex justify-center m-2">
+              //       <p>
+              //         <b>Optimal solution is being calculated...</b>
+              //       </p>
+              //     </div>
+              //   </div>
+              // )
+            }
               <IconX
                 onClick={() => {
                   setShowOptimal(false);
