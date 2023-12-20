@@ -62,7 +62,7 @@ function ToolbarComponent() {
                 <div>
                   <div className="flex justify-center m-2">
                     <p>
-                      <b>Optimal solution</b>
+                      <b>Calculated Optimal solution</b>
                     </p>
                   </div>
                   <div>
