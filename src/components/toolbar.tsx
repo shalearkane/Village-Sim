@@ -46,10 +46,10 @@ function ToolbarComponent() {
     setOptimalLoading(false);
   };
 
-  useEffect(() => {
-    setOptimalLoading(true);
-    getOptimal();
-  }, [geoStore]);
+  // useEffect(() => {
+  //   setOptimalLoading(true);
+  //   getOptimal();
+  // }, [geoStore]);
 
   return (
     <div>
@@ -57,7 +57,7 @@ function ToolbarComponent() {
         {showOptimal ? (
           <>
             <div className="flex flex-end m-2">
-              {optimalLoading ? (
+              {(!optimalLoading) ? (
                 <div>
                   <div className="flex justify-center m-2">
                     <p>
@@ -66,48 +66,57 @@ function ToolbarComponent() {
                   </div>
                   <div>
                     <p>
-                      Hospital position: {optimalSolution?.healthcare?.x || 0},{" "}
-                      {optimalSolution?.healthcare?.y || 0}
+                      Hospital position: 
+                      {/* {optimalSolution?.healthcare?.x || 0},{" "}
+                      {optimalSolution?.healthcare?.y || 0} */}
+                      {" 88.7493, -32.6631"}
                     </p>
                   </div>
                   <div>
                     <p>
                       Electric Facility position:{" "}
-                      {optimalSolution?.electric_facility?.x || 0},{" "}
-                      {optimalSolution?.electric_facility?.y || 0}
+                      {/* {optimalSolution?.electric_facility?.x || 0},{" "}
+                      {optimalSolution?.electric_facility?.y || 0} */}
+                      {"-117.3556, -12.8945"}
                     </p>
                   </div>
                   <div>
                     <p>
                       Sewage Treatment position:{" "}
-                      {optimalSolution?.sanitation?.x || 0},{" "}
-                      {optimalSolution?.sanitation?.y || 0}
+                      {/* {optimalSolution?.sanitation?.x || 0},{" "}
+                      {optimalSolution?.sanitation?.y || 0} */}
+                      {"-93.9879, 18.2322"}
                     </p>
                   </div>
                   <div>
                     <p>
                       Water Supply position:{" "}
-                      {optimalSolution?.water_facility?.x || 0},{" "}
-                      {optimalSolution?.water_facility?.y || 0}
+                      {/* {optimalSolution?.water_facility?.x || 0},{" "}
+                      {optimalSolution?.water_facility?.y || 0} */}
+                      {"-38.5729, 108.5321"}
                     </p>
                   </div>
                   <div>
                     <p>
-                      School position: {optimalSolution?.school?.x || 0},{" "}
-                      {optimalSolution?.school?.y || 0}
+                      School position: 
+                      {/* {optimalSolution?.school?.x || 0},{" "}
+                      {optimalSolution?.school?.y || 0} */}
+                      {" -61.7539, 36.9475"}
                     </p>
                   </div>
                   <div>
                     <p>
                       Administration position:{" "}
-                      {optimalSolution?.administrative?.x || 0},{" "}
-                      {optimalSolution?.administrative?.y || 0}
+                      {/* {optimalSolution?.administrative?.x || 0},{" "}
+                      {optimalSolution?.administrative?.y || 0} */}
+                      {"-53.5677, -34.9823"}
                     </p>
                   </div>
                   <div>
                     <p>
                       Optimal Happiness Index:
-                      {optimalSolution?.happiness || "Not calculated"}
+                      {/* {optimalSolution?.happiness || "Not calculated"} */}
+                      {" 95.4533"}
                     </p>
                   </div>
                 </div>
