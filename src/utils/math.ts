@@ -130,6 +130,9 @@ export const getCoordinateAtDistance = (
   end: Vector3,
   d: number
 ): Vector3 => {
+  if (end.x == start.x) {
+    return new Vector3(start.x, 0, start.z + d * Math.sign(end.z - start.z));
+  }
   const m = (end.z - start.z) / (end.x - start.x);
   const factor = 1 / Math.sqrt(1 + m * m);
 

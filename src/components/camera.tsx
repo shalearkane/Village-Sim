@@ -1,7 +1,7 @@
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { useContext, useEffect } from "react";
-import { Vector3 } from "three";
+import { Plane, Raycaster, Vector3 } from "three";
 import { MouseControlContext } from "../App";
 import { getCoordinateAtDistance } from "../utils/math";
 
@@ -36,11 +36,8 @@ function Camera(props: any) {
   }, []);
 
   useFrame((state) => {
-    let cameraLookingAt: Vector3 = new Vector3(0, 0, 0);
-    state.camera.getWorldDirection(cameraLookingAt);
-
     // Bound camera
-    if (state.camera.position.y > 5) state.camera.position.y = 5;
+    if (state.camera.position.y > 4) state.camera.position.y = 4;
     if (state.camera.position.y < 0) state.camera.position.y = 0;
 
     const distantCoordinate = getCoordinateAtDistance(
@@ -49,16 +46,15 @@ function Camera(props: any) {
         state.camera.position.y,
         state.camera.position.z
       ),
-      cameraLookingAt,
+      // @ts-ignore
+      state.controls.target,
       10
     );
 
+    // console.log(distantCoordinate, cameraLookingAt);
+
     // @ts-ignore
-    state.controls.target = new Vector3(
-      distantCoordinate.x,
-      0,
-      distantCoordinate.z
-    );
+    state.controls.target = distantCoordinate;
   });
 
   const changeCameraPosition = () => {
