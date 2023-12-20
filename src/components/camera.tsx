@@ -1,8 +1,9 @@
-import { PerspectiveCamera } from "@react-three/drei";
-import { useThree } from "@react-three/fiber";
+import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
+import { useFrame, useThree } from "@react-three/fiber";
 import { useContext, useEffect } from "react";
 import { Vector3 } from "three";
 import { MouseControlContext } from "../App";
+import { getCoordinateAtDistance } from "../utils/math";
 
 function Camera(props: any) {
   // @ts-ignore
@@ -28,6 +29,38 @@ function Camera(props: any) {
     });
   };
 
+  useEffect(() => {
+    camera.position.x = 5;
+    camera.position.y = 2;
+    camera.position.z = 5;
+  }, []);
+
+  useFrame((state) => {
+    let cameraLookingAt: Vector3 = new Vector3(0, 0, 0);
+    state.camera.getWorldDirection(cameraLookingAt);
+
+    // Bound camera
+    if (state.camera.position.y > 5) state.camera.position.y = 5;
+    if (state.camera.position.y < 0) state.camera.position.y = 0;
+
+    const distantCoordinate = getCoordinateAtDistance(
+      new Vector3(
+        state.camera.position.x,
+        state.camera.position.y,
+        state.camera.position.z
+      ),
+      cameraLookingAt,
+      10
+    );
+
+    // @ts-ignore
+    state.controls.target = new Vector3(
+      distantCoordinate.x,
+      0,
+      distantCoordinate.z
+    );
+  });
+
   const changeCameraPosition = () => {
     if (
       mouseControl.camPos.x != camera.position.x ||
@@ -52,6 +85,13 @@ function Camera(props: any) {
 
   return (
     <PerspectiveCamera onPointerMove={changeCameraPosition}>
+      <OrbitControls
+        makeDefault
+        dampingFactor={0.9}
+        rotateSpeed={0.3}
+        enableDamping={false}
+        maxPolarAngle={Math.PI / 2}
+      />
       {props.children}
     </PerspectiveCamera>
   );

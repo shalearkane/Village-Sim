@@ -89,6 +89,8 @@ function Minimap() {
             <div className="flex m-3 gap-4">
               {/* <IconZoomIn onClick={scaleUp} />
               <IconZoomOut onClick={scaleDown} /> */}
+
+              <p>Click on the map to teleport</p>
             </div>
             <IconX
               onClick={() => {

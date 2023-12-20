@@ -124,3 +124,32 @@ export const getBoundsFromGeoResponse = (
 
   return boundaries;
 };
+
+export const getCoordinateAtDistance = (
+  start: Vector3,
+  end: Vector3,
+  d: number
+): Vector3 => {
+  const m = (end.z - start.z) / (end.x - start.x);
+  const factor = 1 / Math.sqrt(1 + m * m);
+
+  const dx = d * factor;
+  const dz = d * m * factor;
+
+  if (dx == 0) {
+    return new Vector3(start.x, 0, start.z);
+  }
+
+  let result = new Vector3(0, 0, 0);
+
+  if (
+    Math.sign(dx) == Math.sign(end.x - start.x) &&
+    Math.sign(dz) == Math.sign(end.z - start.z)
+  ) {
+    result = new Vector3(start.x + dx, 0, start.z + dz);
+  } else {
+    result = new Vector3(start.x - dx, 0, start.z - dz);
+  }
+
+  return result;
+};

@@ -197,6 +197,7 @@ export default function App() {
                             <Minimap />
                             <Canvas
                               style={{ width: "100vw", height: "100vh" }}
+                              id="game"
                               // worker={worker}
                               // fallback={<Scene />}
                             >
