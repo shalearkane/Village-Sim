@@ -117,7 +117,7 @@ function ToolbarComponent() {
                     <p>
                       Optimal Happiness Index:
                       {/* {optimalSolution?.happiness || "Not calculated"} */}
-                      {" 95.4533"}
+                      {" 70.51"}
                     </p>
                   </div>
                 </div>
