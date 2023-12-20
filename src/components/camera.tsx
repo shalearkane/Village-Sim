@@ -1,7 +1,7 @@
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { useContext, useEffect } from "react";
-import { Plane, Raycaster, Vector3 } from "three";
+import { Vector3 } from "three";
 import { MouseControlContext } from "../App";
 import { getCoordinateAtDistance } from "../utils/math";
 
@@ -50,8 +50,6 @@ function Camera(props: any) {
       state.controls.target,
       10
     );
-
-    // console.log(distantCoordinate, cameraLookingAt);
 
     // @ts-ignore
     state.controls.target = distantCoordinate;
