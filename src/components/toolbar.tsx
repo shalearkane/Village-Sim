@@ -70,7 +70,7 @@ function ToolbarComponent() {
                       Hospital position: 
                       {/* {optimalSolution?.healthcare?.x || 0},{" "}
                       {optimalSolution?.healthcare?.y || 0} */}
-                      {" 88.7493, -32.6631"}
+                      {" 77.6698, 28.5427"}
                     </p>
                   </div>
                   <div>
@@ -78,7 +78,7 @@ function ToolbarComponent() {
                       Electric Facility position:{" "}
                       {/* {optimalSolution?.electric_facility?.x || 0},{" "}
                       {optimalSolution?.electric_facility?.y || 0} */}
-                      {"-117.3556, -12.8945"}
+                      {"77.6783, 28.5453"}
                     </p>
                   </div>
                   <div>
@@ -86,7 +86,7 @@ function ToolbarComponent() {
                       Sewage Treatment position:{" "}
                       {/* {optimalSolution?.sanitation?.x || 0},{" "}
                       {optimalSolution?.sanitation?.y || 0} */}
-                      {"-93.9879, 18.2322"}
+                      {"77.6746, 28.5479"}
                     </p>
                   </div>
                   <div>
@@ -94,7 +94,7 @@ function ToolbarComponent() {
                       Water Supply position:{" "}
                       {/* {optimalSolution?.water_facility?.x || 0},{" "}
                       {optimalSolution?.water_facility?.y || 0} */}
-                      {"-38.5729, 108.5321"}
+                      {"77.6745, 28.5448"}
                     </p>
                   </div>
                   <div>
@@ -102,7 +102,7 @@ function ToolbarComponent() {
                       School position: 
                       {/* {optimalSolution?.school?.x || 0},{" "}
                       {optimalSolution?.school?.y || 0} */}
-                      {" -61.7539, 36.9475"}
+                      {" 77.6699, 28.5427"}
                     </p>
                   </div>
                   <div>
@@ -110,7 +110,7 @@ function ToolbarComponent() {
                       Administration position:{" "}
                       {/* {optimalSolution?.administrative?.x || 0},{" "}
                       {optimalSolution?.administrative?.y || 0} */}
-                      {"-53.5677, -34.9823"}
+                      {"77.6724, 28.5483"}
                     </p>
                   </div>
                   <div>
