@@ -164,7 +164,7 @@ function VisualBlock() {
         selectedTool == Toolbar.COMMERCIAL ||
         selectedTool == Toolbar.INDUSTRIAL) && (
         <mesh
-          position={[mouseControl.x, -0.5, mouseControl.z]}
+          position={[mouseControl.x, -0.3, mouseControl.z]}
           rotation={[-1.57, 0, 0]}
           onClick={(event) => {
             event.stopPropagation();
