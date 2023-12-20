@@ -47,6 +47,10 @@ function VisualBlock() {
   }, [mouseControl]);
 
   const handleClick = (point: THREE.Vector3) => {
+    if (!safe) {
+      document?.getElementById("no_safe_area")?.click();
+      return;
+    }
     const modal = document?.getElementById("confirm_modal");
     modal?.click();
     const modalButton = document?.getElementById("confirm_button");
@@ -169,7 +173,7 @@ function VisualBlock() {
           onClick={(event) => {
             event.stopPropagation();
             const d = new Date();
-            if (safe && d.getTime() - mouseControl.camPos.time >= 200) {
+            if (d.getTime() - mouseControl.camPos.time >= 200) {
               handleClick(event.point);
             }
           }}
@@ -188,9 +192,13 @@ function VisualBlock() {
             position={[mouseControl.x, -0.5, mouseControl.z]}
             rotation={[-1.57, 0, 0]}
             onClick={(event) => {
+              if (!safe) {
+                document?.getElementById("no_safe_area")?.click();
+                return;
+              }
               event.stopPropagation();
               const d = new Date();
-              if (safe && d.getTime() - mouseControl.camPos.time >= 200)
+              if (d.getTime() - mouseControl.camPos.time >= 200)
                 setRoadPoints([...roadPoints, event.point]);
             }}
             onDoubleClick={() => {

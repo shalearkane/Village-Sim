@@ -378,6 +378,10 @@ function StateForm() {
 
               {input.gramId && !loading.gramPanchayat ? (
                 <div>
+                  <p className="mt-4 text-left w-full">
+                    Upload the drone data here
+                  </p>
+
                   {/* SHP File Upload */}
                   <label className="form-control w-full max-w-xs">
                     <div className="label">
